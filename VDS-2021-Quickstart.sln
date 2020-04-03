@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29201.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDS-2021-Quickstart", "VDS-2021-Quickstart\VDS-2021-Quickstart.csproj", "{D71B49D0-76BA-4CC8-BA7A-8431C57F721A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D71B49D0-76BA-4CC8-BA7A-8431C57F721A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D71B49D0-76BA-4CC8-BA7A-8431C57F721A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D71B49D0-76BA-4CC8-BA7A-8431C57F721A}.Debug|x64.ActiveCfg = Debug|x64
+		{D71B49D0-76BA-4CC8-BA7A-8431C57F721A}.Debug|x64.Build.0 = Debug|x64
+		{D71B49D0-76BA-4CC8-BA7A-8431C57F721A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D71B49D0-76BA-4CC8-BA7A-8431C57F721A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D71B49D0-76BA-4CC8-BA7A-8431C57F721A}.Release|x64.ActiveCfg = Release|x64
+		{D71B49D0-76BA-4CC8-BA7A-8431C57F721A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3166097A-E7C7-4C41-B449-E192C4223086}
+	EndGlobalSection
+EndGlobal
