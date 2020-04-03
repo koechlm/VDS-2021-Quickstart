@@ -385,12 +385,12 @@
                 <ColumnDefinition Width="20" />
                 <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
-            <Button Command="{Binding CloseWindowCommand, ElementName=AutoCADWindow}"
+            <Button x:Name="btnOK" Command="{Binding CloseWindowCommand, ElementName=AutoCADWindow}"
                     IsEnabled="{Binding Properties.IsValid}" Grid.Column="2"
                     Width="80" HorizontalAlignment="Right" VerticalAlignment="Center"
                     ToolTipService.ShowOnDisabled="True" ToolTip="{Binding UIString[LBL35], FallbackValue=Cancel}"
                     Content="{Binding UIString[BTN1], FallbackValue=OK}" IsDefault="True" Height="24" />
-            <Button Grid.Column="4" Width="80" HorizontalAlignment="Right"
+            <Button x:Name="btnCancel" Grid.Column="4" Width="80" HorizontalAlignment="Right"
                     VerticalAlignment="Center" Command="{Binding CancelWindowCommand, ElementName=AutoCADWindow}"
                     IsCancel="true" Content="{Binding UIString[BTN2], FallbackValue=Cancel}" Height="24" />
             <Button x:Name="btnHelp" Content="{Binding UIString[MSDCE_BTN1], FallbackValue=Help}" 

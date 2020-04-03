@@ -15,7 +15,7 @@
 	# migrated paths to 2021
 
 #Version Info - VDS quickstart CAD Library 2019.1.1
-	# added and updated mGetProjectFolderToCADFile function; supports AutoCAD without IPJ settings enforced.
+	# added and updated mGetProjectFolderToCADFile function; supports AutoCAD without IPJ settings enforeced.
 	# added mGetPropTranslations, fixed failure in getting default language for DB if not set in DSLanguages
 
 #Version Info - VDS quickstart CAD Library 2019.1.0

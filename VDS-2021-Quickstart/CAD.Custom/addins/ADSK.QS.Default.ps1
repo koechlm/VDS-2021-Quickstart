@@ -189,7 +189,9 @@ function InitializeWindow
 				}
 				$false # EditMode = True
 				{
-					#add specific action rules for edit mode here
+					if ((Get-Item $document.FullFileName).IsReadOnly){
+						$dsWindow.FindName("btnOK").IsEnabled = $false
+					}
 				}
 				default
 				{
@@ -248,6 +250,12 @@ function InitializeWindow
 						$dsWindow.FindName("lstBoxShortCuts").add_SelectionChanged({
 							mScClick
 						})
+					}
+				}
+				$false
+				{
+					if ($Prop["_EditMode"].Value -and $Document.IsReadOnly){
+						$dsWindow.FindName("btnOK").IsEnabled = $false
 					}
 				}
 			}
@@ -311,8 +319,8 @@ function SetWindowTitle
   		{
    			$windowTitle = $UIString["LBL44"]
   		}
-  		default #applies to InventorWindow and AutoCADWindow
-  		{
+		"InventorWindow"
+		{
    			if ($Prop["_CreateMode"].Value)
    			{
     			if ($Prop["_CopyMode"].Value)
@@ -330,8 +338,37 @@ function SetWindowTitle
    			else
    			{
     			$windowTitle = "$($UIString["LBL25"]) - $($Prop["_FileName"].Value)"
-   			} 
-  		}
+   			}
+			if ($Prop["_EditMode"].Value -and (Get-Item $document.FullFileName).IsReadOnly){
+				$windowTitle = "$($UIString["LBL25"]) - $($Prop["_FileName"].Value) - $($UIString["LBL26"])"
+			}
+		}
+		"AutoCADWindow"
+		{
+			   			if ($Prop["_CreateMode"].Value)
+   			{
+    			if ($Prop["_CopyMode"].Value)
+    			{
+     				$windowTitle = "$($UIString["LBL60"]) - $($Prop["_OriginalFileName"].Value)"
+    			}
+    			elseif ($Prop["_SaveCopyAsMode"].Value)
+    			{
+     				$windowTitle = "$($UIString["LBL72"]) - $($Prop["_OriginalFileName"].Value)"
+    			}else
+    			{
+     				$windowTitle = "$($UIString["LBL24"]) - $($Prop["_OriginalFileName"].Value)"
+    			}
+   			}
+   			else
+   			{
+    			$windowTitle = "$($UIString["LBL25"]) - $($Prop["_FileName"].Value)"
+   			}
+			if ($Prop["_EditMode"].Value -and $Document.IsReadOnly){
+				$windowTitle = "$($UIString["LBL25"]) - $($Prop["_FileName"].Value) - $($UIString["LBL26"])"
+			}
+		}
+  		default #applies to InventorWindow and AutoCADWindow
+  		{}
  	}
   	return $windowTitle
 }

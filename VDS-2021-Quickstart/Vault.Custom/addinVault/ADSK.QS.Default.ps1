@@ -167,9 +167,12 @@ function SetWindowTitle($newFile, $editFile, $name)
        elseif ($Prop["_EditMode"].Value)
        {
               if ($Prop["_ReadOnly"].Value){
-                      $name = $name + $UIString["LBL26"]
+                      $windowTitle = "$($editFile) - $($name) - $($UIString["LBL26"])"
               }
-              $windowTitle = "$($editFile) - $($name)"
+			else{
+				$windowTitle = "$($editFile) - $($name)"
+			}
+            
        }
        return $windowTitle
 }
