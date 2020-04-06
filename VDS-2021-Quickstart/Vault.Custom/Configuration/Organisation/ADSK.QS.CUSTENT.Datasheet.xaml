@@ -3,6 +3,7 @@
              xmlns:behaviours="clr-namespace:Common.Wpf;assembly=Common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
              xmlns:WPF="clr-namespace:CreateObject.WPF;assembly=CreateObject"
+             xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
              x:Name="MainWindow"
              behaviours:TabTitleBehavior.TabTitle="$UIString[LBL36]">
     <UserControl.Resources>
@@ -31,7 +32,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short" IsHitTestVisible="False" IsTabStop="False" Width="Auto" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" SelectedDateFormat="Short" IsHitTestVisible="False" IsTabStop="False" Width="Auto" HorizontalAlignment="Left" Margin="5,0,0,0"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -117,7 +118,7 @@
             <Label Content="{Binding UIString[LBL4], FallbackValue=State}" Grid.Column="0" Grid.Row="2" />
             <TextBox Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Column="1" Grid.Row="2" />
             <Label Content="{Binding UIString[LBL33], FallbackValue=Date Created}" Grid.Column="0" Grid.Row="3" />
-            <TextBox Text="{Binding Prop[_XLTN_CREATE DATE].Value}" Grid.Column="1" Grid.Row="3" />
+            <TextBox Text="{Binding Prop[_XLTN_CREATE DATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Grid.Column="1" Grid.Row="3" />
             <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Column="0" Grid.Row="4" BorderThickness="1" />
             <TextBox Text="{Binding Prop[_XLTN_CREATED BY].Value}" Grid.Column="1" Grid.Row="4" BorderThickness="0,1,1,1" />
         </Grid>

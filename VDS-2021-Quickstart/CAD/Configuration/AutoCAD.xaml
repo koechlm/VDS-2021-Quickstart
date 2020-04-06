@@ -151,7 +151,7 @@
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
   </WPF:DSWindow.Resources>
 
-  <Grid x:Name="grdMain" MinWidth="900"
+  <Grid x:Name="grdMain"
         Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" ToolTip="Folder / Project" />
@@ -160,13 +160,13 @@
       <RowDefinition ToolTip="Buttons" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="2*" />
-      <ColumnDefinition Width="3*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
     </Grid.ColumnDefinitions>
     <GroupBox x:Name="GroupFolder" Grid.ColumnSpan="2" Margin="-6,0,0,5" BorderThickness="0" Header="{Binding UIString[LBL1], FallbackValue=Folder}"
               Visibility="{Binding CreateMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-      <WrapPanel x:Name="BreadCrumb" Height="Auto"
-                 ItemWidth="165" Margin="1,0,0,0">
+      <WrapPanel x:Name="BreadCrumb"
+                 ItemWidth="165" Margin="1,0,0,0" MaxWidth="900">
         <WrapPanel.Resources>
           <Style TargetType="{x:Type ComboBox}">
             <Setter Property="Margin" Value="-1,0,0,0" />
@@ -178,7 +178,7 @@
 
     </GroupBox>
     <Grid x:Name="grdGeneralProps" Grid.Row="1"
-          ToolTip="{Binding UIString[LBL73], FallbackValue='General Properties'}" >
+          ToolTip="{Binding UIString[LBL73], FallbackValue='General Properties'}" MaxHeight="350">
       <Grid.RowDefinitions>
         <RowDefinition Height="24" />
         <RowDefinition Height="Auto" />
@@ -188,8 +188,8 @@
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="140" />
+        <ColumnDefinition MinWidth="180" MaxWidth="220" />
       </Grid.ColumnDefinitions>
       <Label Content="{Binding UIString[LBL8], FallbackValue=Category}"
              Grid.Row="0"
@@ -235,7 +235,7 @@
                Visibility="{Binding NumSchmFieldsEmpty, ElementName=DSNumSchmsCtrl, Converter={StaticResource BooleanToVisibilityConverter}}" />
       <Label x:Name="lblComments" Content="{Binding UIString[Comments], FallbackValue=Comments}" Grid.Row="4" BorderThickness="1" Height="Auto"/>
       <TextBox x:Name="txtComments" Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" Text="{Binding Prop[Comments].Value}" BorderThickness="0,1,1,1"
-               VerticalContentAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="50"/>
+               VerticalContentAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="50" MaxWidth="180"/>
       <Border
           BorderBrush="Green"
           Visibility="{Binding CopyMode, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="5"
@@ -255,8 +255,8 @@
                 VerticalGridLinesBrush="WhiteSmoke" VerticalAlignment="Top" MaxHeight="350">
         <DataGrid.Columns>
           <DataGridTextColumn Binding="{Binding DispName}"
-                              CellStyle="{StaticResource DynamicDataGridLabelStyle}"
-                              Width="*" IsReadOnly="True">
+                              CellStyle="{StaticResource DynamicDataGridLabelStyle}" MinWidth="140"
+                              Width="Auto" IsReadOnly="True">
             <DataGridTextColumn.HeaderTemplate>
               <DataTemplate>
                 <TextBlock
@@ -265,7 +265,7 @@
             </DataGridTextColumn.HeaderTemplate>
           </DataGridTextColumn>
           <DataGridTemplateColumn Header="Property Value"
-                  CellStyle="{StaticResource DynamicDataGridCellStyle}" Width="2*">
+                  CellStyle="{StaticResource DynamicDataGridCellStyle}" Width="*" MinWidth="180">
             <DataGridTemplateColumn.HeaderTemplate>
               <DataTemplate>
                 <TextBlock

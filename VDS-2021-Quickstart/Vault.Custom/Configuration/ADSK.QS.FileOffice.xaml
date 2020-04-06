@@ -4,6 +4,7 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 x:Name="FileWindow"
                 xmlns:WPF="clr-namespace:CreateObject.WPF;assembly=CreateObject"
+                xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                 AllowsTransparency="False" Background="#F0F0F0" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <Window.Resources>
         <Style x:Key="DynamicDataGridCellStyle" TargetType="{x:Type DataGridCell}">
@@ -50,7 +51,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short"/>
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" SelectedDateFormat="Short"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -311,7 +312,7 @@
                     <Label Content="{Binding UIString[LBL4], FallbackValue=State}" Grid.Column="0" Grid.Row="5" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <TextBox Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Row="5" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
                     <Label Content="{Binding UIString[LBL33], FallbackValue=Date Created}" Grid.Column="0" Grid.Row="6" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                    <TextBox Text="{Binding Prop[_XLTN_DATE VERSION CREATED].Value}" Grid.Row="6" Grid.Column="1"  Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
+                    <TextBox Text="{Binding Prop[_XLTN_DATE VERSION CREATED].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Grid.Row="6" Grid.Column="1"  Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
                     <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Column="0" Grid.Row="7" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <TextBox Text="{Binding Prop[_XLTN_CREATED BY].Value}" Grid.Row="7" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True" />
                     <Label x:Name="lblComments" Content="{Binding UIString[LBL7], FallbackValue=Comments}" Grid.Row="9" Height="Auto" Grid.RowSpan="2" BorderThickness="1" />

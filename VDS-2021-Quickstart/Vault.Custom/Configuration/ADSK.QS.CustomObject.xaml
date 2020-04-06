@@ -5,6 +5,7 @@
                 xmlns:WPF="clr-namespace:CreateObject.WPF;assembly=CreateObject"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+                xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                 x:Name="CustomObjectWindow"
                 Background="#F0F0F0" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Window.Resources>
@@ -52,7 +53,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short" />
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" SelectedDateFormat="Short" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -252,7 +253,7 @@
                     <TextBox Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Column="1" Grid.Row="4" IsReadOnly="True"
                      IsTabStop="False" />
                     <Label Content="{Binding UIString[LBL33], FallbackValue=Date Created}" Grid.Column="0" Grid.Row="5" />
-                    <TextBox Text="{Binding Prop[_XLTN_CREATE DATE].Value, StringFormat=dd/MM/yyyy}" Grid.Column="1"
+                    <TextBox Text="{Binding Prop[_XLTN_CREATE DATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Grid.Column="1"
                      Grid.Row="5" IsReadOnly="True" IsTabStop="False" />
                     <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Column="0" Grid.Row="6"
                    BorderThickness="1" VerticalContentAlignment="Stretch" />

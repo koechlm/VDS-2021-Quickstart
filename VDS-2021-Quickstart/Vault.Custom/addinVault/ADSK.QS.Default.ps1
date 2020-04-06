@@ -25,6 +25,10 @@ function ActivateOkButton
 # As soon as one property validation function returns $false the entire Validate function will return $false
 function Validate
 {
+	if ($Prop["_ReadOnly"].Value){
+		return $false
+	}
+
 	$mWindowName = $dsWindow.Name
 	switch($mWindowName)
 	{
@@ -172,7 +176,6 @@ function SetWindowTitle($newFile, $editFile, $name)
 			else{
 				$windowTitle = "$($editFile) - $($name)"
 			}
-            
        }
        return $windowTitle
 }

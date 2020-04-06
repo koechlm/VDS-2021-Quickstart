@@ -78,6 +78,12 @@
     <DynamicProperty>Company</DynamicProperty>
     <DynamicProperty>Project Type</DynamicProperty>
     <DynamicProperty>Checked By</DynamicProperty>
+    <DynamicProperty>Mass</DynamicProperty>
+    <DynamicProperty>Part Family</DynamicProperty>
+    <DynamicProperty>Title DE</DynamicProperty>
+    <DynamicProperty>Engr Approved Date</DynamicProperty>
+    <DynamicProperty>Key Parameters</DynamicProperty>
+    <DynamicProperty>MBD</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Sheet Metal Part" Type="File">
     <DynamicProperty>Title</DynamicProperty>
@@ -256,5 +262,28 @@
     <DynamicProperty>Scale</DynamicProperty>
     <DynamicProperty>Sheet</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
+  </DynamicPropertiesCategory>
+  <DynamicPropertiesCategory Category="Managed Asset" Type="File">
+    <DynamicProperty>Author</DynamicProperty>
+    <DynamicProperty>AKN Date Removed</DynamicProperty>
+    <DynamicProperty>A-Drive Date Removed</DynamicProperty>
+    <DynamicProperty>A-Drive Date Published</DynamicProperty>
+    <DynamicProperty>Channel Tech Date Removed</DynamicProperty>
+    <DynamicProperty>A-Drive Link</DynamicProperty>
+    <DynamicProperty>OTS Link</DynamicProperty>
+    <DynamicProperty>Comments</DynamicProperty>
+    <DynamicProperty>VStudio GitHub</DynamicProperty>
+    <DynamicProperty>Thin Client Link</DynamicProperty>
+    <DynamicProperty>VStudio Project</DynamicProperty>
+    <DynamicProperty>AKN Date Published</DynamicProperty>
+    <DynamicProperty>Channel Tech Date Published</DynamicProperty>
+    <DynamicProperty>OTS Date Published</DynamicProperty>
+    <DynamicProperty>OTS Date Expiration</DynamicProperty>
+    <DynamicProperty>Channel Tech Link</DynamicProperty>
+    <DynamicProperty>Title</DynamicProperty>
+    <DynamicProperty>Subject</DynamicProperty>
+    <DynamicProperty>Keywords</DynamicProperty>
+    <DynamicProperty>AKN Link</DynamicProperty>
+    <DynamicProperty>OTS File Name</DynamicProperty>
   </DynamicPropertiesCategory>
 </DynamicProperties>

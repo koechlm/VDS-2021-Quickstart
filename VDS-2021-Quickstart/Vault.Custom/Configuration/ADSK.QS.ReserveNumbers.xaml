@@ -2,6 +2,7 @@
 <WPF:MainWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                 xmlns:WPF="clr-namespace:CreateObject.WPF;assembly=CreateObject"
                 xmlns:View="clr-namespace:dataStandard.UI.View;assembly=dataStandard.UI" x:Name="ReserveNumberWindow"
+                xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                 Background="#F0F0F0" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <WPF:MainWindow.Resources>
         <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
