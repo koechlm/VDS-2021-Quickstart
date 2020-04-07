@@ -515,6 +515,12 @@ function ItemDescription
  
 function m_TemplateChanged {
 	#$dsDiag.Trace(">> Template Changed ...")
+	#check if cmbTemplates is empty
+	if ($dsWindow.FindName("cmbTemplates").ItemsSource.Count -lt 1)
+	{
+		#$dsDiag.Trace("Template changed exits due to missing templates")
+		return
+	}
 	$mContext = $dsWindow.DataContext
 	$mTemplatePath = $mContext.TemplatePath
 	$mTemplateFile = $mContext.SelectedTemplate
