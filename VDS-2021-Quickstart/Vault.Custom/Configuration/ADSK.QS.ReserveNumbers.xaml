@@ -65,26 +65,6 @@
             <Setter Property="Margin" Value="0,0,0,0"/>
         </Style>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
-        <Style x:Key="NumSchmStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
-            <!--<Setter Property="Visibility" Value="Collapsed"/>-->
-            <Setter Property="IsEnabled" Value="{Binding Items.Count, RelativeSource={RelativeSource Self}}"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding CreateMode}" Value="True">
-                    <Setter Property="ItemsSource" Value="{Binding PsList[GetNumSchms]}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding EditMode}" Value="True">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="NumSchmCtrlStyle" TargetType="{x:Type WPF:DSNumSchemeCtrl}">
-            <Setter Property="Height" Value="26"/>
-            <!--<Setter Property="Visibility" Value="Collapsed"/>-->
-            <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
-            <Setter Property="ToolTip" Value="{Binding UIString[MSDCE_TT28]}"/>
-
-        </Style>
     </WPF:MainWindow.Resources>
     <WPF:MainWindow.Style>
         <Style TargetType="{x:Type WPF:MainWindow}">
@@ -97,6 +77,7 @@
     </WPF:MainWindow.Style>
     <Grid Margin="10" >
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="auto" />
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="auto" />
@@ -110,14 +91,17 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="{Binding UIString[LBL10], FallbackValue=Numbering Scheme}" Grid.Row="0" FontWeight="Bold" />
-        <ComboBox x:Name="NumSchms" ItemsSource="{Binding PsList[GetNumSchms], Mode=OneTime}" DisplayMemberPath="Name" Grid.Column="1" SelectedIndex="0"/>
-        <WPF:DSNumSchemeCtrl x:Name="DSNumSchmsCtrl" IsEnabled="{Binding IsEnabled, ElementName=NumSchms}" Scheme="{Binding SelectedItem, ElementName=NumSchms}"  GeneratedNumberProperty="_GeneratedNumber" Grid.Row="1" Grid.Column="1" Height="Auto" MinHeight="26"/>
-        <Label Content="{Binding UIString[ADSK-RSRVNUMBERS_LBL105], FallbackValue='Range To Reserve'}" Grid.Column="0" Grid.Row="2" Style="{StaticResource lblRequired}" />
-        <TextBox Grid.Column="1" Grid.Row="2" x:Name="TotalNum" Style="{StaticResource Required}" Margin="0,2,244,3" Width="60" HorizontalContentAlignment="Center" HorizontalAlignment="Left"/>
+        <Label x:Name="lblEntityType" Content="{Binding UIString[], FallbackValue=Numbering Type}" FontWeight="Bold" />
+        <ComboBox x:Name="cmbNumType" ItemsSource="{Binding PsList[mGetNumType], Mode=OneTime}" SelectedIndex="0" Grid.Column="1" Height="Auto"/>
 
-        <Label Content="{Binding UIString[ADSK-RSRVNUMBERS_LBL106],FallbackValue='Generated Numbers'}" Grid.Column="0" Grid.Row="3" VerticalAlignment="Top"/>
-        <TextBox Grid.Column="1" Grid.Row="3" x:Name="Range" VerticalScrollBarVisibility="Auto" MinHeight="150" MaxHeight="150" IsEnabled="True" IsReadOnly="True" ToolTip="{Binding UIString[ADSK-RSRVNUMBERS_TT32], FallbackValue='CTRL-V to insert @ target'}" >
+        <Label Content="{Binding UIString[LBL10], FallbackValue=Numbering Scheme}" Grid.Row="1" FontWeight="Bold" />
+        <ComboBox x:Name="NumSchms" DisplayMemberPath="Name" SelectedValuePath="Name" Grid.Column="1" SelectedIndex="0" Grid.Row="1" BorderThickness="1,0"/>
+        <WPF:DSNumSchemeCtrl x:Name="DSNumSchmsCtrl" IsEnabled="{Binding IsEnabled, ElementName=NumSchms}" Scheme="{Binding SelectedItem, ElementName=NumSchms}"  GeneratedNumberProperty="_GeneratedNumber" Grid.Row="2" Grid.Column="1" Height="Auto" MinHeight="26"/>
+        <Label Content="{Binding UIString[ADSK-RSRVNUMBERS_LBL105], FallbackValue=Range To Reserve}" Grid.Column="0" Grid.Row="3" Style="{StaticResource lblRequired}" />
+        <TextBox Grid.Column="1" Grid.Row="3" x:Name="TotalNum" Style="{StaticResource Required}" Margin="0,2,244,3" Width="60" HorizontalContentAlignment="Center" HorizontalAlignment="Left"/>
+
+        <Label Content="{Binding UIString[ADSK-RSRVNUMBERS_LBL106], FallbackValue=Generated Numbers}" Grid.Column="0" Grid.Row="4" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="1" Grid.Row="4" x:Name="Range" VerticalScrollBarVisibility="Auto" MinHeight="150" MaxHeight="150" IsEnabled="True" IsReadOnly="True" ToolTip="{Binding UIString[ADSK-RSRVNUMBERS_TT32], FallbackValue=CTRL-V to insert @ target}" >
             <TextBox.BorderBrush>
                 <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
                     <GradientStop Color="#FFABADB3" Offset="0.05"/>
@@ -146,14 +130,14 @@
             </FlowDocument>
         </RichTextBox>
 
-        <Grid Grid.Row="6" Grid.ColumnSpan="2">
+        <Grid Grid.Row="7" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="80" />
                 <ColumnDefinition Width="20" />
                 <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="Generate" Content="{Binding UIString[ADSK-RSRVNUMBERS_BTN7], FallbackValue=Generate}" Command="{Binding PsCmd[Reserve]}" Grid.Column="1" HorizontalAlignment="Right" Width="80" IsEnabled="True" ToolTip="{Binding UIString[ADSK-RSRVNUMBERS_TT33], FallbackValue='Generates Numbers and adds these to ClipBoard'}" />
+            <Button x:Name="Generate" Content="{Binding UIString[ADSK-RSRVNUMBERS_BTN7], FallbackValue=Generate}" Command="{Binding PsCmd[Reserve]}" Grid.Column="1" HorizontalAlignment="Right" Width="80" IsEnabled="True" ToolTip="{Binding UIString[ADSK-RSRVNUMBERS_TT33], FallbackValue=Generates Numbers and adds these to ClipBoard}" />
             <Button Content="{Binding UIString[ADSK-RSRVNUMBERS_BTN8], FallbackValue=Close}" Grid.Column="3" HorizontalAlignment="Right"  Width="80" Command="{Binding CancelWindowCommand, ElementName=ReserveNumberWindow}" />
 
         </Grid>

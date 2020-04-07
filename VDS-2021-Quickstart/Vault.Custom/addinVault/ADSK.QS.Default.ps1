@@ -159,6 +159,14 @@ function InitializeWindow
 				#endregion
 			}
 		}
+
+		"ReserveNumberWindow"
+		{
+			$dsWindow.FindName("cmbNumType").add_SelectionChanged({
+				mGetNumSchms
+			})
+		}
+
 	}
 }
 
@@ -411,6 +419,7 @@ function GetNumSchms
 							$_FilteredNumSchems = $numSchems | Where { $_.Name -eq $Prop["_Category"].Value}
 							return $_FilteredNumSchems
 						}
+
 						default
 						{
 							$numSchems = $numSchems | Sort-Object -Property IsDflt -Descending
