@@ -324,7 +324,6 @@
         		Content="{Binding UIString[LBL10], FallbackValue=Number Scheme}"
         		Visibility="{Binding Visibility, ElementName=NumSchms}" BorderThickness="1,1,1,0" Margin="5,0,0,0" />
             <ComboBox x:Name="NumSchms" Grid.Column="3"
-        		SelectedIndex="0"
         		DisplayMemberPath="Name"
         		SelectedValuePath="Name"
         		SelectedValue="{Binding Prop[_NumSchm].Value}"
@@ -418,6 +417,8 @@
                     IsCancel="true" Content="{Binding UIString[BTN2], FallbackValue=Cancel}" />
             <Button x:Name="btnHelp" Content="{Binding UIString[MSDCE_BTN1], FallbackValue=Help}" 
                     Command="{Binding PsCmd[mHelp(100)]}" Height="24" ToolTip="F1" />
+            <CheckBox Name="RmOrphShts" Content="{Binding UIString[MSDCE_OrphShtOption], FallbackValue='Remove orphaned sheets'}" Grid.Column="1" HorizontalAlignment="Right" Margin="180,5,10,0" VerticalAlignment="Top" 
+                      IsChecked="True" ToolTip="{Binding UIString[MSDCE_OrphShtToolTip], FallbackValue='Deletes all sheets without view(s)'}"/>
         </Grid>
         <Expander x:Name="expShortCutPane" Header="" Grid.RowSpan="5" ExpandDirection="Left" IsExpanded="True"
         	Style="{StaticResource ProjectFavorites}" ToolTip="{Binding UIString[MSDCE_TT24]}" Background="#FFF0F0F0">

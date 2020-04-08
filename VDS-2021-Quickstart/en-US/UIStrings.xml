@@ -188,6 +188,8 @@
 
   <!--Quickstart Inventor Dialog-->
   <UIString ID="MSDCE_MSG00">Missing Model View! Your system is set to save IPN/IDW/DWG depending on model's name and location. Either add a model or change the Vault option to generate numbers for IPN/IDW/DWG.</UIString>
+  <UIString ID="MSDCE_OrphShtOption">Remove orphaned sheets</UIString>
+  <UIString ID="MSDCE_OrphShtToolTip">Deletes all sheets without view(s).</UIString>
   <!--Quickstart Inventor Dialog end-->
   
   <!--Quickstart Functional Dialogs (FG, DA, TP, CH)-->

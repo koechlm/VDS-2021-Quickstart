@@ -36,6 +36,17 @@ function InitializeWindow
 			{
 				$dsWindow.FindName("GFN4Special").IsChecked = $true # this checkbox is used by the XAML dialog styles, to enable / disable or show / hide controls
 			}
+
+			#enable option to remove orphaned sheets in drawings (new VDS Quickstart 2021)
+			if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value)
+			{
+				$dsWindow.FindName("RmOrphShts").Visibility = "Visible"
+			}
+			else
+			{
+				$dsWindow.FindName("RmOrphShts").Visibility = "Collapsed"
+			}
+
 			$mInvDocuFileTypes = (".IDW", ".DWG", ".IPN") #to compare that the current new file is one of the special files the option applies to
 			if ($mInvDocuFileTypes -contains $Prop["_FileExt"].Value) {
 				$global:mIsInvDocumentationFile = $true
@@ -514,6 +525,7 @@ function GetNumSchms
 			$_FilteredNumSchems += ($_Default)
 			if ($Prop["_NumSchm"].Value) { $Prop["_NumSchm"].Value = $_FilteredNumSchems[0].Name} #note - functional dialogs don't have the property _NumSchm, therefore we conditionally set the value
 			$dsWindow.FindName("NumSchms").IsEnabled = $true
+			$dsWindow.FindName("NumSchms").SelectedValue = $_FilteredNumSchems[0].Name
 			$noneNumSchm = New-Object 'Autodesk.Connectivity.WebServices.NumSchm'
 			$noneNumSchm.Name = $UIString["LBL77"] # None 
 			$_FilteredNumSchems += $noneNumSchm
@@ -574,15 +586,25 @@ function OnPostCloseDialog
 	{
 		"InventorWindow"
 		{
-				if (!($Prop["_CopyMode"].Value -and !$Prop["_GenerateFileNumber4SpecialFiles"].Value -and @(".DWG",".IDW",".IPN") -contains $Prop["_FileExt"].Value))
-				{
-					mWriteLastUsedFolder
-				}
+			if (!($Prop["_CopyMode"].Value -and !$Prop["_GenerateFileNumber4SpecialFiles"].Value -and @(".DWG",".IDW",".IPN") -contains $Prop["_FileExt"].Value))
+			{
+				mWriteLastUsedFolder
+			}
 
-				if ($Prop["_CreateMode"].Value -and !$Prop["Part Number"].Value) #we empty the part number on initialize: if there is no other function to provide part numbers we should apply the Inventor default
+			if ($Prop["_CreateMode"].Value -and !$Prop["Part Number"].Value) #we empty the part number on initialize: if there is no other function to provide part numbers we should apply the Inventor default
+			{
+				$Prop["Part Number"].Value = $Prop["DocNumber"].Value
+			}
+			
+			#remove orphaned sheets in drawing documents (new VDS Quickstart 2021)
+			if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value -and $dsWindow.FindName("RmOrphShts").IsChecked -eq $true)
+			{
+				if (-not $_mInvHelpers)
 				{
-					$Prop["Part Number"].Value = $Prop["DocNumber"].Value
+					$_mInvHelpers = New-Object QuickstartUtilityLibrary.InvHelpers
 				}
+				$result = $_mInvHelpers.m_RemoveOrphanedSheets($Application)
+			}
 		}
 
 		"AutoCADWindow"
