@@ -1,7 +1,7 @@
 ﻿
 #=============================================================================#
 # PowerShell script sample for Vault Data Standard                            
-#			 Autodesk Vault - Quickstart 2021 								  
+#			 Autodesk Vault - Quickstart 2021  								  
 # This sample is based on VDS 2021 RTM and adds functionality and rules		  
 #                                                                             
 # Copyright (c) Autodesk - All rights reserved.                               
@@ -89,6 +89,9 @@ function InitializeTabWindow
 
 function InitializeWindow
 {	      
+        #$dsDiag.ShowLog()
+        #$dsDiag.Clear()
+      
 	#begin rules applying commonly
 	$Prop["_Category"].add_PropertyChanged({
         if ($_.PropertyName -eq "Value")
@@ -124,7 +127,34 @@ function InitializeWindow
 				})
 			$dsWindow.FindName("TemplateCB").add_SelectionChanged({
 				m_TemplateChanged})
-			#endregion Quickstart			
+
+			if($dsWindow.FindName("tabItemProperties")) { mInitializeTabItemProps}
+
+			if($dsWindow.FindName("tabClassification")) 
+			{ 
+				#hide tab for user groups, e.g., group "Trainees", enable for all others
+				$clsDisabled =  $false #replace by e.g., Adsk.GroupMemberOf "Trainees"
+				if($clsDisabled -eq $true) 
+				{
+					$dsWindow.FindName("tabClassification").Visibility = "Collapsed" 
+				}
+				if($clsDisabled -eq $false -and $Prop["_EditMode"].Value -eq $true)
+				{
+					$dsWindow.FindName("tabClassification").Visibility = "Visible"
+					$dsWindow.FindName("tabClassification").add_GotFocus({
+						if(-not $Global:mClsTabInitialized)
+						{
+							mInitializeClassificationTab -ParentType "Dialog" -file $null
+						}
+					}) #add_GotFocus
+				}
+				else {
+					$dsWindow.FindName("tabClassification").Visibility = "Collapsed" 
+				}
+				
+			}
+			#endregion Quickstart
+			
 		}
 		"FolderWindow"
 		{
@@ -159,6 +189,131 @@ function InitializeWindow
 				#endregion
 			}
 		}
+		#region GoToInvSibling
+		"GoToInvSibling"
+		{
+			$_t = $Prop["Internal ID"].Value
+
+			$mTargetFile = Get-Content $env:TEMP"\mStrTabClick.txt"
+
+			#create search conditions for 
+			$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 1
+				$srchCond = New-Object autodesk.Connectivity.WebServices.SrchCond
+				$propDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("FILE")
+				$propNames = @("Internal ID")
+				$propDefIds = @{}
+				foreach($name in $propNames) {
+					$propDef = $propDefs | Where-Object { $_.DispName -eq $name }
+					$propDefIds[$propDef.Id] = $propDef.DispName
+				}
+				$srchCond.PropDefId = $propDef.Id
+				$srchCond.SrchOper = 3
+				$srchCond.SrchTxt = $Prop["Internal ID"].Value
+
+				$srchCond.PropTyp = [Autodesk.Connectivity.WebServices.PropertySearchType]::SingleProperty
+				$srchCond.SrchRule = [Autodesk.Connectivity.WebServices.SearchRuleType]::Must
+				$srchConds[0] = $srchCond
+				$srchSort = New-Object autodesk.Connectivity.WebServices.SrchSort
+				$mSearchStatus = New-Object autodesk.Connectivity.WebServices.SrchStatus
+				$mBookmark = ""     
+				$mResultAll = New-Object 'System.Collections.Generic.List[Autodesk.Connectivity.WebServices.File]'
+				$mResultFiltered = New-Object 'System.Collections.Generic.List[Autodesk.Connectivity.WebServices.File]'
+	
+				while(($mSearchStatus.TotalHits -eq 0) -or ($mResultAll.Count -lt $mSearchStatus.TotalHits))
+				{
+					$mResultPage = $vault.DocumentService.FindFilesBySearchConditions($srchConds,@($srchSort),@(($vault.DocumentService.GetFolderRoot()).Id),$true,$false,[ref]$mBookmark,[ref]$mSearchStatus)
+					if($mResultPage.Count -ne 0)
+					{
+						$mResultAll.AddRange($mResultPage)
+					}
+					else { break;}
+		
+					break; #limit the search result to the first result page; page scrolling not implemented in this snippet release
+				}
+
+				If($mResultAll.Count -lt $mSearchStatus.TotalHits)
+				{
+					$dsWindow.FindName("txtBlck_Notification1").Text = ([String]::Format($UIString["ADSK-GoToInvSibl_MSG00"], $mResultAll.Count, $mSearchStatus.TotalHits))
+				}
+				Else{
+					$dsWindow.FindName("txtBlck_Notification1").Visibility = "Collapsed"
+				}
+
+				IF($mResultAll.Count -gt 0)
+				{
+					$mResultFiltered += $mResultAll | Where-Object {$_.Name -ne ($Prop["_FileName"].Value + $Prop["_FileExt"].Value)} # don't list the selected file's versions as parallel copies
+					If ($mResultFiltered.Count -gt 0)
+					{
+						$dsWindow.FindName("mDerivatives1").ItemsSource = @(mGetResultMeta $mResultFiltered) # @() #the array of each file iterations meta data
+					}
+					$dsWindow.FindName("mDerivatives1").add_SelectionChanged({
+						mDerivatives1Click
+						If($dsWindow.FindName("mDerivatives1").SelectedItem)
+							{
+								$dsWindow.FindName("btnGoTo").IsEnabled = $true
+							}
+						})
+				}
+				IF($mResultFiltered.Count -lt 1)
+				{
+					$dsWindow.FindName("txtBlck_Notification1").Visibility = "Visible"
+					$dsWindow.FindName("txtBlck_Notification1").Text = $UIString["ADSK-GoToInvSibl_MSG01"]
+				}
+		}
+		#endregion GoToInvSibling
+
+		#region CustomObjectTermWindow-CatalogTermsTranslations
+		"CustomObjectTermWindow"
+		{      
+			IF ($Prop["_CreateMode"].Value -eq $true) 
+			{
+				$Prop["_Category"].Value = $Prop["_CustomObjectDefName"].Value
+
+					$dsWindow.FindName("Categories").IsEnabled = $false
+					$dsWindow.FindName("NumSchms").Visibility = "Collapsed"
+					$Prop["_NumSchm"].Value = $Prop["_Category"].Value
+
+				IF($Prop["_XLTN_IDENTNUMBER"]){ $Prop["_XLTN_IDENTNUMBER"].Value = $UIString["LBL27"]}
+			}
+
+			#region EditMode
+			IF ($Prop["_EditMode"].Value -eq $true) 
+			{
+				#read existing classification elements
+				$_classes = @()
+				Try{ #likely not all properties are used...
+					If ($Prop["_XLTN_SEGMENT"].Value.Length -gt 1){
+						$_classes += $Prop["_XLTN_SEGMENT"].Value
+						If ($Prop["_XLTN_MAINGROUP"].Value.Length -gt 1){
+							$_classes += $Prop["_XLTN_MAINGROUP"].Value
+							If ($Prop["_XLTN_GROUP"].Value.Length -gt 1){
+								$_classes += $Prop["_XLTN_GROUP"].Value
+								If ($Prop["_XLTN_SEGMENT"].Value.Length -gt 1){
+									$_classes += $Prop["_XLTN_SUBGROUP"].Value
+								}
+							}
+						}
+					}
+				}
+				catch {}
+			}
+			#endregion EditMode
+			mAddCoCombo -_CoName "Segment" -_classes $_classes #enables classification for catalog of terms
+			# ToDo: createmode: activate last used classification
+			
+		} # objectterm Window
+		#endregion CatalogTermsTranslations-CustomObjectTermsWindow
+
+		"ActivateSchedTaskWindow"
+		{
+			ADSK.QS.ReadSchedTasks
+			$dsWindow.FindName("dataGrdSchedTasks").add_SelectionChanged({ ADSK.QS.TaskSelectionChanged})
+		}
+
+		"FileImportWindow"
+		{
+			mInitializeFileImport
+		}
 
 		"ReserveNumberWindow"
 		{
@@ -172,35 +327,25 @@ function InitializeWindow
 
 function SetWindowTitle($newFile, $editFile, $name)
 {
-       if ($Prop["_CreateMode"].Value)
-       {
-              $windowTitle = $newFile            
-       }
-       elseif ($Prop["_EditMode"].Value)
-       {
-              if ($Prop["_ReadOnly"].Value){
-                      $windowTitle = "$($editFile) - $($name) - $($UIString["LBL26"])"
-              }
+	if ($Prop["_CreateMode"].Value)
+    {
+		$windowTitle = $newFile
+	}
+	elseif ($Prop["_EditMode"].Value)
+	{
+		if ($Prop["_ReadOnly"].Value){
+                      $windowTitle = "$($name) - $($UIString["LBL26"])"
+            }
 			else{
 				$windowTitle = "$($editFile) - $($name)"
 			}
-       }
-       return $windowTitle
+	}
+	return $windowTitle
 }
-
 
 function OnLogOn
 {
 	#Executed when User logs on Vault; $vaultUsername can be used to get the username, which is used in Vault on login
-	
-	#check Vault Client Version to match this configuration requirements; note - Office Client registers as WG or PRO 
-	$mVaultVersion = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Autodesk\Vault Workgroup\24.0\VWG-2440:407\").ProductVersion.Split(".")
-	If(-not $mVaultVersion) { $mVaultVersion = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Autodesk\Vault Professional\24.0\VPRO-2440:407\").ProductVersion.Split(".")}
-
-	If($mVaultVersion[0] -ne "24" -or $mVaultVersion[1] -lt "1" )
-	{
-		[System.Windows.MessageBox]::Show("This machine's Vault Data Standard configuration requires Vault Client 2019 Update 1 or newer installed; contact your system administrator.", "Vault Quickstart Client Configuration")
-	}
 }
 function OnLogOff
 {
@@ -215,9 +360,9 @@ function GetTitleWindow
 
 #fired when the file selection changes
 function OnTabContextChanged
-{
+{      
 	$xamlFile = [System.IO.Path]::GetFileName($VaultContext.UserControl.XamlFile)
-	
+
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "FileMaster" -and $xamlFile -eq "ADSK.QS.CAD BOM.xaml")
 	{
 		$fileMasterId = $vaultContext.SelectedObject.Id
@@ -233,6 +378,13 @@ function OnTabContextChanged
 		$assocFiles = @(GetAssociatedFiles $itemids $([System.IO.Path]::GetDirectoryName($VaultContext.UserControl.XamlFile)))
 		$dsWindow.FindName("AssoicatedFiles").ItemsSource = $assocFiles
 	}
+	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "FileMaster" -and $xamlFile -eq "ADSK.QS.FileDataSheet.xaml")
+	{
+		$fileMasterId = $vaultContext.SelectedObject.Id
+		$file = $vault.DocumentService.GetLatestFileByMasterId($fileMasterId)
+		mInitializeClassificationTab -ParentType $null -file $file
+	}
+	
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $xamlFile -eq "ADSK.QS.ItemEdit.xaml")
 	{
 		$items = $vault.ItemService.GetItemsByIds(@($vaultContext.SelectedObject.Id))
@@ -241,12 +393,75 @@ function OnTabContextChanged
 		$mItemEditable = mItemEditable($itemids) #note - checks the current state to activate buttons, but this might change over time; therefore the state is local
 	}
 	
-	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ChangeOrder" -and $xamlFile -eq "ADSK.QS.EcoEdit.xaml")
+		#region ECO-Task-Links
+	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ChangeOrder" -and $xamlFile -eq "ADSK.QS.TaskLinks.xaml")
 	{
-		$number=$vaultContext.SelectedObject.Label
-		$mECO = $vault.ChangeOrderService.GetChangeOrderByNumber($number)
-		$mEcoEditable = mEcoEditable($mECO.Id) #note - checks the current state to activate buttons, but this might change over time; therefore the state is local
+		$mCoId = $VaultContext.SelectedObject.Id
+		
+		[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2021\Extensions\DataStandard" + '\Vault.Custom\addinVault\QuickstartUtilityLibrary.dll')
+		$_mVltHelpers = New-Object QuickstartUtilityLibrary.VltHelpers
+
+		#to get links of COs to CUSTENT we need to analyse the CUSTENTS for linked children of type CO
+		#get all CUSTENTS of category $_CoName first, then iterate the result and analyse each items links: do they link to the current CO id?
+        $_CoName = $UIString["ADSK-LnkdTask-00"]
+		$_allCustents = mgetCustomEntityList $_CoName
+		$_LinkedCustentIDs = @()
+		Foreach ($_Custent in $_allCustents)
+		{
+			$_AllLinks1 = $_mVltHelpers.mGetLinkedChildren1($vaultConnection, $_Custent.Id, "CUSTENT", "CO")
+			If($_AllLinks1) #the current custent has links; check that the current ECO is one of these link's target
+			{
+				$_match = $_AllLinks1 | Where { $_ -eq $mCoId }
+				If($_match){ $_LinkedCustentIDs += $_Custent.Id}
+			}		
+		}
+		
+		#get all detail information of $_LinkedCustentIDs and push to the datagrid
+		If($_LinkedCustentIDs.Count -ne 0)
+		{
+			$_LinkedCustentsMeta = @(mGetAssocCustents $_LinkedCustentIDs)
+		}
+		$dsWindow.FindName("dataGrdLinks").ItemsSource = $_LinkedCustentsMeta
+		$dsWindow.FindName("dataGrdLinks").add_SelectionChanged({
+			$dsWindow.FindName("txtComments").Text = $dsWindow.FindName("dataGrdLinks").SelectedItem.Comments
+			mTaskClick
+		})
 	}
+	#endregion
+
+	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "FileMaster" -and $xamlFile -eq "ADSK.QS.FileItemDataSheet.xaml")
+	{
+		#clear any data from previous selections:
+		mClearItemView
+		$fileMasterId = $vaultContext.SelectedObject.Id
+		$file = $vault.DocumentService.GetLatestFileByMasterId($fileMasterId)
+		#fill item system and user properties
+		mFillItemView -file $file
+		#fill grid of associated files; primary only Yes/No
+		$itemids = @($item.Id)
+		$assocFiles = @(mFileItemTabGetAssocFiles $itemids $([System.IO.Path]::GetDirectoryName($VaultContext.UserControl.XamlFile)))
+		$dsWindow.FindName("AssociatedFiles").ItemsSource = $assocFiles
+	}
+
+	#region Documentstructure Extension
+		if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "FileMaster" -and $xamlFile -eq "ADSK.QS.FileDocStructure.xaml")
+		{
+			Add-Type -Path 'C:\ProgramData\Autodesk\Vault 2021\Extensions\DataStandard\Vault.Custom\addinVault\UsesWhereUsed.dll'
+			$file = $vault.DocumentService.GetLatestFileByMasterId($vaultContext.SelectedObject.Id)
+			$treeNode = New-Object UsesWhereUsed.TreeNode($file, $vaultConnection)
+			$dsWindow.FindName("Uses").ItemsSource = @($treeNode)
+
+			$dsWindow.FindName("Uses").add_SelectedItemChanged({
+				mUwUsdChldrnClick
+				#$dsDiag.Trace("Child selected")
+			})
+			$dsWindow.FindName("WhereUsed").add_SelectedItemChanged({
+				mUwUsdPrntClick
+				$dsDiag.Trace("Child selected")
+			})
+
+		}
+	#endregion documentstructure
 
 	#region derivation tree
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "FileMaster" -and $xamlFile -eq "ADSK.QS.DerivationTree.xaml")
@@ -262,6 +477,152 @@ function OnTabContextChanged
 		}
 	}
 	#endregion derivation tree
+
+	#region ItemTab-FileImport
+if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $xamlFile -eq "ADSK.QS.AttachFileImport.xaml")
+	{
+		$items = $vault.ItemService.GetItemsByIds(@($vaultContext.SelectedObject.Id))
+		$item = $items[0]
+		
+		If (!$item.Locked)
+		{
+			$dsWindow.FindName("mDragAreaEnabled").Source = "C:\ProgramData\Autodesk\Vault 2021\Extensions\DataStandard\Vault.Custom\DragFilesActive.png"
+			$dsWindow.FindName("mDragAreaEnabled").Visibility = "Visible"
+			$dsWindow.FindName("mDragAreaDisabled").Visibility = "Collapsed"
+			$dsWindow.FindName("txtActionInfo").Visibility = "Visible"
+		}
+		Else
+		{
+			$dsWindow.FindName("mDragAreaDisabled").Source = "C:\ProgramData\Autodesk\Vault 2021\Extensions\DataStandard\Vault.Custom\DragFilesLocked.png"
+			$dsWindow.FindName("mDragAreaDisabled").Visibility = "Visible"
+			$dsWindow.FindName("mDragAreaEnabled").Visibility = "Collapsed"
+			$dsWindow.FindName("txtActionInfo").Visibility = "Collapsed"
+		}
+
+		Try{
+			Import-Module powerVault
+		}
+		catch{
+		   [System.Windows.MessageBox]::Show("This feature requires powerVault installed; check for its availability", "Extension Title")
+		   return
+		}
+
+		$dsWindow.FindName("mImportProgress").Value = 0
+		$dsWindow.FindName("mDragAreaEnabled").add_Drop({			
+			param( $sender, $e)
+			$items = $vault.ItemService.GetItemsByIds(@($vaultContext.SelectedObject.Id))
+			$item = $items[0]
+
+			#check that the item is editable for the current user, if not, we shouldn't add the files, before we try to attach
+			try{
+				$vault.ItemService.EditItems(@($item.RevId))
+				#[System.Windows.MessageBox]::Show("Item is accessible", "Item-File Attachment Import")
+				$_ItemIsEditable = $true
+			}
+			catch {
+				#[System.Windows.MessageBox]::Show("Item is NOT accessible", "Item-File Attachment Import")
+				$_ItemIsEditable = $false
+			}
+			If($_ItemIsEditable)
+			{
+				$vault.ItemService.UndoEditItems(@($item.RevId))
+				$vault.ItemService.DeleteUncommittedItems($true)
+				#[System.Windows.MessageBox]::Show("Item Lock Removed to continue", "Item-File Attachment Import")
+			}
+			
+			[System.Windows.DataObject]$mDragData = $e.Data
+			$mFileList = $mDragData.GetFileDropList()
+			#Filter folders, we attach files directly selected only
+			$mFileList = $mFileList | Where { (get-item $_).PSIsContainer -eq $false }
+			If ($mFileList -and $_ItemIsEditable)
+			{
+				$dsWindow.Cursor = "Wait"
+				$_NumFiles = $mFileList.Count
+				$_n = 0
+				$dsWindow.FindName("mImportProgress").Value = 0
+				$mExtExclude = @(".ipt", ".iam", ".ipn", ".dwg", ".idw", ".slddrw", ".sldprt", ".sldasm")
+				$m_ImpFileList = @() #filepath array of imported files to be attached
+				ForEach ($_file in $mFileList)
+				{
+					$m_FileName = [System.IO.Path]::GetFileNameWithoutExtension($_file)
+					$m_Ext = [System.IO.Path]::GetExtension($_file)
+					If ($mExtExclude -contains $m_Ext){
+						$mCADWarning = $true
+						break;
+					}
+					$m_Dir = [System.IO.Path]::GetDirectoryName($_file)
+					
+					#get new number and create new file name
+					#Adopted from a DocumentService call, which always pulls FILE class numbering schemes
+					[System.Collections.ArrayList]$numSchems = @($vault.NumberingService.GetNumberingSchemes('FILE', 'Activated'))
+					if ($numSchems.Count -gt 1)
+					{							
+						$_DfltNumSchm = $numSchems | Where { $_.Name -eq $UIString["ADSK-ItemFileImport_00"]}
+						if($_DfltNumSchm)
+						{
+							$NumGenArgs = @("")
+							$_newFile=$vault.DocumentService.GenerateFileNumber($_DfltNumSchm.SchmID, $NumGenArgs)
+						}		
+					}
+
+					#add file
+					If($_newFile)
+					{
+						#get appropriate folder number (limit 1k files per folder)
+						Try{
+							$mTargetPath = mGetFolderNumber $_newFile 3 #hand over the file number (name) and number of files / folder
+						}
+						catch { 
+							[System.Windows.MessageBox]::Show($UIString["ADSK-ItemFileImport_01"], "Item-File Attachment Import")
+						}
+						#add extension to number
+						$_newFile = $_newFile + $m_Ext
+						$mFullTargetPath = $mTargetPath + $_newFile
+						Try{
+							$m_ImportedFile = Add-VaultFile -From $_file -To $mFullTargetPath -Comment $UIString["ADSK-ItemFileImport_02"]
+							$m_ImpFileList += $m_ImportedFile._FullPath
+						}
+						Catch {
+							$dsDiag.Trace("Add-VaultFile failed. Check coolOrange powerVault for Vault 2021 availability")
+						}
+						
+					}
+					Else #continue with the given file name
+					{
+						$mTargetPath = "$/xDMS/"
+						$mFullTargetPath = $mTargetPath + $m_FileName
+						Try{
+							$m_ImportedFile = Add-VaultFile -From $_file -To $mFullTargetPath -Comment $UIString["ADSK-ItemFileImport_02"]
+							$m_ImpFileList += $m_ImportedFile._FullPath
+						}
+						Catch {
+							$dsDiag.Trace("Add-VaultFile failed. Check coolOrange powerVault for Vault 2021 availability")
+						}
+					}
+					$_n += 1
+					$dsWindow.FindName("mImportProgress").Value = (($_n/$_NumFiles)*100)-10
+
+				} #for each file
+				#attach file to current item
+				Try{
+					$parent = Get-VaultItem -Number $item.ItemNum	
+					$parentUpdated = Update-VaultItem -Number $parent._Number -AddAttachments $m_ImpFileList -Comment $UIString["ADSK-ItemFileImport_03"]
+				}
+				Catch {
+							$dsDiag.Trace("Get/Update-VaultItem failed. Check coolOrange powerVault for Vault 2021 availability")
+						}
+				$dsWindow.FindName("mImportProgress").Value = (($_n/$_NumFiles)*100)
+				If ($mCADWarning)
+				{
+					[System.Windows.MessageBox]::Show($UIString["ADSK-ItemFileImport_04"], "Item-File Attachment Import")
+				}
+			}
+			$mFileList = $null
+			$dsWindow.Cursor = "Arrow"
+			$dsWindow.FindName("mDragAreaEnabled").remove_Drop()
+			}) #end drag & drop
+	}
+#endregion ItemTab-FileImport
 }
 
 function GetNewCustomObjectName
@@ -277,6 +638,17 @@ function GetNewCustomObjectName
 					$Prop["_XLTN_IDENTNUMBER"].Value = $Prop["_GeneratedNumber"].Value
 				}
 				$customObjectName = $Prop["_XLTN_FIRSTNAME"].Value + " " + $Prop["_XLTN_LASTNAME"].Value
+				return $customObjectName
+			}
+
+			$UIString["ClassTerms_00"] #CatalogTermsTranslations
+			{
+				if($dsWindow.FindName("DSNumSchmsCtrl").NumSchmFieldsEmpty -eq $false)
+				{
+					Try {$Prop["_XLTN_IDENTNUMBER"].Value = $Prop["_GeneratedNumber"].Value}
+					catch { $dsDiag.Trace("UDP to save ident number does not exist")}
+				}
+				$customObjectName = $Prop["_XLTN_TERM"].Value
 				return $customObjectName
 			}
 
@@ -358,14 +730,18 @@ function GetCategories
 		#return $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
 		#region quickstart
 			$global:mFileCategories = $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
-			return $global:mFileCategories
+			return $global:mFileCategories | Sort-Object -Property "Name" #Ascending is default; no option required
 		#endregion
 	}
 	elseif ($dsWindow.Name -eq "FolderWindow")
 	{
-		return $vault.CategoryService.GetCategoriesByEntityClassId("FLDR", $true)
+		return $vault.CategoryService.GetCategoriesByEntityClassId("FLDR", $true) | Sort-Object -Property "Name" #Ascending is default; no option required
 	}
 	elseif ($dsWindow.Name -eq "CustomObjectWindow")
+	{
+		return $vault.CategoryService.GetCategoriesByEntityClassId("CUSTENT", $true)
+	}
+	elseif ($dsWindow.Name -eq "CustomObjectTermWindow")
 	{
 		return $vault.CategoryService.GetCategoriesByEntityClassId("CUSTENT", $true)
 	}
@@ -389,9 +765,13 @@ function GetNumSchms
 					{
 						"FileWindow"
 						{
-							$_FilteredNumSchems = $numSchems | Where { $_.IsDflt -eq $true}
-							$Prop["_NumSchm"].Value = $_FilteredNumSchems[0].Name
-							$dsWindow.FindName("NumSchms").IsEnabled = $false
+							$_FilteredNumSchems = @()
+							$_Default = $numSchems | Where { $_.IsDflt -eq $true}
+							$_FilteredNumSchems += ($_Default)
+							$dsWindow.FindName("NumSchms").IsEnabled = $true
+							$noneNumSchm = New-Object 'Autodesk.Connectivity.WebServices.NumSchm'
+							$noneNumSchm.Name = $UIString["LBL77"] # None 
+							$_FilteredNumSchems += $noneNumSchm
 							return $_FilteredNumSchems
 						}
 
@@ -417,6 +797,12 @@ function GetNumSchms
 						"CustomObjectWindow"
 						{
 							$_FilteredNumSchems = $numSchems | Where { $_.Name -eq $Prop["_Category"].Value}
+							return $_FilteredNumSchems
+						}
+
+						"CustomObjectTermWindow"
+						{
+							$_FilteredNumSchems = $numSchems | Where-Object { $_.Name -eq $Prop["_Category"].Value}
 							return $_FilteredNumSchems
 						}
 
@@ -532,7 +918,7 @@ function m_TemplateChanged {
 	}
 	$mContext = $dsWindow.DataContext
 	$mTemplatePath = $mContext.TemplatePath
-	$mTemplateFile = $mContext.SelectedTemplate
+	$mTemplateFile = $mContext.SelectedTemplate.Name
 	$mTemplate = $mTemplatePath + "/" + $mTemplateFile
 	$mFolder = $vault.DocumentService.GetFolderByPath($mTemplatePath)
 	$mFiles = $vault.DocumentService.GetLatestFilesByFolderId($mFolder.Id,$false)
@@ -544,6 +930,15 @@ function m_TemplateChanged {
 	{
 		$dsWindow.FindName("Categories").IsEnabled = $false #comment out this line if admins like to release the choice to the user
 	}
+
+	#region navigation & derivation structure
+	If($Prop[($UIString["ADSK-GoToNavigation_Prop01"])]){
+		If($mContext.SelectedTemplate)
+		{
+			$Prop[($UIString["ADSK-GoToNavigation_Prop01"])].Value = $mContext.SelectedTemplate.Name
+		}
+	}
+
 	#$dsDiag.Trace(" ... TemplateChanged finished <<")
 }
 
@@ -555,9 +950,13 @@ function m_CategoryChanged
 		"FileWindow"
 		{
 			#Quickstart uses the default numbering scheme for files; GoTo GetNumSchms function to disable this filter incase you'd like to apply numbering per category for files as well
-			If ($Prop['_XLTN_AUTHOR'])
-			{
+			If ($Prop['_XLTN_AUTHOR']) {
 				$Prop['_XLTN_AUTHOR'].Value = $VaultConnection.UserName
+			}
+
+			#Copy Parent Project Number to file property "Project" if exists
+			If($Prop["_XLTN_PROJECT"]){
+				mGetProjectFolderPropToVaultFile -mFolderSourcePropertyName "Name" -mFileTargetPropertyName $Prop["_XLTN_PROJECT"].Name
 			}
 		}
 

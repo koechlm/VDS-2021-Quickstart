@@ -2,8 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:behaviours="clr-namespace:Common.Wpf;assembly=Common"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-             xmlns:WPF="clr-namespace:CreateObject.WPF;assembly=CreateObject"
              xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
+             xmlns:WPF="clr-namespace:CreateObject.WPF;assembly=CreateObject"
              x:Name="MainWindow"
              behaviours:TabTitleBehavior.TabTitle="$UIString[LBL36]">
     <UserControl.Resources>
@@ -32,7 +32,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" SelectedDateFormat="Short" IsHitTestVisible="False" IsTabStop="False" Width="Auto" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short" IsHitTestVisible="False" IsTabStop="False" Width="Auto" HorizontalAlignment="Left" Margin="5,0,0,0"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -96,8 +96,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" MinWidth="280"/>
-            <ColumnDefinition Width ="2*" MinWidth="280"/>
+            <ColumnDefinition Width="Auto" MinWidth="140"/>
+            <ColumnDefinition MaxWidth="500" MinWidth="500"/>
         </Grid.ColumnDefinitions>
         <Grid ToolTip="{Binding UIString[LBL73], FallbackValue='General Properties'}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10,0,0,0">
             <Grid.RowDefinitions>
@@ -109,7 +109,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" MinWidth="140" />
-                <ColumnDefinition MinWidth="140" />
+                <ColumnDefinition MinWidth="180" MaxWidth="180" />
             </Grid.ColumnDefinitions>
             <Label x:Name="label" Content="{Binding UIString[LBL8], FallbackValue=Category}" Grid.Column="0"/>
             <TextBox Text="{Binding Prop[_XLTN_CATEGORY NAME].Value}" x:Name="Cat" Grid.Column="1" />
@@ -131,7 +131,7 @@
 				HorizontalGridLinesBrush="WhiteSmoke" 
 				VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray" VerticalAlignment="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Name}" CellStyle="{StaticResource DynamicDataGridLabelStyle}" Width="Auto" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Name}" CellStyle="{StaticResource DynamicDataGridLabelStyle}" Width="140" IsReadOnly="True">
                         <DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding DataContext.UIString[LBL64], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
