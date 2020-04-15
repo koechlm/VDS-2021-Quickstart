@@ -82,6 +82,8 @@
     <DynamicProperty>Engr Approved by</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
     <DynamicProperty>Has MBD</DynamicProperty>
+    <DynamicProperty>Part Family</DynamicProperty>
+    <DynamicProperty>Key Parameters</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Frame Member">
     <DynamicProperty>Title</DynamicProperty>
@@ -120,6 +122,8 @@
     <DynamicProperty>Designer</DynamicProperty>
     <DynamicProperty>Part Type name</DynamicProperty>
     <DynamicProperty>Has MBD</DynamicProperty>
+    <DynamicProperty>Part Family</DynamicProperty>
+    <DynamicProperty>Key Parameters</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Purchased">
     <DynamicProperty>Title</DynamicProperty>
@@ -153,6 +157,7 @@
     <DynamicProperty>Type</DynamicProperty>
     <DynamicProperty>Engr Approved by</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
+    <DynamicProperty>Drawing Type</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Bauteil">
     <DynamicProperty>Titel</DynamicProperty>

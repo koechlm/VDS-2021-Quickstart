@@ -84,6 +84,7 @@
     <DynamicProperty>Engr Approved Date</DynamicProperty>
     <DynamicProperty>Key Parameters</DynamicProperty>
     <DynamicProperty>MBD</DynamicProperty>
+    <DynamicProperty>BOM Type</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Sheet Metal Part" Type="File">
     <DynamicProperty>Title</DynamicProperty>
@@ -239,6 +240,7 @@
     <DynamicProperty>Designer</DynamicProperty>
     <DynamicProperty>Engr Approved By</DynamicProperty>
     <DynamicProperty>Engr Approved Date</DynamicProperty>
+    <DynamicProperty>Document Type</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Folder" Type="Folder">
     <DynamicProperty>Title</DynamicProperty>
@@ -285,5 +287,17 @@
     <DynamicProperty>Keywords</DynamicProperty>
     <DynamicProperty>AKN Link</DynamicProperty>
     <DynamicProperty>OTS File Name</DynamicProperty>
+  </DynamicPropertiesCategory>
+  <DynamicPropertiesCategory Category="Purchased" Type="File">
+    <DynamicProperty>Title</DynamicProperty>
+    <DynamicProperty>Description</DynamicProperty>
+    <DynamicProperty>Material</DynamicProperty>
+    <DynamicProperty>Part Number</DynamicProperty>
+    <DynamicProperty>Designer</DynamicProperty>
+    <DynamicProperty>Application Version</DynamicProperty>
+    <DynamicProperty>Mass</DynamicProperty>
+    <DynamicProperty>BOM Type</DynamicProperty>
+    <DynamicProperty>Title DE</DynamicProperty>
+    <DynamicProperty>Stock Number</DynamicProperty>
   </DynamicPropertiesCategory>
 </DynamicProperties>

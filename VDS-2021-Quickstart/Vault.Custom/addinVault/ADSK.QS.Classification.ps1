@@ -1,7 +1,7 @@
 #region disclaimer =============================================================================
 # PowerShell script sample for Vault Data Standard
 #			 Autodesk Vault - Quickstart 2019
-# This sample is based on VDS 2019 RTM and adds functionality and rules
+# This sample is based on VDS 2021 RTM and adds functionality and rules
 #
 # Copyright (c) Autodesk - All rights reserved.
 #
@@ -11,6 +11,9 @@
 #endregion =============================================================================
 
 #region - version history
+# Version Info - VDS Quickstart Classification 2021
+	#added condition _ReadOnly for Remove/Add Button
+
 # Version Info - VDS Quickstart Classification 2020.0.0
 	# Support default values for classes on AddClassification()
 	# Use Case _CreateMode removed: an existing file is required to add class properties
@@ -57,16 +60,11 @@ function mInitializeClassificationTab($ParentType, $file)
 
 			#activate UI controls
 			$dsWindow.FindName("cmbAvailableClasses").add_SelectionChanged({
-				If($Prop["_CreateMode"].Value -eq $true -and $dsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1) #($Prop["_XLTN_CLASS"].Value -eq "" -or -not $Prop["_XLTN_CLASS"]) -and
+				If($Prop["_ReadOnly"].Value -eq $false -and $dsWindow.FindName("txtActiveClass").Text -eq "" -and $dsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1)
 				{
 					$dsWindow.FindName("btnAddClass").IsEnabled = $true
-					#if($Prop["_CreateMode"]){ $dsWindow.FindName("btnAddClass").IsEnabled = $true}
 				}
 				Else { $dsWindow.FindName("btnAddClass").IsEnabled = $false}
-				If($Prop["_EditMode"].Value -eq $true -and $dsWindow.FindName("txtActiveClass").Text -eq "" -and $dsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1)
-				{
-					$dsWindow.FindName("btnAddClass").IsEnabled = $true
-				}
 			})
 
 			$dsWindow.FindName("dtgrdClassProps").add_LostFocus({
@@ -90,8 +88,14 @@ function mInitializeClassificationTab($ParentType, $file)
 				mAddClsLevelCombo -ClassLevelName $UIString["Adsk.QS.ClassLevel_00"]
 			}
 			if($Prop["_XLTN_CLASS"].Value.Length -lt 1) { $dsWindow.FindName("btnRemoveClass").IsEnabled = $false}
-			if($Prop["_XLTN_CLASS"].Value.Length -gt 0) { 	$dsWindow.FindName("btnRemoveClass").IsEnabled = $true}
-
+			if($Prop["_XLTN_CLASS"].Value.Length -gt 0 -and $Prop["_ReadOnly"].Value -eq $false) 
+			{ 	
+				$dsWindow.FindName("btnRemoveClass").IsEnabled = $true
+			}
+			else
+			{
+				$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
+			}
 			$dsDiag.Trace("...Initialize UI Controls for Dialog finished")
 
 		}
@@ -335,7 +339,7 @@ function mRemoveClassification()
 	$dsWindow.FindName("txtActiveClass").Text = ""
 
 	$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
-	if($dsWindow.FindName("cmbAvailableClasses").SelectedIndex -ne -1) { $dsWindow.FindName("btnAddClass").IsEnabled = $true}
+	if($dsWindow.FindName("cmbAvailableClasses").SelectedIndex -ne -1 -and $Prop["_ReadOnly"].Value -eq $false) { $dsWindow.FindName("btnAddClass").IsEnabled = $true}
 	$dsDiag.Trace("...remove classification finished.")
 }
 
@@ -614,35 +618,9 @@ function mClsLevelCmbSelectionChanged ($sender) {
 function mResetClassSelection
 {
     $dsDiag.Trace(">> Reset Filter started...")
-	$mWindowName = $dsWindow.Name
-        switch($mWindowName)
-		{
-			"CustomObjectTermWindow"
-			{
-				IF ($Prop["_EditMode"].Value -eq $true)
-				{
-					try
-					{
-						$Global:_Return=[System.Windows.MessageBox]::Show($UIString["ClassTerms_MSG01"], $UIString["ClassTerms_01"], 4)
-						If($_Return -eq "No") { return }
-					}
-					catch
-					{
-						$dsDiag.Trace("Error - Reset Terms Classification Filter")
-					}
-			}
-				IF (($Prop["_CreateMode"].Value -eq $true) -or ($_Return -eq "Yes"))
-				{
-					$mBreadCrumb = $dsWindow.FindName("wrpClassification2")
-					$mBreadCrumb.Children[1].SelectedIndex = -1
-				}
-			}
-			default
-			{
-				$mBreadCrumb = $dsWindow.FindName("wrpClassification2")
-				$mBreadCrumb.Children[0].SelectedIndex = -1
-			}
-		}
+
+	$mBreadCrumb = $dsWindow.FindName("wrpClassification2")
+	$mBreadCrumb.Children[0].SelectedIndex = -1
 
 	$dsDiag.Trace("...Reset Filter finished <<")
 }

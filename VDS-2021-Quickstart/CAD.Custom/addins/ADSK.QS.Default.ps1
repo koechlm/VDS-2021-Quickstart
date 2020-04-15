@@ -962,7 +962,7 @@ $mRunAssys | ForEach-Object {
 		$mPartNumProp = $mRunAssyProps | Where-Object { $_.Name -eq "Part Number"}
 		$mPartNumProp.Value = "" #delete the value to get the new number
 		$mProp = $mRunAssyProps | Where-Object { $_.Name -eq "Description"}
-		$mProp.Value = $UIString["MSDCE_BOMType_01"] + " " + $UIString["MSDCE_TubePipe_01"]
+		$mProp.Value = $UIString["MSDCE_TubePipe_01"]
 	 }
 	$mRouteParts = @()
 	$mRouteParts = $dsWindow.DataContext.RouteParts
