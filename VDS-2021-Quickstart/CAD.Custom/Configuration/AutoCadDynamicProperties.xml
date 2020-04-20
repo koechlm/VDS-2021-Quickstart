@@ -19,6 +19,8 @@
     <DynamicProperty>Scale</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty>Project</DynamicProperty>
+    <DynamicProperty>Document Type</DynamicProperty>
+    <DynamicProperty>Eng.Approved Date</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Factory Layout">
     <DynamicProperty>Title</DynamicProperty>

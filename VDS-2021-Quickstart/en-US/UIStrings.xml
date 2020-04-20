@@ -141,10 +141,10 @@
   <UIString ID="GEN-TITLE-MAT1">Material</UIString>
   <UIString ID="GEN-TITLE-MAT2">Material/Dimensions</UIString>
   <UIString ID="GEN-TITLE-SIZ">Size/Format</UIString>
-
   <UIString ID="GEN-TITLE-SHEET">Sheet</UIString>
   <UIString ID="GEN-TITLE-SCA">Scale</UIString>
   <UIString ID="GEN-TITLE-WT">Mass</UIString>
+  <UIString ID="GEN-TITLE-DACT">Document Type</UIString>
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <!--use to change display name for localization or user friendly naming-->
   <!--<UIString ID="aim_description1">Description</UIString>-->

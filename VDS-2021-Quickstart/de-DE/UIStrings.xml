@@ -144,6 +144,7 @@
   <UIString ID="GEN-TITLE-SHEET">Blatt</UIString>
   <UIString ID="GEN-TITLE-SCA">Maßstab</UIString>
   <UIString ID="GEN-TITLE-WT">Gewicht</UIString>
+  <UIString ID="GEN-TITLE-DACT">Zeichnungsart</UIString>
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <!--use to change display name for localization or user friendly naming-->
   <!--<UIString ID="aim_description1">Description</UIString>-->
