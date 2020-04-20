@@ -88,6 +88,16 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="{x:Type DatePicker}">
+            <Setter Property="Height" Value="25.5" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid x:Name="grdAssignedItemMain" Background="#FFF0F0F0" Height="{Binding ActualHeight, ElementName=grdMain, Mode=OneWay}" MinWidth="694" Width="{Binding ActualWidth, ElementName=grdMain, Mode=OneWay}" Margin="5">
         <Grid.RowDefinitions>

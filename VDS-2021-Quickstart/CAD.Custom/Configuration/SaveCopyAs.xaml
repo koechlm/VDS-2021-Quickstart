@@ -145,7 +145,8 @@
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type DatePicker}">
-            <Setter Property="Height" Value="22"/>
+            <Setter Property="Height" Value="25.5" />
+            <Setter Property="BorderThickness" Value="0" />
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}"/>
