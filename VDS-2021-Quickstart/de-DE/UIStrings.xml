@@ -144,6 +144,7 @@
   <UIString ID="GEN-TITLE-SHEET">Blatt</UIString>
   <UIString ID="GEN-TITLE-SCA">Maßstab</UIString>
   <UIString ID="GEN-TITLE-WT">Gewicht</UIString>
+  <UIString ID="GEN-TITLE-DACT">Zeichnungsart</UIString>
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <!--use to change display name for localization or user friendly naming-->
   <!--<UIString ID="aim_description1">Description</UIString>-->
@@ -189,7 +190,7 @@
   <UIString ID="MSDCE_MSG00">Modellansicht fehlt! Sie verwenden die Vault Option, dass IPN/IDW/DWG identisch zum Modell benannt und abgelegt werden. Fügen sie entweder ein Model hinzu, oder ändern sie die Vault Option "Dateinummern für IPN/IDW/DWG generieren".</UIString>
   <UIString ID="MSDCE_OrphShtOption">Unbenutzte Blätter löschen</UIString>
   <UIString ID="MSDCE_OrphShtToolTip">Entfernt alle Zeichnungsblätter ohne Ansicht(en)</UIString>
-  Quickstart Inventor Dialog end-->
+  <!--Quickstart Inventor Dialog end-->
 
   <!--Quickstart Functional Dialogs (FG, DA, TP, CH)-->
   <UIString ID="MSDCE_BOMType_00">Phantom</UIString>

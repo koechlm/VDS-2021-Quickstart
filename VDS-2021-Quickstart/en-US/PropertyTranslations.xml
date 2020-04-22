@@ -21,7 +21,7 @@
   <PropertyTranslation Name="SUBJECT">Subject</PropertyTranslation>
   <PropertyTranslation Name="AUTHOR">Author</PropertyTranslation>
   <PropertyTranslation Name="PARTNUMBER">Part Number</PropertyTranslation>
-  <PropertyTranslation Name="SEMIFINISHED">Semi finished</PropertyTranslation>
+  <PropertyTranslation Name="SEMIFINISHED">Semi-finished</PropertyTranslation>
   <PropertyTranslation Name="SPAREPART">Spare/Wear Part</PropertyTranslation>
   <PropertyTranslation Name="STOCKNUMBER">Stock Number</PropertyTranslation>
   <PropertyTranslation Name="MATERIAL">Material</PropertyTranslation>

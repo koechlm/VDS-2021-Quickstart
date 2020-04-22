@@ -192,15 +192,6 @@ function SetWindowTitle($newFile, $editFile, $name)
 function OnLogOn
 {
 	#Executed when User logs on Vault; $vaultUsername can be used to get the username, which is used in Vault on login
-	
-	#check Vault Client Version to match this configuration requirements; note - Office Client registers as WG or PRO 
-	$mVaultVersion = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Autodesk\Vault Workgroup\24.0\VWG-2440:407\").ProductVersion.Split(".")
-	If(-not $mVaultVersion) { $mVaultVersion = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Autodesk\Vault Professional\24.0\VPRO-2440:407\").ProductVersion.Split(".")}
-
-	If($mVaultVersion[0] -ne "24" -or $mVaultVersion[1] -lt "1" )
-	{
-		[System.Windows.MessageBox]::Show("This machine's Vault Data Standard configuration requires Vault Client 2019 Update 1 or newer installed; contact your system administrator.", "Vault Quickstart Client Configuration")
-	}
 }
 function OnLogOff
 {
@@ -358,7 +349,7 @@ function GetCategories
 		#return $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
 		#region quickstart
 			$global:mFileCategories = $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
-			return $global:mFileCategories
+			return $global:mFileCategories | Sort-Object -Property Name #ascending is the default
 		#endregion
 	}
 	elseif ($dsWindow.Name -eq "FolderWindow")
@@ -525,7 +516,7 @@ function ItemDescription
 function m_TemplateChanged {
 	#$dsDiag.Trace(">> Template Changed ...")
 	#check if cmbTemplates is empty
-	if ($dsWindow.FindName("cmbTemplates").ItemsSource.Count -lt 1)
+	if ($dsWindow.FindName("TemplateCB").ItemsSource.Count -lt 1)
 	{
 		#$dsDiag.Trace("Template changed exits due to missing templates")
 		return

@@ -1,9 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
   <ConfigInfo>
-    <ConfigHistoryInfo Branch="Master" Version="2021.26..0.0">
+    <ConfigHistoryInfo Branch="Master" Version="2021.26.0.1">
       <Changes>
-        <!--see branch history-->
+        <!--added workaround for VDS AutoCAD 2021 Listvalues issue
+        added weldbead material support for weldement category asm
+        return Categories sorted
+        comment Trace in FileNameValidation.ps1
+        en-US: fixed PropTranslation for Semi-finished
+        de-DE: fixed comment error in line 192
+        VE: ADSK.QS.Default.ps1: removed version check in OnLog
+        File.xml: iLogic Types.
+        Support GEN-TITLE-DACT-->
       </Changes>
     </ConfigHistoryInfo>
   </ConfigInfo>

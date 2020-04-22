@@ -183,13 +183,13 @@ function InitializeWindow
 							}
 						}
 
-						if (($_ModelFullFileName -eq "") -and ($global:mGFN4Special -eq $false)) 
-						{ 
-							[System.Windows.MessageBox]::Show($UIString["MSDCE_MSG00"],"Vault MFG Quickstart")
-							$dsWindow.add_Loaded({
-										# Will skip VDS Dialog for Drawings without model view; 
-										$dsWindow.CancelWindowCommand.Execute($this)})
-						}
+						#if (($_ModelFullFileName -eq "") -and ($global:mGFN4Special -eq $false)) 
+						#{ 
+						#	[System.Windows.MessageBox]::Show($UIString["MSDCE_MSG00"],"Vault MFG Quickstart")
+						#	$dsWindow.add_Loaded({
+						#				# Will skip VDS Dialog for Drawings without model view; 
+						#				$dsWindow.CancelWindowCommand.Execute($this)})
+						#}
 					} # end of copy mode = false check
 
 					if ($Prop["_CopyMode"].Value -and @(".DWG",".IDW",".IPN") -contains $Prop["_FileExt"].Value)
@@ -203,6 +203,19 @@ function InitializeWindow
 					if ((Get-Item $document.FullFileName).IsReadOnly){
 						$dsWindow.FindName("btnOK").IsEnabled = $false
 					}
+
+					#Quickstart Professional - handle weldbead material" 
+					$mCat = $Global:mCategories | Where {$_.Name -eq $UIString["MSDCE_CAT11"]} # weldment assembly
+					IF ($Prop["_Category"].Value -eq $mCat.Name) 
+					{ 
+						try{
+							$Prop["Material"].Value = $Document.ComponentDefinition.WeldBeadMaterial.DisplayName
+						}
+						catch{
+							$dsDiag.Trace("Failed reading weld bead material; most likely the assembly subtype is not an weldment.")
+						}
+					}
+
 				}
 				default
 				{
@@ -229,6 +242,9 @@ function InitializeWindow
 		  }
 		"AutoCADWindow"
 		{
+			#workaround the listvalue issue of 2021 RTM
+			mEnableListValues
+
 			InitializeBreadCrumb
 			switch ($Prop["_CreateMode"].Value) 
 			{
@@ -576,7 +592,7 @@ function GetCategories
 {
 	$mAllCats =  $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
 	$mFDSFilteredCats = $mAllCats | Where { $_.Name -ne "Asset Library"}
-	return $mFDSFilteredCats
+	return $mFDSFilteredCats | Sort-Object -Property "Name" #Ascending is default; no option required
 }
 
 function OnPostCloseDialog
@@ -961,3 +977,39 @@ function mInitializeCHContext {
 		 }
 }
 #endregion functional dialogs
+
+#workaround the listvalue issue of 2021 RTM
+function mEnableListValues
+{
+	$dC = $dsWindow.DataContext
+	
+	if($Prop["_EditMode"].Value -eq $true)
+	{
+		$dC.Properties.Properties | ForEach-Object{
+			if(-not $_.ListValues.Count -and $_.PropDefInfo.ListValArray.Count)
+			{
+				$_.ListValues = $_.PropDefInfo.ListValArray
+			}
+		}
+	}
+
+	if($Prop["_CreateMode"].Value -eq $true)
+	{
+		Add-Type -Path "C:\Program Files\Autodesk\Autodesk Vault 2021 SDK\bin\x64\Autodesk.DataManagement.Client.Framework.Vault.dll"
+		$propDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("FILE")
+		$propDefDic = @{}
+		$propDefs | ForEach-Object{
+			$propDefDic.Add($_.DispName, $_.Id)
+		}
+		
+		$dC.Properties.Properties | ForEach-Object{
+			$PropertyDefinition = New-Object Autodesk.DataManagement.Client.Framework.Vault.Currency.Properties.PropertyDefinition
+			$id = $propDefDic.Get_Item($_.DispName)
+			$PropertyDefinition = $vaultConnection.PropertyManager.GetPropertyDefinitionById($id)
+			if($PropertyDefinition.HasListValues -eq $true)
+			{
+				$_.ListValues = ($PropertyDefinition.ValueList | Foreach-Object{ $_.Value})
+			}
+		}
+	}
+}
