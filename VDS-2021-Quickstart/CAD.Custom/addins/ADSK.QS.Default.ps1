@@ -261,6 +261,9 @@ function InitializeWindow
 		  }
 		"AutoCADWindow"
 		{
+			#workaround the listvalue issue of 2021 RTM
+			 mEnableListValues
+
 			InitializeBreadCrumb
 			switch ($Prop["_CreateMode"].Value) 
 			{
@@ -1009,3 +1012,16 @@ function mInitializeCHContext {
 		 }
 }
 #endregion functional dialogs
+
+#workaround the listvalue issue of 2021 RTM
+function mEnableListValues
+{
+	$dC = $dsWindow.DataContext
+	
+	$dC.Properties.Properties | ForEach-Object{
+		if(-not $_.ListValues.Count -and $_.PropDefInfo.ListValArray.Count)
+		{
+			$_.ListValues = $_.PropDefInfo.ListValArray
+			}
+		}
+}
