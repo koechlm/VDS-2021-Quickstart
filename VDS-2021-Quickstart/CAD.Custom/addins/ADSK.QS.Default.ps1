@@ -261,6 +261,9 @@ function InitializeWindow
 		  }
 		"AutoCADWindow"
 		{
+			#workaround the listvalue issue of 2021 RTM
+			 mEnableListValues
+
 			InitializeBreadCrumb
 			switch ($Prop["_CreateMode"].Value) 
 			{
@@ -1009,3 +1012,39 @@ function mInitializeCHContext {
 		 }
 }
 #endregion functional dialogs
+
+#workaround the listvalue issue of 2021 RTM
+function mEnableListValues
+{
+	$dC = $dsWindow.DataContext
+	
+	if($Prop["_EditMode"].Value -eq $true)
+	{
+		$dC.Properties.Properties | ForEach-Object{
+			if(-not $_.ListValues.Count -and $_.PropDefInfo.ListValArray.Count)
+			{
+				$_.ListValues = $_.PropDefInfo.ListValArray
+			}
+		}
+	}
+
+	if($Prop["_CreateMode"].Value -eq $true)
+	{
+		Add-Type -Path "C:\Program Files\Autodesk\Autodesk Vault 2021 SDK\bin\x64\Autodesk.DataManagement.Client.Framework.Vault.dll"
+		$propDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("FILE")
+		$propDefDic = @{}
+		$propDefs | ForEach-Object{
+			$propDefDic.Add($_.DispName, $_.Id)
+		}
+		
+		$dC.Properties.Properties | ForEach-Object{
+			$PropertyDefinition = New-Object Autodesk.DataManagement.Client.Framework.Vault.Currency.Properties.PropertyDefinition
+			$id = $propDefDic.Get_Item($_.DispName)
+			$PropertyDefinition = $vaultConnection.PropertyManager.GetPropertyDefinitionById($id)
+			if($PropertyDefinition.HasListValues -eq $true)
+			{
+				$_.ListValues = ($PropertyDefinition.ValueList | Foreach-Object{ $_.Value})
+			}
+		}
+	}
+}
