@@ -18,6 +18,8 @@ function InitializeWindow
 		"AutoCADWindow"
 		{
 			#rules applying for AutoCAD
+			#workaround the listvalue issue of 2021 RTM
+			mEnableListValues
 		}
 	}
 	$global:expandBreadCrumb = $true	
@@ -166,8 +168,7 @@ function OnPostCloseDialog
 		}
 		"AutoCADWindow"
 		{
-			#workaround the listvalue issue of 2021 RTM
-			mEnableListValues
+			#rules applying for AutoCAD
 		}
 		default
 		{
