@@ -911,7 +911,7 @@ function ItemDescription
 function m_TemplateChanged {
 	#$dsDiag.Trace(">> Template Changed ...")
 	#check if cmbTemplates is empty
-	if ($dsWindow.FindName("cmbTemplates").ItemsSource.Count -lt 1)
+	if ($dsWindow.FindName("TemplatesCB").ItemsSource.Count -lt 1)
 	{
 		#$dsDiag.Trace("Template changed exits due to missing templates")
 		return

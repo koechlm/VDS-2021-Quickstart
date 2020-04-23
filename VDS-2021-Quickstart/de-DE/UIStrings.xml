@@ -162,6 +162,14 @@
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <UIString ID="Part Type name">Modell Typ</UIString>
 
+  <!--Vault Categories for de-DE database-->
+  <!--<UIString ID="CAT1">Konstruktion</UIString>
+  <UIString ID="CAT2">Büro</UIString>
+  <UIString ID="CAT3">Standard</UIString>
+  <UIString ID="CAT4">Basis</UIString>
+  <UIString ID="CAT5">Ordner</UIString>
+  <UIString ID="CAT6">Projekt</UIString>-->
+  
   <!--Vault Categories for en-US database-->
   <UIString ID="CAT1">Engineering</UIString>
   <UIString ID="CAT2">Office</UIString>
@@ -169,6 +177,7 @@
   <UIString ID="CAT4">Base</UIString>
   <UIString ID="CAT5">Folder</UIString>
   <UIString ID="CAT6">Project</UIString>
+  
   <!--Strings used in tooltips-->
   <UIString ID="TLT1">Lokaler Pfad</UIString>
 
