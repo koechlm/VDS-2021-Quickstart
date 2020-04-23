@@ -995,7 +995,7 @@ function mEnableListValues
 
 	if($Prop["_CreateMode"].Value -eq $true)
 	{
-		Add-Type -Path "C:\Program Files\Autodesk\Autodesk Vault 2021 SDK\bin\x64\Autodesk.DataManagement.Client.Framework.Vault.dll"
+		Add-Type -Path "C:\Program Files\Autodesk\Vault Client 2021\Explorer\Autodesk.DataManagement.Client.Framework.Vault.dll"
 		$propDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("FILE")
 		$propDefDic = @{}
 		$propDefs | ForEach-Object{
