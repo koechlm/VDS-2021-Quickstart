@@ -25,7 +25,7 @@ function ActivateOkButton
 # As soon as one property validation function returns $false the entire Validate function will return $false
 function Validate
 {
-	if ($Prop["_ReadOnly"].Value){
+	if ($Prop["_ReadOnly"].Value -and $dsWindow.Name -ne "CustomObjectWindow"){
 		return $false
 	}
 
@@ -151,8 +151,18 @@ function InitializeWindow
 				else {
 					$dsWindow.FindName("tabClassification").Visibility = "Collapsed" 
 				}
-				
 			}
+
+			if($dsWindow.FindName("tabRevision")) 
+			{
+				$dsWindow.FindName("tabRevision").Visibility = "Visible"
+				if(-not $Global:mRevTabInitialized)
+				{
+					InitializeRevisionValidation
+					mInitializeRevTab
+				}
+			}
+
 			#endregion Quickstart
 			
 		}
@@ -910,12 +920,6 @@ function ItemDescription
  
 function m_TemplateChanged {
 	#$dsDiag.Trace(">> Template Changed ...")
-	#check if cmbTemplates is empty
-	if ($dsWindow.FindName("TemplatesCB").ItemsSource.Count -lt 1)
-	{
-		#$dsDiag.Trace("Template changed exits due to missing templates")
-		return
-	}
 	$mContext = $dsWindow.DataContext
 	$mTemplatePath = $mContext.TemplatePath
 	$mTemplateFile = $mContext.SelectedTemplate.Name

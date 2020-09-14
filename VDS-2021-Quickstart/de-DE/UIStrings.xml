@@ -494,4 +494,9 @@
   <UIString ID="ADSK-LnkdTask-06">Notizen/Detailinformationen. Wählen Sie eine Aufgabe zur Anzeige:</UIString>
   <!--Claims Management Extension End-->
   
+  <!--Revision Property Tab start-->
+  <UIString ID="Adsk.QS.RevTab_00">Eigenschaften Revision</UIString>
+  <UIString ID="Adsk.QS.RevTab_01">Alle Eigenschaften müssen zur Freigabe gefüllt sein und die firmenspezifische Validierung erfüllen</UIString>
+  <!--Revision Property Tab end-->  
+
 </UIStrings>

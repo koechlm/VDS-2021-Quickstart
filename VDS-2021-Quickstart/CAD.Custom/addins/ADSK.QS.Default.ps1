@@ -32,6 +32,8 @@ function InitializeWindow
 				}
 		}
 
+	InitializeRevisionValidation
+
 	#endregion rules applying commonly
 
 	$mWindowName = $dsWindow.Name

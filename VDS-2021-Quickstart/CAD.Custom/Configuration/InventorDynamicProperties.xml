@@ -72,18 +72,22 @@
     <DynamicProperty>Title DE</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
     <DynamicProperty>Part Number</DynamicProperty>
+    <DynamicProperty>Part Family</DynamicProperty>
     <DynamicProperty>Dimensions</DynamicProperty>
+    <DynamicProperty>Stock Number</DynamicProperty>
     <DynamicProperty>Spare-Wear Part</DynamicProperty>
     <DynamicProperty>Mass</DynamicProperty>
-    <DynamicProperty Hidden="True">LastUpdatedWith</DynamicProperty>
     <DynamicProperty>Project</DynamicProperty>
-    <DynamicProperty>Source File</DynamicProperty>
-    <DynamicProperty Hidden="True">InternalName</DynamicProperty>
-    <DynamicProperty>Engr Approved by</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
-    <DynamicProperty>Has MBD</DynamicProperty>
-    <DynamicProperty>Part Family</DynamicProperty>
-    <DynamicProperty>Key Parameters</DynamicProperty>
+    <DynamicProperty>Engr Approved by</DynamicProperty>
+    <DynamicProperty>Date Eng Approved</DynamicProperty>
+    <DynamicProperty>Source File</DynamicProperty>
+    <DynamicProperty Hidden="True">Part Type name</DynamicProperty>
+    <DynamicProperty Hidden="True">Has MBD</DynamicProperty>
+    <DynamicProperty Hidden="True">BOMType</DynamicProperty>
+    <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
+    <DynamicProperty Hidden="True">LastUpdatedWith</DynamicProperty>
+    <DynamicProperty Hidden="True">InternalName</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Frame Member">
     <DynamicProperty>Title</DynamicProperty>
@@ -98,8 +102,8 @@
     <DynamicProperty>G_W</DynamicProperty>
     <DynamicProperty>G_H</DynamicProperty>
     <DynamicProperty>Stock Number</DynamicProperty>
-    <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty>Mass</DynamicProperty>
+    <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty Hidden="True">LastUpdatedWith</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Part">
@@ -107,8 +111,8 @@
     <DynamicProperty>Title DE</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
     <DynamicProperty>Part Number</DynamicProperty>
-    <DynamicProperty Hidden="False">Material</DynamicProperty>
-    <DynamicProperty Hidden="True">VLT_Material</DynamicProperty>
+    <DynamicProperty>Part Family</DynamicProperty>
+    <DynamicProperty>Material</DynamicProperty>
     <DynamicProperty>Dimensions</DynamicProperty>
     <DynamicProperty>Cut Length</DynamicProperty>
     <DynamicProperty>Semi finished</DynamicProperty>
@@ -116,14 +120,15 @@
     <DynamicProperty>Spare-Wear Part</DynamicProperty>
     <DynamicProperty>Mass</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
+    <DynamicProperty>Designer</DynamicProperty>
+    <DynamicProperty>Engr Approved by</DynamicProperty>
+    <DynamicProperty>Date Eng Approved</DynamicProperty>
+    <DynamicProperty Hidden="True">Part Type name</DynamicProperty>
+    <DynamicProperty Hidden="True">Has MBD</DynamicProperty>
+    <DynamicProperty Hidden="True">BOMType</DynamicProperty>
+    <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
     <DynamicProperty Hidden="True">LastUpdatedWith</DynamicProperty>
     <DynamicProperty Hidden="True">InternalName</DynamicProperty>
-    <DynamicProperty>Engr Approved by</DynamicProperty>
-    <DynamicProperty>Designer</DynamicProperty>
-    <DynamicProperty>Part Type name</DynamicProperty>
-    <DynamicProperty>Has MBD</DynamicProperty>
-    <DynamicProperty>Part Family</DynamicProperty>
-    <DynamicProperty>Key Parameters</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Purchased">
     <DynamicProperty>Title</DynamicProperty>
@@ -158,6 +163,10 @@
     <DynamicProperty>Engr Approved by</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
     <DynamicProperty>Drawing Type</DynamicProperty>
+    <DynamicProperty>Date Eng Approved</DynamicProperty>
+    <DynamicProperty>Date Checked</DynamicProperty>
+    <DynamicProperty>Checked by</DynamicProperty>
+    <DynamicProperty>Change Descr</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Bauteil">
     <DynamicProperty>Titel</DynamicProperty>

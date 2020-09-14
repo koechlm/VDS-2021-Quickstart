@@ -149,6 +149,40 @@
   <!--use to change display name for localization or user friendly naming-->
   <!--<UIString ID="aim_description1">Description</UIString>-->
 
+  <!--Vault user Defined Properties Displaynames for dynamic properties-->
+  <!--use to change display name for localization or user friendly naming-->
+  <UIString ID="Comments">Comments</UIString>
+  <UIString ID="Manager">Manager</UIString>
+  <UIString ID="Subject">Subject</UIString>
+  <UIString ID="CreateUserName">Created By</UIString>
+  <UIString ID="CreateDate">Create Date</UIString>
+  <UIString ID="CheckedBy">Checked By</UIString>  
+  <UIString ID="DWGCreatorVersion">DWG Creator Version</UIString>
+  <UIString ID="EngrApprovedBy">Engr Approved By</UIString>
+  <UIString ID="Keywords">Keywords</UIString>
+  <UIString ID="Author">Author</UIString>
+  <UIString ID="Engineer">Engineer</UIString>
+  <UIString ID="GeoRss">GeoRss</UIString>
+  <UIString ID="Material">Material</UIString>
+  <UIString ID="Designer">Designer</UIString>
+  <UIString ID="StockNumber">Stock Number</UIString>
+  <UIString ID="Title">Title</UIString>
+  <UIString ID="SharePath">Share Path</UIString>
+  <UIString ID="TypeTag">Type Tag</UIString>
+  <UIString ID="Description">Description</UIString>
+  <UIString ID="PartNumber">Part Number</UIString>
+  <UIString ID="CostCenter">Cost Center</UIString>
+  <UIString ID="DWGCreatorName">DWG Creator Name</UIString>
+  <UIString ID="ApplicationVersion">Application Version</UIString>
+  <UIString ID="CreationDate">Date File Created</UIString>
+  <UIString ID="RevNumber">Rev Number</UIString>
+  <UIString ID="Project">Project</UIString>
+  <UIString ID="MfgApprovedBy">Mfg Approved By</UIString>
+  <UIString ID="Company">Company</UIString>
+  <UIString ID="Cost">Cost</UIString>
+  <UIString ID="UserStatus">User Status</UIString>
+  <UIString ID="DwgType">DWG Type</UIString>
+
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <UIString ID="G_L">Cut Length</UIString>
   <UIString ID="PL">Cut Length</UIString>
@@ -479,5 +513,15 @@
   <UIString ID="ADSK-LnkdTask-06">Notes/Details. Selected task to display:</UIString>
   <!--ECO-Tasks Management Extension End-->  
   
+  <!--Revision Property Tab start-->
+  <UIString ID="Adsk.QS.RevTab_00">Revision Properties</UIString>
+  <UIString ID="Adsk.QS.RevTab_01">All properties require a value and need to comply with your company's validation rules </UIString>
+  <UIString ID="Adsk.QS.RevTab_02">Lifecycle Definition</UIString>
+  <UIString ID="Adsk.QS.RevTab_03">For Review</UIString>
+  <UIString ID="Adsk.QS.RevTab_04">QuickChange</UIString>
+  
+  <UIString ID="1907cfc4-134b-4151-b04b-263627b8d37e">Checked Date</UIString>
+  <UIString ID="b7509fa1-4956-4681-b898-9814bdf11101">Engr Approved Date</UIString>  
+  <!--Revision Property Tab end-->
   
 </UIStrings>

@@ -75,6 +75,15 @@
   <PropertyTranslation Name="TITLE-FR">Title FR</PropertyTranslation>
   <PropertyTranslation Name="TITLE-IT">Title IT</PropertyTranslation>
   <!--Classification & Terms-->
+
+  <!--Revision Property Tab start-->
+  <PropertyTranslation Name="LIFECLCDEF">Lifecycle Definition</PropertyTranslation>
+  <PropertyTranslation Name="CHECKEDBY">Checked By</PropertyTranslation>
+  <PropertyTranslation Name="CHECKEDDATE">Checked Date</PropertyTranslation>
+  <PropertyTranslation Name="ENGAPPRVDBY">Engr Approved By</PropertyTranslation>
+  <PropertyTranslation Name="ENGAPPRVDDATE">Engr Approved Date</PropertyTranslation>
+  <PropertyTranslation Name="CHANGEDESCR">Change Description</PropertyTranslation>
+  <!--Revision Property Tab end-->
   
 </PropertyTranslations>
 

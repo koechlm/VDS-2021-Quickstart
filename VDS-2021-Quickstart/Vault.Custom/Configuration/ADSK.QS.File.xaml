@@ -69,6 +69,26 @@
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
+                <DataTrigger Binding="{Binding Name}" Value="Material">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0" 
+                                CharacterCasing="{Binding Case}" IsReadOnly="True" Background="WhiteSmoke" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Name}" Value="Part Number">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0" 
+                                CharacterCasing="{Binding Case}" IsReadOnly="True" Background="WhiteSmoke" ToolTip="System generated" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>                
             </Style.Triggers>
         </Style>
         <Style x:Key="DynamicDataGridLabelStyle" TargetType="{x:Type DataGridCell}">
@@ -270,6 +290,8 @@
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip"
                             Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                    <Setter Property="BorderBrush" Value="Red"/>
+                    <Setter Property="BorderThickness" Value="1"/>
                 </Trigger>
                 <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource Self}}" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowColorKey}}" />
@@ -289,16 +311,20 @@
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip"
                             Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                    <Setter Property="BorderBrush" Value="Red"/>
+                    <Setter Property="BorderThickness" Value="1"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="{x:Type DatePicker}">
+        <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource {x:Type DatePicker}}">
             <Setter Property="Height" Value="25.5" />
             <Setter Property="BorderThickness" Value="0" />
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip"
                             Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                    <Setter Property="BorderBrush" Value="Red"/>
+                    <Setter Property="BorderThickness" Value="1"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -781,6 +807,88 @@
                 </Expander>
             </Grid>
         </TabItem>
+        <TabItem x:Name="tabRevision" Header="{Binding UIString[LBL12], FallbackValue=Revision}" d:IsHidden="True">
+            <Grid x:Name="grdRevision" Width="{Binding ActualWidth, ElementName=grdMain, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=grdMain, Mode=OneWay}" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Grid x:Name="grdRevSysProps" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="28"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="lblRevision1" Content="{Binding UIString[LBL12], FallbackValue=Revision}" Grid.Row="0" Height="Auto"/>
+                    <TextBox x:Name="txtRevision1" Text="{Binding Prop[_XLTN_REVISION].Value}"  Grid.Column="1" IsReadOnly="True" Grid.Row="0" Height="Auto"/>
+                    <Label x:Name="lblStatus1" Content="{Binding UIString[LBL4], FallbackValue=Status}" Grid.Row="1" Height="Auto"/>
+                    <TextBox x:Name="txtStatus1" Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" />
+                    <Label Content="Latest Released Rev." Grid.Column="3" 
+                        Visibility="{Binding Visibility, ElementName=LatestRev}" Height="Auto"/>
+                    <Border Grid.Column="4" BorderThickness="0,1,1,0" BorderBrush="#FFABADB3" Visibility="{Binding Visibility, ElementName=LatestRev}" >
+                        <CheckBox x:Name="LatestRev"
+                            IsChecked="{Binding Prop[Latest Released Revision].Value}" IsEnabled="False"
+                            Visibility="{Binding Prop[_EditMode].Value, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Margin="5,0,0,0" />
+                    </Border>
+                    <Label x:Name="lbLfcDef1" Content="{Binding UIString[Adsk.QS.RevTab_02], FallbackValue='Lifecycle Definition'}" Grid.Column="3" Grid.Row="1" Height="Auto"/>
+                    <TextBox x:Name="txtLfcDef1" Text="{Binding Prop[_XLTN_LIFECLCDEF].Value}" Grid.Column="4" Grid.Row="1" IsReadOnly="True" Height="Auto" />
+                    <Label Content="{Binding UIString[LBL34], FallbackValue='Created By'}" Grid.Row="2" Height="Auto" BorderThickness="1"/>
+                    <TextBox x:Name="txtCreatedBy" Text="{Binding Prop[_XLTN_CREATED BY].Value}" Grid.Column="1" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1" />
+                    <Label Content="{Binding UIString[LBL33], FallbackValue='Create Date'}" Grid.Row="2" Grid.Column="3" Height="Auto" BorderThickness="1"/>
+                    <TextBox x:Name="txtCreateDate" Text="{Binding Prop[_XLTN_DATE VERSION CREATED].Value}" Grid.Column="4" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1"/>
+                    <!--Editable Revision Properties-->
+                    <Label Content="{Binding UIString[], FallbackValue='Checked By'}" Grid.Row="4" Grid.Column="0"  Height="Auto"/>
+                    <TextBox x:Name="txtCheckedBy" Text="{WPF:ValidatedBinding Prop[_XLTN_CHECKEDBY].Value}" Grid.Column="1" Grid.Row="4" Height="Auto"/>
+                    <Label Content="{Binding UIString[], FallbackValue='Checked Date'}" Grid.Row="4" Grid.Column="3"  Height="Auto"/>
+                    <DatePicker Grid.Column="4" Grid.Row="4" SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_CHECKEDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}, UpdateSourceTrigger=PropertyChanged}" BorderBrush="#FFABADB3" Height="Auto" BorderThickness="0,1,1,0"/>
+                    <Label Content="{Binding UIString[], FallbackValue='Engr Approved By'}" Grid.Row="5" Grid.Column="0"  Height="Auto" BorderThickness="1"/>
+                    <TextBox x:Name="txtEngApprvdBy" Text="{WPF:ValidatedBinding Prop[_XLTN_ENGAPPRVDBY].Value}" Grid.Column="1" Grid.Row="5" Height="Auto" BorderThickness="0,1,1,1"/>
+                    <Label Content="{Binding UIString[], FallbackValue='Engr Approved Date'}" Grid.Row="5" Grid.Column="3" Height="Auto" BorderThickness="1"/>
+                    <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_ENGAPPRVDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Grid.Column="4" Grid.Row="5" Height="Auto" BorderBrush="#FFABADB3" BorderThickness="0,1,1,1"/>
+                    <Label Content="{Binding UIString[], FallbackValue='Change Description'}" Grid.Row="7" Height="Auto" BorderThickness="1"/>
+                    <TextBox x:Name="txtChangeDescr" Text="{WPF:ValidatedBinding Prop[_XLTN_CHANGEDESCR].Value}" Grid.Column="1" Height="Auto" Grid.Row="7" Grid.ColumnSpan="4" BorderThickness="0,1,1,1" />
+
+
+
+
+                </Grid>
+                <Grid x:Name="ButtonGridTabRevision" Style="{StaticResource ButtonGridStyle}" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,5,2,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnOK2" Content="{Binding UIString[BTN1], FallbackValue=OK}"
+                        Command="{Binding CloseWindowCommand, ElementName=FileWindow}" IsEnabled="{Binding IsNotReadonly}"
+                        Grid.Column="2" Width="80" Height="24" IsDefault="True" />
+                    <Button x:Name="btnEsc2" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
+                        Command="{Binding CancelWindowCommand, ElementName=FileWindow}" Grid.Column="4" Width="80"
+                        HorizontalAlignment="Right" Height="24" IsCancel="True" />
+                    <Button x:Name="btnHelp2" Content="{Binding UIString[MSDCE_BTN1], FallbackValue=Help}" 
+                        Command="{Binding PsCmd[mHelp(500)]}" Height="24" ToolTip="F1" Margin="0" Width="80" />
+                </Grid>
+            </Grid>
+        </TabItem>
         <TabItem x:Name="tabItemProperties" Header="{Binding UIString[Adsk.QS.ItemSearch_28], FallbackValue=Assigned Item}" HorizontalAlignment="Left" VerticalAlignment="Top">
             <TabItem.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
@@ -893,7 +1001,7 @@
                 <Label x:Name="lblActiveClass" Content="{Binding UIString[Adsk.QS.Classification_06], FallbackValue='Active Classification'}" Height="24" Grid.Row="5" BorderThickness="1"/>
                 <TextBox x:Name="txtActiveClass" IsHitTestVisible="False" Height="24" Text="{Binding Prop[_XLTN_CLASS].Value}" Grid.Row="5" Grid.Column="1" BorderThickness="1" Margin="5,0,0,0"/>
                 <Label x:Name="lblClassProps" Content="{Binding UIString[Adsk.QS.Classification_07], FallbackValue='Class Properties'}" Grid.Row="7" Height="Auto" BorderThickness="1"/>
-                <DataGrid x:Name="dtgrdClassProps" Grid.Row="7" AutoGenerateColumns="False" Grid.Column="1" SelectionUnit="Cell" HorizontalGridLinesBrush="#FFEEEEF2" VerticalGridLinesBrush="#FFE7E8EC" BorderThickness="0,1,1,1" Grid.ColumnSpan="3" BorderBrush="#FFABADB3">
+                <DataGrid x:Name="dtgrdClassProps" Grid.Row="7" AutoGenerateColumns="False" Grid.Column="1" SelectionUnit="Cell" HorizontalGridLinesBrush="#FFEEEEF2" VerticalGridLinesBrush="#FFE7E8EC" BorderThickness="1" Grid.ColumnSpan="3" BorderBrush="#FFABADB3" Margin="5,0,0,0">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="ClassPropName" Binding="{Binding Key, Mode=OneWay}" CellStyle="{StaticResource DynamicDataGridLabelStyle}" Width="Auto">
                             <DataGridTextColumn.HeaderTemplate>
@@ -911,7 +1019,7 @@
                         </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Grid x:Name="ButtonGrid_Copy" Style="{StaticResource ButtonGridStyle}" Grid.Row="9" Grid.ColumnSpan="4" Margin="0,5,2,5">
+                <Grid x:Name="ButtonGridTabClassific" Style="{StaticResource ButtonGridStyle}" Grid.Row="9" Grid.ColumnSpan="4" Margin="0,5,2,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition />

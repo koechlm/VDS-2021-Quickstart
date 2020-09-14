@@ -105,6 +105,7 @@
     <None Include="CAD.Custom\addins\ADSK.QS.Default.ps1" />
     <None Include="CAD.Custom\addins\ADSK.QS.FileNameValidation.ps1" />
     <None Include="CAD.Custom\addins\ADSK.QS.ItemLookup.ps1" />
+    <None Include="CAD.Custom\addins\ADSK.QS.RevisionMgmt.ps1" />
     <None Include="CAD.Custom\Configuration\AutoCAD-Vanilla\AutoCAD.cfg" />
     <None Include="CAD.Custom\Configuration\AutoCAD.cfg" />
     <None Include="CAD.Custom\Configuration\Inventor.cfg" />
