@@ -32,6 +32,9 @@ function InitializeWindow
 				}
 		}
 
+        $dsDiag.ShowLog()
+        $dsDiag.Clear()
+      
 	InitializeRevisionValidation
 
 	#endregion rules applying commonly

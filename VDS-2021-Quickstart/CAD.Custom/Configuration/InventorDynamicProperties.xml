@@ -64,6 +64,9 @@
     <DynamicProperty>Stock Number</DynamicProperty>
     <DynamicProperty>Spare-Wear Part</DynamicProperty>
     <DynamicProperty>Mass</DynamicProperty>
+    <DynamicProperty>Designer</DynamicProperty>
+    <DynamicProperty>Engr Approved by</DynamicProperty>
+    <DynamicProperty>Date Eng Approved</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty Hidden="True">LastUpdatedWith</DynamicProperty>
   </DynamicPropertiesCategory>
@@ -119,10 +122,10 @@
     <DynamicProperty>Stock Number</DynamicProperty>
     <DynamicProperty>Spare-Wear Part</DynamicProperty>
     <DynamicProperty>Mass</DynamicProperty>
-    <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
     <DynamicProperty>Engr Approved by</DynamicProperty>
     <DynamicProperty>Date Eng Approved</DynamicProperty>
+    <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty Hidden="True">Part Type name</DynamicProperty>
     <DynamicProperty Hidden="True">Has MBD</DynamicProperty>
     <DynamicProperty Hidden="True">BOMType</DynamicProperty>
@@ -160,12 +163,12 @@
     <DynamicProperty>Dimensions</DynamicProperty>
     <DynamicProperty>Project Type</DynamicProperty>
     <DynamicProperty>Type</DynamicProperty>
-    <DynamicProperty>Engr Approved by</DynamicProperty>
-    <DynamicProperty>Designer</DynamicProperty>
     <DynamicProperty>Drawing Type</DynamicProperty>
-    <DynamicProperty>Date Eng Approved</DynamicProperty>
-    <DynamicProperty>Date Checked</DynamicProperty>
+    <DynamicProperty>Designer</DynamicProperty>
     <DynamicProperty>Checked by</DynamicProperty>
+    <DynamicProperty>Date Checked</DynamicProperty>
+    <DynamicProperty>Engr Approved by</DynamicProperty>
+    <DynamicProperty>Date Eng Approved</DynamicProperty>
     <DynamicProperty>Change Descr</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Bauteil">
