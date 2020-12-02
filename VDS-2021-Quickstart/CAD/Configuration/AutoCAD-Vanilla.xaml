@@ -7,16 +7,11 @@
                x:Name="AutoCADWindow" WindowStyle="ToolWindow" ShowInTaskbar="False" Topmost="True"
                Background="#F0F0F0" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
   <WPF:DSWindow.Resources>
-    <Style x:Key="DynamicDataGridCellStyle" TargetType="{x:Type DataGridCell}">
-      <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate>
-            <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value, StringFormat=N}" IsEditable="True" BorderThickness="0"/>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-      <Style.Triggers>
+      <WPF:IsMoreThanZeroConverter x:Key="MoreThanZeroConverter"/>
+      <WPF:InverseBoolConverter x:Key="BoolConvert"/>
+      <Style x:Key="DynamicDataGridCellStyle" TargetType="{x:Type DataGridCell}">
+            <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
+            <Style.Triggers>
         <Trigger Property="IsSelected" Value="True">
           <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
           <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
@@ -25,21 +20,11 @@
         <Trigger Property="IsKeyboardFocusWithin" Value="True">
           <Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}"/>
         </Trigger>
-        <DataTrigger Binding="{Binding EnforceListValues}" Value="True">
+        <DataTrigger Binding="{Binding Typ}" Value="String">
           <Setter Property="Template">
             <Setter.Value>
               <ControlTemplate>
-                <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value}"
-                  IsEditable="False" BorderThickness="0"/>
-              </ControlTemplate>
-            </Setter.Value>
-          </Setter>
-        </DataTrigger>
-        <DataTrigger Binding="{Binding ListValues.Count}" Value="0">
-          <Setter Property="Template">
-            <Setter.Value>
-              <ControlTemplate>
-                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0" Height="20.75" CharacterCasing="{Binding Case}" />
+                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" CharacterCasing="{Binding Case}" />
               </ControlTemplate>
             </Setter.Value>
           </Setter>
@@ -65,7 +50,27 @@
             </Setter.Value>
           </Setter>
         </DataTrigger>
-      </Style.Triggers>
+          <DataTrigger Binding="{Binding Typ}" Value="Double">
+              <Setter Property="Template">
+                  <Setter.Value>
+                      <ControlTemplate>
+                          <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0"
+                                   Height="25" />
+                      </ControlTemplate>
+                  </Setter.Value>
+              </Setter>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding ListValues.Count, Converter={StaticResource MoreThanZeroConverter}}" Value="True">
+              <Setter Property="Template">
+                  <Setter.Value>
+                      <ControlTemplate>
+                          <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value, StringFormat=N}"
+                                    IsEditable="{Binding EnforceListValues, Converter={StaticResource BoolConvert}}" BorderThickness="0" />
+                      </ControlTemplate>
+                  </Setter.Value>
+              </Setter>
+          </DataTrigger>
+            </Style.Triggers>
     </Style>
     <Style x:Key="DynamicDataGridLabelStyle" TargetType="{x:Type DataGridCell}">
       <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
@@ -144,7 +149,7 @@
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
   </WPF:DSWindow.Resources>
 
-  <Grid x:Name="grdMain"
+  <Grid x:Name="grdMain" MinWidth="900"
   Margin="5" >
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" ToolTip="Folder / Project"/>
@@ -153,12 +158,12 @@
       <RowDefinition ToolTip="Buttons"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto"/>
-      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="2*"/>
+      <ColumnDefinition Width="3*"/>
     </Grid.ColumnDefinitions>
     <GroupBox x:Name="GroupFolder" Grid.ColumnSpan="2" Margin="-6,0,0,5" BorderThickness="0" Header="{Binding UIString[LBL1], FallbackValue=Folder}" Visibility="{Binding CreateMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-      <WrapPanel x:Name="BreadCrumb"
-  ItemWidth="165" Margin="1,0,0,0" MaxWidth="900">
+      <WrapPanel x:Name="BreadCrumb" Height="Auto"
+  ItemWidth="165" Margin="1,0,0,0" >
         <WrapPanel.Resources>
           <Style TargetType="{x:Type ComboBox}">
             <Setter Property="Margin" Value="-1,0,0,0" />
@@ -178,8 +183,8 @@
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="140" />
-        <ColumnDefinition MinWidth="180" MaxWidth="220" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="2*"/>
       </Grid.ColumnDefinitions>
       <Label Content="{Binding UIString[LBL8], FallbackValue=Category}"
              Grid.Row="0"
@@ -224,7 +229,7 @@
                Visibility="{Binding NumSchmFieldsEmpty, ElementName=DSNumSchmsCtrl, Converter={StaticResource BooleanToVisibilityConverter}}" Height="Auto" />
       <Label x:Name="lblComments" Content="{Binding UIString[Comments], FallbackValue=Comments}" Grid.Row="4" BorderThickness="1" Height="Auto"/>
       <TextBox x:Name="txtComments" Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" Text="{Binding Prop[Comments].Value}" BorderThickness="0,1,1,1"
-               VerticalContentAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="50" MaxWidth="180"/>
+               VerticalContentAlignment="Top" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="50"/>
       <Border
           BorderBrush="Green"
           Visibility="{Binding CopyMode, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="5"
@@ -242,14 +247,14 @@
       HorizontalGridLinesBrush="WhiteSmoke"
       VerticalGridLinesBrush="WhiteSmoke" VerticalAlignment="Top" MaxHeight="350">
         <DataGrid.Columns>
-          <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"  MinWidth="140" Width="Auto" IsReadOnly="True" >
+          <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}" Width="*" IsReadOnly="True" >
             <DataGridTextColumn.HeaderTemplate>
               <DataTemplate>
                 <TextBlock Text="{Binding DataContext.UIString[LBL64], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
               </DataTemplate>
             </DataGridTextColumn.HeaderTemplate>
           </DataGridTextColumn>
-          <DataGridTemplateColumn Header="Property Value" CellStyle="{StaticResource DynamicDataGridCellStyle}" Width="*" MinWidth="180">
+          <DataGridTemplateColumn Header="Property Value" CellStyle="{StaticResource DynamicDataGridCellStyle}" Width="2*">
             <DataGridTemplateColumn.HeaderTemplate>
               <DataTemplate>
                 <TextBlock Text="{Binding DataContext.UIString[LBL65], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>

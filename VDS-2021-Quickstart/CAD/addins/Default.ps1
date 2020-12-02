@@ -17,9 +17,7 @@ function InitializeWindow
 		}
 		"AutoCADWindow"
 		{
-			#workaround the listvalue issue of 2021 RTM
-			$global:CatChangedSubscribed = $false
-			mEnableListValues
+			#rules applying for AutoCAD
 		}
 	}
 	$global:expandBreadCrumb = $true	
@@ -175,25 +173,4 @@ function OnPostCloseDialog
 			#rules applying commonly
 		}
 	}
-}
-
-#workaround the listvalue issue of 2021 RTM
-function mEnableListValues
-{
-	if (-not $global:CatChangedSubscribed)
-    {
-        $Prop["_Category"].add_PropertyChanged({
-		    mEnableListValues
-	    })
-        $global:CatChangedSubscribed = $true
-    }
-
-	$dC = $dsWindow.DataContext
-	$dC.Properties.Properties | ForEach-Object{
-		if(-not $_.ListValues.Count -and $_.PropDefInfo.ListValArray.Count)
-		{
-			$_.ListValues = $_.PropDefInfo.ListValArray
-		}
-	}
-
 }
