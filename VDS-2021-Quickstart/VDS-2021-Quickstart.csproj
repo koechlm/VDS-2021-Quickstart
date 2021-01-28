@@ -116,6 +116,7 @@
     <None Include="CAD\Configuration\AutoCAD.cfg" />
     <None Include="CAD\Configuration\Inventor.cfg" />
     <None Include="HelpFiles\debug.log" />
+    <None Include="powerEvents\Adsk.PDMC-Sample.ValidateProperties.ps1" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
