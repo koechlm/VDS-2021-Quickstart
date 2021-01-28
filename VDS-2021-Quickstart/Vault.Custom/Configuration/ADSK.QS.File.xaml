@@ -405,7 +405,7 @@
                     <GradientStop Color="#FFF0F0F0" Offset="1"/>
                 </LinearGradientBrush>
             </TabItem.Background>
-            <Grid x:Name="grdMain" Margin="5" Background="#FFF0F0F0" >
+            <Grid x:Name="grdMain" Margin="5" Background="#FFF0F0F0" MinHeight="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition/>
@@ -567,7 +567,7 @@
                         <ColumnDefinition Width="80" />
                     </Grid.ColumnDefinitions>
                     <Button x:Name="btnOK" Content="{Binding UIString[BTN1], FallbackValue=OK}"
-                    Command="{Binding CloseWindowCommand, ElementName=FileWindow}" IsEnabled="{Binding IsNotReadonly}"
+                    Command="{Binding CloseWindowCommand, ElementName=FileWindow}" IsEnabled="{Binding Properties.IsValid}"
                     Grid.Column="2" Width="80" Height="24" IsDefault="True" />
                     <Button x:Name="btnEsc" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
                     Command="{Binding CancelWindowCommand, ElementName=FileWindow}" Grid.Column="4" Width="80"
@@ -807,8 +807,9 @@
                 </Expander>
             </Grid>
         </TabItem>
-        <TabItem x:Name="tabRevision" Header="{Binding UIString[LBL12], FallbackValue=Revision}" d:IsHidden="True">
-            <Grid x:Name="grdRevision" Width="{Binding ActualWidth, ElementName=grdMain, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=grdMain, Mode=OneWay}" Margin="5">
+        <TabItem x:Name="tabRevision" Header="{Binding UIString[LBL12], FallbackValue=Revision}">
+            <Grid x:Name="grdRevision" Width="{Binding ActualWidth, ElementName=grdMain, Mode=OneWay}" 
+                  Height="{Binding ActualHeight, ElementName=grdMain, Mode=OneWay}" Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="10"/>
@@ -858,17 +859,22 @@
                     <Label Content="{Binding UIString[], FallbackValue='Checked By'}" Grid.Row="4" Grid.Column="0"  Height="Auto"/>
                     <TextBox x:Name="txtCheckedBy" Text="{WPF:ValidatedBinding Prop[_XLTN_CHECKEDBY].Value}" Grid.Column="1" Grid.Row="4" Height="Auto"/>
                     <Label Content="{Binding UIString[], FallbackValue='Checked Date'}" Grid.Row="4" Grid.Column="3"  Height="Auto"/>
-                    <DatePicker Grid.Column="4" Grid.Row="4" SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_CHECKEDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}, UpdateSourceTrigger=PropertyChanged}" BorderBrush="#FFABADB3" Height="Auto" BorderThickness="0,1,1,0"/>
+                    <Border Grid.Column="4" Grid.Row="4"  Height="Auto" BorderBrush="#FFABADB3" BorderThickness="0,1,1,0">
+                        <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_CHECKEDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}, UpdateSourceTrigger=PropertyChanged}"  Height="Auto"  />
+                    </Border>
                     <Label Content="{Binding UIString[], FallbackValue='Engr Approved By'}" Grid.Row="5" Grid.Column="0"  Height="Auto" BorderThickness="1"/>
                     <TextBox x:Name="txtEngApprvdBy" Text="{WPF:ValidatedBinding Prop[_XLTN_ENGAPPRVDBY].Value}" Grid.Column="1" Grid.Row="5" Height="Auto" BorderThickness="0,1,1,1"/>
                     <Label Content="{Binding UIString[], FallbackValue='Engr Approved Date'}" Grid.Row="5" Grid.Column="3" Height="Auto" BorderThickness="1"/>
-                    <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_ENGAPPRVDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Grid.Column="4" Grid.Row="5" Height="Auto" BorderBrush="#FFABADB3" BorderThickness="0,1,1,1"/>
+                    <Border Grid.Column="4" Grid.Row="5" Height="Auto" BorderBrush="#FFABADB3" BorderThickness="0,1,1,1">
+                        <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_ENGAPPRVDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Height="Auto" />
+                    </Border>
                     <Label Content="{Binding UIString[], FallbackValue='Change Description'}" Grid.Row="7" Height="Auto" BorderThickness="1"/>
-                    <TextBox x:Name="txtChangeDescr" Text="{WPF:ValidatedBinding Prop[_XLTN_CHANGEDESCR].Value}" Grid.Column="1" Height="Auto" Grid.Row="7" Grid.ColumnSpan="4" BorderThickness="0,1,1,1" />
-
-
-
-
+                    <ComboBox x:Name="cmbChangeDescr"
+                              ItemsSource="{Binding Prop[_XLTN_CHANGEDESCR].ListValues}" 
+                              Text="{WPF:ValidatedBinding Prop[_XLTN_CHANGEDESCR].Value}" 
+                              SelectedValue="{Binding Prop[_XLTN_CHANGEDESCR].Value}"
+                              IsEditable="True" IsEnabled="{Binding PsVal[InvertReadOnly]}"
+                              Grid.Column="1" Height="Auto" Grid.Row="7" Grid.ColumnSpan="4" BorderThickness="0,1,1,1" />
                 </Grid>
                 <Grid x:Name="ButtonGridTabRevision" Style="{StaticResource ButtonGridStyle}" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,5,2,5">
                     <Grid.ColumnDefinitions>
@@ -879,7 +885,7 @@
                         <ColumnDefinition Width="80" />
                     </Grid.ColumnDefinitions>
                     <Button x:Name="btnOK2" Content="{Binding UIString[BTN1], FallbackValue=OK}"
-                        Command="{Binding CloseWindowCommand, ElementName=FileWindow}" IsEnabled="{Binding IsNotReadonly}"
+                        Command="{Binding CloseWindowCommand, ElementName=FileWindow}" IsEnabled="{Binding Properties.IsValid}"
                         Grid.Column="2" Width="80" Height="24" IsDefault="True" />
                     <Button x:Name="btnEsc2" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
                         Command="{Binding CancelWindowCommand, ElementName=FileWindow}" Grid.Column="4" Width="80"

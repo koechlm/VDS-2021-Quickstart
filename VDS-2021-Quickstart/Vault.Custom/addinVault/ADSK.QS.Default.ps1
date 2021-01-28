@@ -91,6 +91,9 @@ function InitializeWindow
 {	      
         #$dsDiag.ShowLog()
         #$dsDiag.Clear()
+
+		#$DC = $dsWindow.DataContext
+		#$dsDiag.Inspect("DC")
       
 	#begin rules applying commonly
 	$Prop["_Category"].add_PropertyChanged({
@@ -159,7 +162,7 @@ function InitializeWindow
 				if(-not $Global:mRevTabInitialized)
 				{
 					InitializeRevisionValidation
-					mInitializeRevTab
+					#mInitializeRevTab
 				}
 			}
 
@@ -953,11 +956,25 @@ function m_CategoryChanged
 	{
 		"FileWindow"
 		{
+			$DesignCats = @("Drawing Inventor", "Drawing AutoCAD", "Part", "Assembly", "Weldment Assembly", "Sheet Metal Part")
+			$OfficeCats = @("Office")
 			#Quickstart uses the default numbering scheme for files; GoTo GetNumSchms function to disable this filter incase you'd like to apply numbering per category for files as well
-			If ($Prop['_XLTN_AUTHOR']) {
-				$Prop['_XLTN_AUTHOR'].Value = $VaultConnection.UserName
+			If($DesignCats -contains $Prop["_Category"].Value)
+			{
+				If ($Prop['_XLTN_DESIGNER'].Value) 
+				{ 
+					$Prop['_XLTN_DESIGNER'].Value = $VaultConnection.UserName
+				}
 			}
-
+			
+			<#if($OfficeCats -contains $dsWindow.FindName("Categories").SelectedValue)
+			}
+				If ($Prop['_XLTN_AUTHOR'].Value) 
+				{
+					$Prop['_XLTN_AUTHOR'].Value = $VaultConnection.UserName
+				}
+			}#>
+			
 			#Copy Parent Project Number to file property "Project" if exists
 			If($Prop["_XLTN_PROJECT"]){
 				mGetProjectFolderPropToVaultFile -mFolderSourcePropertyName "Name" -mFileTargetPropertyName $Prop["_XLTN_PROJECT"].Name

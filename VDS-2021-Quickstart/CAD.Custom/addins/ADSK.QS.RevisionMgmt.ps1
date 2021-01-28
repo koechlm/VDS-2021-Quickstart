@@ -24,24 +24,26 @@ function InitializeRevisionValidation
 #		$dsDiag.Trace("CustomValidation added for $($_.Name), Value=$($_.Value)")
 #	}
 
-	if($Prop["Checked By"]) {
-		$Prop["Checked By"].CustomValidation = { ValidateRevisionFields $Prop["Checked By"].Value }
-	}
-	if($Prop["Date Checked"]){
-		$Prop["Date Checked"].CustomValidation = { ValidateRevisionFields $Prop["Date Checked"].Value }
-	}
-	if($Prop["Engr Approved By"]){
-		$Prop["Engr Approved By"].CustomValidation = { ValidateRevisionFields $Prop["Engr Approved By"].Value }
-	}
-	if($Prop["Engr Date Approved"]){
-		$Prop["Engr Date Approved"].CustomValidation = { ValidateRevisionFields $Prop["Engr Date Approved"].Value}
-	}
-	if($Prop["Change Descr"]){
-		$Prop["Change Descr"].CustomValidation = { ValidateRevisionFields $Prop["Change Descr"].Value }
-	}
-	
-	#set revision properties to blank if the current file is first iteration after released state
 	if ($Prop["_EditMode"].Value -eq $true)
+	{
+		if($Prop["Checked By"]) {
+			$Prop["Checked By"].CustomValidation = { ValidateRevisionFields $Prop["Checked By"] }
+		}
+		if($Prop["Date Checked"]){
+			$Prop["Date Checked"].CustomValidation = { ValidateRevisionFields $Prop["Date Checked"] }
+		}
+		if($Prop["Engr Approved By"]){
+			$Prop["Engr Approved By"].CustomValidation = { ValidateRevisionFields $Prop["Engr Approved By"] }
+		}
+		if($Prop["Engr Date Approved"]){
+			$Prop["Engr Date Approved"].CustomValidation = { ValidateRevisionFields $Prop["Engr Date Approved"]}
+		}
+		if($Prop["Change Descr"]){
+			$Prop["Change Descr"].CustomValidation = { ValidateRevisionFields $Prop["Change Descr"]}
+		}
+	}
+	#set revision properties to blank if the current file is first iteration after released state
+	<#if ($Prop["_EditMode"].Value -eq $true -and $RevPropValReset -eq $null)
 		{
 			#we need the current file object to get its history
 			$_pos = $Prop["_FilePath"].Value.IndexOf($Prop["_WorkspacePath"].Value)
@@ -57,7 +59,7 @@ function InitializeRevisionValidation
 					[Autodesk.Connectivity.WebServices.File[]]$mHistFiles = $vault.DocumentService.GetFilesByHistoryType(@($mFile.Id), "AllRevisionConsumableAndTip")[0].Files
 					$mFileIter1 = $mHistFiles[$mHistFiles.Count-2]
 					$mFileIter2 = $mHistFiles[$mHistFiles.Count-1]
-#$dsDiag.Inspect()
+
 					if($mFileIter1.VerNum +1 -eq $mFileIter2.MaxCkInVerNum)
 					{
 						$Prop["Checked By"].Value = ""
@@ -69,13 +71,14 @@ function InitializeRevisionValidation
 					}
 				}			
 		}
+		#>
 }
 
-function ValidateRevisionFields([string] $Value)
+function ValidateRevisionFields($mProp)
 {
-$dsDiag.Trace(">>Validation runs for '$($Value)'")
+$dsDiag.Trace(">>Validation runs for '$($mProp.Name)', $($mProp.Typ)")
 
-	If ($Prop["_CreateMode"].Value -eq $true -or $RevPropValReset -eq $true)
+	If ($Prop["_CreateMode"].Value -eq $true) #-or $RevPropValReset -eq $true
     {
 		$dsDiag.Trace("..._CreateMode -> return validation true.")
         return $true
@@ -85,7 +88,7 @@ $dsDiag.Trace(">>Validation runs for '$($Value)'")
 	{		
 		$dsDiag.Trace("...EditMode...")
 
-		if ($Value -eq "")
+		if ($mProp.Value -eq "" -OR $mProp.Value -eq $null)
 		{
 			$dsDiag.Trace("...no Value: returning false<<")
 			return $false

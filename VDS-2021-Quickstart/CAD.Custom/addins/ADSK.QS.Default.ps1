@@ -21,22 +21,22 @@ function InitializeWindow
 	#InitializeBreadCrumb #Quickstart differentiates Inventor, Inventor C&H, T&P, FG, DA dialogs
 
 	#Copy Parent Project Number to file property "Project Number" if exists; be careful, not all dialogs might have the textbox, e.g. DA, FG,...
-		If($Prop["Project"]){
-			$Global:mPropTrans = mGetPropTranslations
-			if($dsWindow.FindName("txtPath"))
-				{
-					mGetProjectFolderPropToCADFile  "Name" $mPropTrans["Project"]
-					$dsWindow.FindName("txtPath").add_TextChanged({		
-									mGetProjectFolderPropToCADFile  "Name" $mPropTrans["Project"]
-								})
-				}
-		}
+	If($Prop["Project"]){
+		$Global:mPropTrans = mGetPropTranslations
+		if($dsWindow.FindName("txtPath"))
+			{
+				mGetProjectFolderPropToCADFile  "Name" $mPropTrans["Project"]
+				$dsWindow.FindName("txtPath").add_TextChanged({		
+								mGetProjectFolderPropToCADFile  "Name" $mPropTrans["Project"]
+							})
+			}
+	}
 
-        $dsDiag.ShowLog()
-        $dsDiag.Clear()
+    #$dsDiag.ShowLog()
+    #$dsDiag.Clear()
       
 	InitializeRevisionValidation
-
+	
 	#endregion rules applying commonly
 
 	$mWindowName = $dsWindow.Name

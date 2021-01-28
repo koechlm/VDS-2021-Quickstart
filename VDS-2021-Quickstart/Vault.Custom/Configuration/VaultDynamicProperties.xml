@@ -329,26 +329,24 @@
     <DynamicProperty>FLCwsID</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Drawing AutoCAD" Type="FILE">
-    <DynamicProperty>Object Designation</DynamicProperty>
-    <DynamicProperty>Classification Code</DynamicProperty>
     <DynamicProperty>Title</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
     <DynamicProperty>Document ID</DynamicProperty>
-    <DynamicProperty Hidden="True">Material</DynamicProperty>
-    <DynamicProperty Hidden="True">Part Number</DynamicProperty>
-    <DynamicProperty Hidden="True">Project</DynamicProperty>
+    <DynamicProperty>Material</DynamicProperty>
+    <DynamicProperty>Part Number</DynamicProperty>
+    <DynamicProperty>Project</DynamicProperty>
     <DynamicProperty>Format</DynamicProperty>
-    <DynamicProperty Hidden="True">Dimensions/Size</DynamicProperty>
+    <DynamicProperty>Dimensions/Size</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
-    <DynamicProperty Hidden="True">Mass</DynamicProperty>
+    <DynamicProperty>Mass</DynamicProperty>
     <DynamicProperty>Scale</DynamicProperty>
     <DynamicProperty>Sheet</DynamicProperty>
     <DynamicProperty Hidden="True">DWG Type</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
-    <DynamicProperty>Engr Approved By</DynamicProperty>
-    <DynamicProperty>Engr Approved Date</DynamicProperty>
-    <DynamicProperty Hidden="True">Document Type</DynamicProperty>
-    <DynamicProperty>Change Description</DynamicProperty>
+    <DynamicProperty Hidden="True">Engr Approved By</DynamicProperty>
+    <DynamicProperty Hidden="True">Engr Approved Date</DynamicProperty>
+    <DynamicProperty>Document Type</DynamicProperty>
+    <DynamicProperty Hidden="True">Change Description</DynamicProperty>
     <DynamicProperty Hidden="True">Make or Buy</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Folder" Type="Folder">
@@ -374,11 +372,11 @@
     <DynamicProperty>Scale</DynamicProperty>
     <DynamicProperty>Sheet</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
-    <DynamicProperty>Checked By</DynamicProperty>
-    <DynamicProperty>Checked Date</DynamicProperty>
-    <DynamicProperty>Engr Approved By</DynamicProperty>
-    <DynamicProperty>Engr Approved Date</DynamicProperty>
-    <DynamicProperty>Change Description</DynamicProperty>
+    <DynamicProperty Hidden="True">Checked By</DynamicProperty>
+    <DynamicProperty Hidden="True">Checked Date</DynamicProperty>
+    <DynamicProperty Hidden="True">Engr Approved By</DynamicProperty>
+    <DynamicProperty Hidden="True">Engr Approved Date</DynamicProperty>
+    <DynamicProperty Hidden="True">Change Description</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty Hidden="True">DWG Type</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>

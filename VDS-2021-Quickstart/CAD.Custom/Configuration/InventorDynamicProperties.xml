@@ -31,6 +31,8 @@
     <DynamicProperty>Title</DynamicProperty>
     <DynamicProperty>Part Number</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
+    <DynamicProperty>BOMType</DynamicProperty>
+    <DynamicProperty>Designer</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Weldment Assembly">
     <DynamicProperty>Title</DynamicProperty>

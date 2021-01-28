@@ -78,6 +78,7 @@
 
   <!--Revision Property Tab start-->
   <PropertyTranslation Name="LIFECLCDEF">Lifecycle Definition</PropertyTranslation>
+  <PropertyTranslation Name="DESIGNER">Designer</PropertyTranslation>
   <PropertyTranslation Name="CHECKEDBY">Checked By</PropertyTranslation>
   <PropertyTranslation Name="CHECKEDDATE">Checked Date</PropertyTranslation>
   <PropertyTranslation Name="ENGAPPRVDBY">Engr Approved By</PropertyTranslation>

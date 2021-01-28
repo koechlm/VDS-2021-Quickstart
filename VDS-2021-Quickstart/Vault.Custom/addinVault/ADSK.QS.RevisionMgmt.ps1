@@ -15,6 +15,16 @@
 	# initial version
 #endregion
 
+function InvertReadOnly
+{
+	if ($Prop["_ReadOnly"].Value){
+		return $false
+	}
+	else{
+		return $true
+	}
+}
+
 function InitializeRevisionValidation
 {
 	if($Prop["_XLTN_CHECKEDBY"]) {
@@ -44,36 +54,54 @@ function ValidateRevisionFields([string] $Value)
 
 	If ($Prop["_EditMode"].Value -eq $true)
 	{
-		switch($Prop["_XLTN_STATE"].Value)
+		$DrawingCats = @("Drawing AutoCAD", "Drawing Inventor")
+		If($DrawingCats -contains $Prop["_Category"].Value)
 		{
-			$UIString["Adsk.QS.RevTab_03"] #For Review
+			switch($Prop["_XLTN_STATE"].Value)
 			{
-				If ($Value -eq "")
+				"Work in Progress"
 				{
-					return $false
+					If ($Value -eq "")
+					{
+						return $false
+					}
+					else
+					{
+						return $true
+					}
 				}
-				else
+				$UIString["Adsk.QS.RevTab_03"] #For Review
 				{
+					If ($Value -eq "")
+					{
+						return $false
+					}
+					else
+					{
+						return $true
+					}
+				}
+				"Quick-Change" #$UIString["Adsk.QS.RevTab_04"]
+				{
+					If ($Value -eq "")
+					{
+						return $false
+					}
+					else
+					{
+						return $true
+					}
+				}
+				default{
 					return $true
 				}
-			}
-			$UIString["Adsk.QS.RevTab_04"] #Quick-Change
-			{
-				If ($Value -eq "")
-				{
-					return $false
-				}
-				else
-				{
-					return $true
-				}
-			}
-			default{
-				return $true
 			}
 		}
+		else
+		{ 
+			return $true
+		}
 	}
-	
 }
 
 function mInitializeRevTab

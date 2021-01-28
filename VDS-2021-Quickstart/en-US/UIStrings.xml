@@ -145,6 +145,11 @@
   <UIString ID="GEN-TITLE-SCA">Scale</UIString>
   <UIString ID="GEN-TITLE-WT">Mass</UIString>
   <UIString ID="GEN-TITLE-DACT">Document Type</UIString>
+  <UIString ID="GEN-TITLE-NAME">Designer</UIString>
+  <UIString ID="GEN-TITLE-CHKD">Checked Date</UIString>
+  <UIString ID="GEN-TITLE-CHKM">Checked By</UIString>
+  <UIString ID="GEN-TITLE-ISSD">Eng Approved Date</UIString>
+  <UIString ID="GEN-TITLE-ISSM">Eng Approved By</UIString>
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <!--use to change display name for localization or user friendly naming-->
   <!--<UIString ID="aim_description1">Description</UIString>-->
@@ -518,7 +523,7 @@
   <UIString ID="Adsk.QS.RevTab_01">All properties require a value and need to comply with your company's validation rules </UIString>
   <UIString ID="Adsk.QS.RevTab_02">Lifecycle Definition</UIString>
   <UIString ID="Adsk.QS.RevTab_03">For Review</UIString>
-  <UIString ID="Adsk.QS.RevTab_04">QuickChange</UIString>
+  <UIString ID="Adsk.QS.RevTab_04">Quick-Change</UIString>
   
   <UIString ID="1907cfc4-134b-4151-b04b-263627b8d37e">Checked Date</UIString>
   <UIString ID="b7509fa1-4956-4681-b898-9814bdf11101">Engr Approved Date</UIString>  
