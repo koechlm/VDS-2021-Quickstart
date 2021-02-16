@@ -28,24 +28,24 @@ function InvertReadOnly
 function InitializeRevisionValidation
 {
 	if($Prop["_XLTN_CHECKEDBY"]) {
-		$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_CHECKEDBY"].Value) }
+		$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_CHECKEDBY"]) }
 	}
 	if($Prop["_XLTN_CHECKEDDATE"]){
-		$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_CHECKEDDATE"].Value) }
+		$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_CHECKEDDATE"]) }
 	}
 	if($Prop["_XLTN_ENGAPPRVDBY"]){
-		$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_ENGAPPRVDBY"].Value) }
+		$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_ENGAPPRVDBY"]) }
 	}
 	if($Prop["_XLTN_ENGAPPRVDDATE"]){
-		$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_ENGAPPRVDDATE"].Value) }
+		$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_ENGAPPRVDDATE"]) }
 	}
 	if($Prop["_XLTN_CHANGEDESCR"]){
-		$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_CHANGEDESCR"].Value) }
+		$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_CHANGEDESCR"]) }
 	}
 	
 }
 
-function ValidateRevisionFields([string] $Value)
+function ValidateRevisionFields($mProp)
 {
 	If ($Prop["_CreateMode"].Value -eq $true)
     {
@@ -57,45 +57,67 @@ function ValidateRevisionFields([string] $Value)
 		$DrawingCats = @("Drawing AutoCAD", "Drawing Inventor")
 		If($DrawingCats -contains $Prop["_Category"].Value)
 		{
-			switch($Prop["_XLTN_STATE"].Value)
-			{
-				"Work in Progress"
-				{
-					If ($Value -eq "")
-					{
-						return $false
-					}
-					else
-					{
-						return $true
-					}
-				}
-				$UIString["Adsk.QS.RevTab_03"] #For Review
-				{
-					If ($Value -eq "")
-					{
-						return $false
-					}
-					else
-					{
-						return $true
-					}
-				}
-				"Quick-Change" #$UIString["Adsk.QS.RevTab_04"]
-				{
-					If ($Value -eq "")
-					{
-						return $false
-					}
-					else
-					{
-						return $true
-					}
-				}
-				default{
-					return $true
-				}
-			}
+				If ($Prop["_CreateMode"].Value -eq $true) #-or $RevPropValReset -eq $true
+    {
+		$dsDiag.Trace("..._CreateMode -> return validation true.")
+        return $true
+    }
+
+	If ($Prop["_EditMode"].Value -eq $true)
+	{		
+		$dsDiag.Trace("...EditMode...")
+
+		if ($mProp.Value -eq "" -OR $mProp.Value -eq $null)
+		{
+			$dsDiag.Trace("...no Value: returning false<<")
+			return $false
+		}
+		else
+		{
+			$dsDiag.Trace("...has Value: returning true<<")
+			return $true
+		}
+	}
+
+			#switch($Prop["_XLTN_STATE"].Value)
+			#{
+			#	"Work in Progress"
+			#	{
+			#		If ($mProp.Value -eq "")
+			#		{
+			#			return $false
+			#		}
+			#		else
+			#		{
+			#			return $true
+			#		}
+			#	}
+			#	$UIString["Adsk.QS.RevTab_03"] #For Review
+			#	{
+			#		If ($mProp.Value -eq "")
+			#		{
+			#			return $false
+			#		}
+			#		else
+			#		{
+			#			return $true
+			#		}
+			#	}
+			#	"Quick-Change" #$UIString["Adsk.QS.RevTab_04"]
+			#	{
+			#		If ($mProp.Value -eq "")
+			#		{
+			#			return $false
+			#		}
+			#		else
+			#		{
+			#			return $true
+			#		}
+			#	}
+			#	default{
+			#		return $true
+			#	}
+			#}
 		}
 		else
 		{ 

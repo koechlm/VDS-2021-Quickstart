@@ -20,14 +20,11 @@
     <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty>Project</DynamicProperty>
     <DynamicProperty>Document Type</DynamicProperty>
-    <DynamicProperty>Eng.Approved Date</DynamicProperty>
-    <DynamicProperty>GEN-TITLE-DACT</DynamicProperty>
+    <DynamicProperty>Designer</DynamicProperty>
+    <DynamicProperty>Change Descr</DynamicProperty>
     <DynamicProperty>Checked By</DynamicProperty>
     <DynamicProperty>Checked Date</DynamicProperty>
-    <DynamicProperty>Designer</DynamicProperty>
     <DynamicProperty>Eng Approved By</DynamicProperty>
-    <DynamicProperty>Eng Approval Date</DynamicProperty>
-    <DynamicProperty>Change Descr</DynamicProperty>
     <DynamicProperty>Eng Approved Date</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Factory Layout">

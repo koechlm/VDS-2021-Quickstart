@@ -32,9 +32,13 @@ function InitializeWindow
 			}
 	}
 
-    #$dsDiag.ShowLog()
-    #$dsDiag.Clear()
-      
+    $dsDiag.ShowLog()
+    $dsDiag.Clear()
+
+	if($Prop["_CopyMode"].Value -eq $true) 
+	{
+		ResetRevisionProperties
+	}
 	InitializeRevisionValidation
 	
 	#endregion rules applying commonly

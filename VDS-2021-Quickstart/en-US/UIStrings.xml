@@ -146,6 +146,7 @@
   <UIString ID="GEN-TITLE-WT">Mass</UIString>
   <UIString ID="GEN-TITLE-DACT">Document Type</UIString>
   <UIString ID="GEN-TITLE-NAME">Designer</UIString>
+  <UIString ID="GEN-TITLE-DAT">Create Date</UIString>
   <UIString ID="GEN-TITLE-CHKD">Checked Date</UIString>
   <UIString ID="GEN-TITLE-CHKM">Checked By</UIString>
   <UIString ID="GEN-TITLE-ISSD">Eng Approved Date</UIString>
@@ -191,8 +192,13 @@
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <UIString ID="G_L">Cut Length</UIString>
   <UIString ID="PL">Cut Length</UIString>
+  <UIString ID="Title_EN">Title EN</UIString>
+  <!--<UIString ID="Mass">Mass</UIString>
+  <UIString ID="Original">Source File</UIString>
+  <UIString ID="Replacement">Replaced by</UIString>
+  <UIString ID="Dimensions">Dimensions</UIString>
+  <UIString ID="Thickness">Sheet Thickness</UIString>-->
   <UIString ID="Part Type name">Sub-Type</UIString>
-
 
   <!--Vault Categories-->
   <UIString ID="CAT1">Engineering</UIString>
@@ -524,6 +530,7 @@
   <UIString ID="Adsk.QS.RevTab_02">Lifecycle Definition</UIString>
   <UIString ID="Adsk.QS.RevTab_03">For Review</UIString>
   <UIString ID="Adsk.QS.RevTab_04">Quick-Change</UIString>
+  <UIString ID="Adsk.QS.RevTab_05">Work in Progress</UIString>
   
   <UIString ID="1907cfc4-134b-4151-b04b-263627b8d37e">Checked Date</UIString>
   <UIString ID="b7509fa1-4956-4681-b898-9814bdf11101">Engr Approved Date</UIString>  
