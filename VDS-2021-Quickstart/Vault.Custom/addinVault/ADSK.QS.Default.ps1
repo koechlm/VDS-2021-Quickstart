@@ -25,7 +25,7 @@ function ActivateOkButton
 # As soon as one property validation function returns $false the entire Validate function will return $false
 function Validate
 {
-	if ($Prop["_ReadOnly"].Value -and $dsWindow.Name -ne "CustomObjectWindow"){
+	if ($Prop["_ReadOnly"].Value){
 		return $false
 	}
 
@@ -91,9 +91,6 @@ function InitializeWindow
 {	      
         #$dsDiag.ShowLog()
         #$dsDiag.Clear()
-
-		#$DC = $dsWindow.DataContext
-		#$dsDiag.Inspect("DC")
       
 	#begin rules applying commonly
 	$Prop["_Category"].add_PropertyChanged({

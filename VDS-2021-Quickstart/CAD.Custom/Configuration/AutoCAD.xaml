@@ -6,7 +6,6 @@
     xmlns:WPF="clr-namespace:dataStandard.UI.View;assembly=dataStandard.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-    xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
     x:Name="AutoCADWindow" WindowStyle="ToolWindow" ShowInTaskbar="False" Topmost="True"
     Background="#F0F0F0" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <WPF:DSWindow.Resources>
@@ -37,7 +36,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" SelectedDateFormat="Short" />
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -78,7 +77,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" SelectedDateFormat="Short" />
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -87,7 +86,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" SelectedDateFormat="Short" />
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>

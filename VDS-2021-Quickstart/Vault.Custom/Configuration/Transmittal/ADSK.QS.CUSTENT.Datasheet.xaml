@@ -18,11 +18,11 @@
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
                     <Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}"/>
                 </Trigger>
-                <DataTrigger Binding="{Binding ListValues.Count}" Value="0">
+                <DataTrigger Binding="{Binding Typ}" Value="String">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" 
+                                <TextBox Text="{WPF:ValidatedBinding Value}" 
                                          VerticalContentAlignment="Center" BorderThickness="0"/>
                             </ControlTemplate>
                         </Setter.Value>
@@ -33,6 +33,16 @@
                         <Setter.Value>
                             <ControlTemplate>
                                 <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short" IsHitTestVisible="False" IsTabStop="False" Width="Auto" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Typ}" Value="Numeric">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0"
+                                         Height="25" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -128,7 +138,7 @@
             <Label Content="{Binding UIString[LBL4], FallbackValue=State}" Grid.Column="0" Grid.Row="2" />
             <TextBox Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Column="1" Grid.Row="2" />
             <Label Content="{Binding UIString[LBL33], FallbackValue=Date Created}" Grid.Column="0" Grid.Row="3" />
-            <TextBox Text="{Binding Prop[_XLTN_CREATE DATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Grid.Column="1" Grid.Row="3" />
+            <TextBox Text="{Binding Prop[_XLTN_CREATE DATE].Value}" Grid.Column="1" Grid.Row="3" />
             <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Column="0" Grid.Row="4" BorderThickness="1" />
             <TextBox Text="{Binding Prop[_XLTN_CREATED BY].Value}" Grid.Column="1" Grid.Row="4" BorderThickness="0,1,1,1" />
         </Grid>

@@ -7,17 +7,10 @@
                 x:Name="FileWindow"
                 AllowsTransparency="False" Background="#F0F0F0" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <Window.Resources>
+        <WPF:IsMoreThanZeroConverter x:Key="MoreThanZeroConverter"/>
+        <WPF:InverseBoolConverter x:Key="BoolConvert"/>
         <Style x:Key="DynamicDataGridCellStyle" TargetType="{x:Type DataGridCell}">
             <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <ComboBox ItemsSource="{Binding ListValues}"
-                                  Text="{WPF:ValidatedBinding Value, StringFormat=N}" IsEditable="True"
-                                  BorderThickness="0" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
@@ -28,21 +21,11 @@
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
                     <Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}" />
                 </Trigger>
-                <DataTrigger Binding="{Binding EnforceListValues}" Value="True">
+                <DataTrigger Binding="{Binding Typ}" Value="String">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value}"
-                                  IsEditable="False" BorderThickness="0"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ListValues.Count}" Value="0">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0" CharacterCasing="{Binding Case}" />
+                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" CharacterCasing="{Binding Case}" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -51,7 +34,17 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" SelectedDateFormat="Short"/>
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Typ}" Value="Numeric">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0"
+                                         Height="25" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -64,6 +57,16 @@
                                     <ComboBoxItem Content="True" />
                                     <ComboBoxItem Content="False" />
                                 </ComboBox>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ListValues.Count, Converter={StaticResource MoreThanZeroConverter}}" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value}"
+                                          IsEditable="{Binding EnforceListValues, Converter={StaticResource BoolConvert}}" BorderThickness="0"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -382,7 +385,7 @@
                         <ColumnDefinition Width="80" />
                     </Grid.ColumnDefinitions>
                     <Button x:Name="btnOK" Content="{Binding UIString[BTN1], FallbackValue=OK}"
-                    Command="{Binding CloseWindowCommand, ElementName=FileWindow}" IsEnabled="{Binding IsNotReadonly}"
+                    Command="{Binding CloseWindowCommand, ElementName=FileWindow}" IsEnabled="{Binding Properties.IsValid}"
                     Grid.Column="2" Width="80" Height="24" IsDefault="True" />
                     <Button x:Name="btnEsc" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
                     Command="{Binding CancelWindowCommand, ElementName=FileWindow}" Grid.Column="4" Width="80"

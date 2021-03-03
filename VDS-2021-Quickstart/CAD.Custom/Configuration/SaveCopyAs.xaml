@@ -4,20 +4,14 @@
                xmlns:WPF="clr-namespace:dataStandard.UI.View;assembly=dataStandard.UI"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-              xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
                x:Name="InventorWindow" WindowStyle="ToolWindow" ShowInTaskbar="False" Topmost="True"
                Background="#F0F0F0" ResizeMode="NoResize" SizeToContent="WidthAndHeight" 
               Title="{Binding UIString[LBL72], FallbackValue='Save As...'}">
     <WPF:DSWindow.Resources>
+        <WPF:IsMoreThanZeroConverter x:Key="MoreThanZeroConverter"/>
+        <WPF:InverseBoolConverter x:Key="BoolConvert"/>
         <Style x:Key="DynamicDataGridCellStyle" TargetType="{x:Type DataGridCell}">
             <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value}" IsEditable="True" BorderThickness="0"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
@@ -27,11 +21,11 @@
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
                     <Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}"/>
                 </Trigger>
-                <DataTrigger Binding="{Binding ListValues.Count}" Value="0">
+                <DataTrigger Binding="{Binding Typ}" Value="String">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75"/>
+                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" CharacterCasing="{Binding Case}" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -40,7 +34,17 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" SelectedDateFormat="Short" />
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Typ}" Value="Double">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0"
+                                         Height="25" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -50,9 +54,29 @@
                         <Setter.Value>
                             <ControlTemplate>
                                 <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True">
-                                    <ComboBoxItem Content="True"/>
-                                    <ComboBoxItem Content="False"/>
+                                    <ComboBoxItem Content="True" />
+                                    <ComboBoxItem Content="False" />
                                 </ComboBox>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Typ}" Value="Decimal">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0"
+                                         Height="25" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ListValues.Count, Converter={StaticResource MoreThanZeroConverter}}" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value, StringFormat=N}"
+                                          IsEditable="{Binding EnforceListValues, Converter={StaticResource BoolConvert}}" BorderThickness="0" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>

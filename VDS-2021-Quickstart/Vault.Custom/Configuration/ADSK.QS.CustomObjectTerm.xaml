@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WPF:MainWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:WPF="clr-namespace:CreateObject.WPF;assembly=CreateObject"
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="CustomObjectTermWindow"
+<WPF:MainWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                xmlns:WPF="clr-namespace:CreateObject.WPF;assembly=CreateObject"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                mc:Ignorable="d" x:Name="CustomObjectTermWindow"
                 Background="#F0F0F0" ResizeMode="NoResize" SizeToContent="WidthAndHeight" >
     <WPF:MainWindow.Resources>
+        <WPF:IsMoreThanZeroConverter x:Key="MoreThanZeroConverter"/>
+        <WPF:InverseBoolConverter x:Key="BoolConvert"/>
         <Style x:Key="DynamicDataGridCellStyle" TargetType="{x:Type DataGridCell}">
             <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <ComboBox ItemsSource="{Binding ListValues}"
-                                  Text="{WPF:ValidatedBinding Value, StringFormat=N}" IsEditable="True" BorderThickness="0" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
@@ -23,21 +21,11 @@
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
                     <Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}" />
                 </Trigger>
-                <DataTrigger Binding="{Binding EnforceListValues}" Value="True">
+                <DataTrigger Binding="{Binding Typ}" Value="String">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value}"
-                                  IsEditable="False" BorderThickness="0"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ListValues.Count}" Value="0">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" 
+                                <TextBox Text="{WPF:ValidatedBinding Value}" 
                                 BorderThickness="0" CharacterCasing="{Binding Case}" />
                             </ControlTemplate>
                         </Setter.Value>
@@ -47,7 +35,17 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture=de-DE}" SelectedDateFormat="Short" />
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Typ}" Value="Numeric">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0"
+                                         Height="25" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -64,50 +62,12 @@
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="Segment">
+                <DataTrigger Binding="{Binding ListValues.Count, Converter={StaticResource MoreThanZeroConverter}}" Value="True">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" 
-                                    Background="WhiteSmoke" 
-                                    ToolTip="{Binding DataContext.UIString[ClassTerms_TT03], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue='Filled by class only'}" 
-                                    IsReadOnly="True" IsTabStop="False"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="Hauptgruppe">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" 
-                                    Background="WhiteSmoke" 
-                                    ToolTip="{Binding DataContext.UIString[ClassTerms_TT03], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue='Filled by class only'}" 
-                                    IsReadOnly="True" IsTabStop="False"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="Gruppe">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" 
-                                    Background="WhiteSmoke" 
-                                    ToolTip="{Binding DataContext.UIString[ClassTerms_TT03], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue='Filled by class only'}" 
-                                    IsReadOnly="True" IsTabStop="False"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="Untergruppe">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" 
-                                    Background="WhiteSmoke" 
-                                    ToolTip="{Binding DataContext.UIString[ClassTerms_TT03], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue='Filled by class only'}" 
-                                    IsReadOnly="True" IsTabStop="False"/>
+                                <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value}"
+                                          IsEditable="{Binding EnforceListValues, Converter={StaticResource BoolConvert}}" BorderThickness="0"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -424,7 +384,7 @@
                 <TextBox Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Column="1" Grid.Row="4" IsReadOnly="True"
                      IsTabStop="False" BorderThickness="0,0,1,0" />
                 <Label Content="{Binding UIString[LBL33], FallbackValue=Date Created}" Grid.Column="0" Grid.Row="5" />
-                <TextBox Text="{Binding Prop[_XLTN_CREATE DATE].Value, StringFormat=dd/MM/yyyy}" Grid.Column="1"
+                <TextBox Text="{Binding Prop[_XLTN_CREATE DATE].Value}" Grid.Column="1"
                      Grid.Row="5" IsReadOnly="True" IsTabStop="False" />
                 <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Column="0" Grid.Row="6"
                    BorderThickness="1" VerticalContentAlignment="Stretch" />

@@ -9,16 +9,10 @@
                 x:Name="FolderWindow"
                 Background="#F0F0F0" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Window.Resources>
+        <WPF:IsMoreThanZeroConverter x:Key="MoreThanZeroConverter"/>
+        <WPF:InverseBoolConverter x:Key="BoolConvert"/>
         <Style x:Key="DynamicDataGridCellStyle" TargetType="{x:Type DataGridCell}">
             <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <ComboBox ItemsSource="{Binding ListValues}"
-                                  Text="{WPF:ValidatedBinding Value, StringFormat=N}" IsEditable="True" BorderThickness="0" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
@@ -29,21 +23,11 @@
                 <Trigger Property="IsKeyboardFocusWithin" Value="True">
                     <Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}" />
                 </Trigger>
-                <DataTrigger Binding="{Binding EnforceListValues}" Value="True">
+                <DataTrigger Binding="{Binding Typ}" Value="String">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value}"
-                                  IsEditable="False" BorderThickness="0"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ListValues.Count}" Value="0">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0" CharacterCasing="{Binding Case}"/>
+                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" CharacterCasing="{Binding Case}"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -52,7 +36,17 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" SelectedDateFormat="Short"/>
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Value}" SelectedDateFormat="Short"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Typ}" Value="Numeric">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0"
+                                         Height="25" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -65,6 +59,16 @@
                                     <ComboBoxItem Content="True" />
                                     <ComboBoxItem Content="False" />
                                 </ComboBox>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ListValues.Count, Converter={StaticResource MoreThanZeroConverter}}" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value}"
+                                          IsEditable="{Binding EnforceListValues, Converter={StaticResource BoolConvert}}" BorderThickness="0"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -217,11 +221,12 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="183.55" />
+                    <ColumnDefinition Width="116.45"/>
                     <ColumnDefinition MaxWidth="500" />
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Grid x:Name="grdSystemProps" ToolTip="{Binding UIString[LBL73], FallbackValue=General Properties}">
+                <Grid x:Name="grdSystemProps" ToolTip="{Binding UIString[LBL73], FallbackValue=General Properties}" Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
@@ -232,8 +237,8 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" MinWidth="120" />
-                        <ColumnDefinition MinWidth="180" MaxWidth="180" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <Label Content="{Binding UIString[LBL8], FallbackValue=Categories}" Grid.Row="0" Grid.Column="0" />
                     <ComboBox x:Name="Categories" Grid.Row="0" Grid.Column="1"
@@ -268,14 +273,14 @@
                     <TextBox Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Column="1" Grid.Row="4" IsReadOnly="True"
                     IsTabStop="False" Height="Auto" />
                     <Label Content="{Binding UIString[LBL33], FallbackValue=Date Created}" Grid.Column="0" Grid.Row="5" />
-                    <TextBox Text="{Binding Prop[_XLTN_CREATE DATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Grid.Column="1"
+                    <TextBox Text="{Binding Prop[_XLTN_CREATE DATE].Value}" Grid.Column="1"
                     Grid.Row="5" IsReadOnly="True" IsTabStop="False" Height="Auto" />
                     <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Column="0" Grid.Row="6"
                     BorderThickness="1" />
                     <TextBox Text="{Binding Prop[_XLTN_CREATED BY].Value}" Grid.Column="1" Grid.Row="6" IsReadOnly="True"
                     BorderThickness="0,1,1,1" IsTabStop="False" Height="Auto" />
                 </Grid>
-                <DataGrid Grid.Column="1" x:Name="DSDynCatPropGrid"
+                <DataGrid Grid.Column="2" x:Name="DSDynCatPropGrid"
                 ItemsSource="{Binding DynamicProperties}"
                 ToolTip="{Binding UIString[LBL63], FallbackValue=Category Properties}"
                 AutoGenerateColumns="False"
@@ -287,7 +292,7 @@
                 Margin="5,0,0,0" MaxHeight="500">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Name}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"
-                        MinWidth="140" Width="Auto" IsReadOnly="True">
+                        MinWidth="140" Width="1*" IsReadOnly="True">
                             <DataGridTextColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <TextBlock
@@ -295,7 +300,7 @@
                                 </DataTemplate>
                             </DataGridTextColumn.HeaderTemplate>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding Value}" MaxWidth="400" Width="*"
+                        <DataGridTextColumn Binding="{Binding Value}" MaxWidth="400" Width="2*"
                         CellStyle="{StaticResource DynamicDataGridCellStyle}" IsReadOnly="True">
                             <DataGridTextColumn.HeaderTemplate>
                                 <DataTemplate>
@@ -307,7 +312,7 @@
                         <DataGridTextColumn CellStyle="{StaticResource DynamicDataGridBtnCellStyle}" MinWidth="25" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Grid x:Name="grdComments" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,10,0,0">
+                <Grid x:Name="grdComments" Grid.ColumnSpan="3" Grid.Row="1" Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120"/>
                         <ColumnDefinition/>
@@ -315,7 +320,7 @@
                     <Label x:Name="lblComments" Content="{Binding UIString[LBL7], FallbackValue=Comments}" Height="Auto" BorderThickness="1,1,0,1" VerticalAlignment="Top"/>
                     <TextBox x:Name="txtComments" Text="{Binding Prop[_XLTN_COMMENTS].Value}" Height="Auto" TextWrapping="Wrap" MinHeight="62" BorderThickness="1" Grid.Column="1" AcceptsReturn="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top"/>
                 </Grid>
-                <Grid x:Name="ButtonGrid" Grid.ColumnSpan="2" Grid.Row="2" Style="{StaticResource ButtonGridStyle}">
+                <Grid x:Name="ButtonGrid" Grid.ColumnSpan="3" Grid.Row="2" Style="{StaticResource ButtonGridStyle}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition />
@@ -325,14 +330,14 @@
                     </Grid.ColumnDefinitions>
                     <Button x:Name="btnOK" Content="{Binding UIString[BTN1], FallbackValue=OK}"
                     Command="{Binding CloseWindowCommand, ElementName=FolderWindow}" 
-                    IsEnabled="{Binding IsNotReadonly}" Grid.Column="2" Width="80" Height="24" IsDefault="True" />
+                    IsEnabled="{Binding Properties.IsValid}" Grid.Column="2" Width="80" Height="24" IsDefault="True" />
                     <Button x:Name="btnEsc" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
                     Command="{Binding CancelWindowCommand, ElementName=FolderWindow}" Grid.Column="4" Width="80"
                     HorizontalAlignment="Right" Height="24" IsCancel="True" />
                     <Button x:Name="btnHelp" Content="{Binding UIString[MSDCE_BTN1], FallbackValue=Help}" 
                     Command="{Binding PsCmd[mHelp(600)]}" Height="24" ToolTip="F1" Margin="0" Width="80" />
                 </Grid>
-                <Expander x:Name="expOrgPersLnk" Grid.Column="2" ExpandDirection="Right" IsExpanded="True" Visibility="Collapsed" BorderThickness="0,1,1,1" MaxWidth="380">
+                <Expander x:Name="expOrgPersLnk" Grid.Column="3" ExpandDirection="Right" IsExpanded="True" Visibility="Collapsed" BorderThickness="0,1,1,1" MaxWidth="380">
                     <Grid x:Name="grdOrgPersLnk">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="140"/>
