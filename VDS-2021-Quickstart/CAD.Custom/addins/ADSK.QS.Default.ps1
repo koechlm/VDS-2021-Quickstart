@@ -49,6 +49,15 @@ function InitializeWindow
 		"InventorWindow"
 		{
 			InitializeBreadCrumb
+
+			#set the active user as Inventor Designer
+			if($Prop["Designer"])
+			{				
+				$mUserId = $vault.AdminService.SecurityHeader.UserId
+				$mUser = $vault.AdminService.GetAllUsers() | Where-Object { $_.id -eq $mUserId}
+				$Prop["Designer"].Value = $mUser.Name
+			}
+
 			#	there are some custom functions to enhance functionality:
 			[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2021\Extensions\DataStandard" + '\Vault.Custom\addinVault\QuickstartUtilityLibrary.dll')
 
@@ -270,9 +279,17 @@ function InitializeWindow
 		  }
 		"AutoCADWindow"
 		{
-			#workaround the listvalue issue of 2021 RTM
-			$global:CatChangedSubscribed = $false
-			mEnableListValues
+			#set the active user as Designer for file property mapping or mechanical title attribute mapping
+			$mUserId = $vault.AdminService.SecurityHeader.UserId
+			$mUser = $vault.AdminService.GetAllUsers() | Where-Object { $_.id -eq $mUserId}
+			if($Prop["Designer"])
+			{				
+				$Prop["Designer"].Value = $mUser.Name
+			}
+			if($Prop["GEN-TITLE-NAME"])
+			{
+				$Prop["GEN-TITLE-NAME"].Value = $mUser.Name
+			}
 
 			InitializeBreadCrumb
 			switch ($Prop["_CreateMode"].Value) 
@@ -1022,24 +1039,3 @@ function mInitializeCHContext {
 		 }
 }
 #endregion functional dialogs
-
-#workaround the listvalue issue of 2021 RTM
-function mEnableListValues
-{
-	if (-not $global:CatChangedSubscribed)
-    {
-        $Prop["_Category"].add_PropertyChanged({
-		    mEnableListValues
-	    })
-        $global:CatChangedSubscribed = $true
-    }
-
-	$dC = $dsWindow.DataContext
-	$dC.Properties.Properties | ForEach-Object{
-		if(-not $_.ListValues.Count -and $_.PropDefInfo.ListValArray.Count)
-		{
-			$_.ListValues = $_.PropDefInfo.ListValArray
-		}
-	}
-
-}
