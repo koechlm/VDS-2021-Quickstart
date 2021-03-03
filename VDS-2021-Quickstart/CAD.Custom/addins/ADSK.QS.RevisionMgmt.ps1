@@ -17,7 +17,6 @@
 
 function InitializeRevisionValidation
 {
-
 		switch($dsWindow.Name)
 		{
 			"InventorWindow"
@@ -48,22 +47,25 @@ function InitializeRevisionValidation
 					if($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"]) # Work in Progress or 'Quick-Change'
 					{
 						if($Prop["Checked By"]) {
-							$Prop["Checked By"].CustomValidation = { ValidateRevisionFields $Prop["Checked By"] }
+							$Prop["Checked By"].CustomValidation = { ValidateRevisionField $Prop["Checked By"] }
 						}
 					}
 					if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) #'For Review'
 					{
+						if($Prop["Checked By"]) {
+							$Prop["Checked By"].CustomValidation = { ValidateRevisionField $Prop["Checked By"] }
+						}
 						if($Prop["Date Checked"]){
-							$Prop["Date Checked"].CustomValidation = { ValidateRevisionFields $Prop["Date Checked"] }
+							$Prop["Date Checked"].CustomValidation = { ValidateRevisionField $Prop["Date Checked"] }
 						}
 						if($Prop["Engr Approved By"]){
-							$Prop["Engr Approved By"].CustomValidation = { ValidateRevisionFields $Prop["Engr Approved By"] }
+							$Prop["Engr Approved By"].CustomValidation = { ValidateRevisionField $Prop["Engr Approved By"] }
 						}
 						if($Prop["Engr Date Approved"]){
-							$Prop["Engr Date Approved"].CustomValidation = { ValidateRevisionFields $Prop["Engr Date Approved"]}
+							$Prop["Engr Date Approved"].CustomValidation = { ValidateRevisionField $Prop["Engr Date Approved"]}
 						}
 						if($Prop["Change Descr"]){
-							$Prop["Change Descr"].CustomValidation = { ValidateRevisionFields $Prop["Change Descr"]}
+							$Prop["Change Descr"].CustomValidation = { ValidateRevisionField $Prop["Change Descr"]}
 						}
 					}
 				}
@@ -75,6 +77,7 @@ function InitializeRevisionValidation
 				if($Prop["GEN-TITLE-DWG"].Value)
 				{		
 					$mFileState = mGetState
+
 					if($mFileState -eq $null) 
 					{
 						if($Prop["GEN-TITLE-CHKM"]) {
@@ -82,13 +85,27 @@ function InitializeRevisionValidation
 						}
 						if($Prop["GEN-TITLE-CHKD"]) {
 							$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
+							#workaround Date Issue of 2021.1 Update that does not allow blank Date values
+							if($Prop["GEN-TITLE-CHKD"].Value -eq "")
+							{
+								$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+							}
 						}
+
 						if($Prop["GEN-TITLE-ISSM"]) {
 							$Prop["GEN-TITLE-ISSM"].CustomValidation = { $true }
 						}
+
 						if($Prop["GEN-TITLE-ISSD"]) {
 							$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
+
+							#workaround Date Issue of 2021.1 Update that does not allow blank Date values
+							if($Prop["GEN-TITLE-ISSD"].Value -eq "")
+							{
+								$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+							}
 						}
+
 						if($Prop["Change Descr"]){
 							$Prop["Change Descr"].CustomValidation = { $true }
 						}
@@ -97,44 +114,90 @@ function InitializeRevisionValidation
 					if($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"]) # Work in Progress or 'Quick-Change'
 					{
 						if($Prop["GEN-TITLE-CHKM"]) {
-							$Prop["GEN-TITLE-CHKM"].CustomValidation = { ValidateRevisionFields $Prop["GEN-TITLE-CHKM"] }
+							$Prop["GEN-TITLE-CHKM"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-CHKM"] }
+						}
+
+						if($Prop["GEN-TITLE-CHKD"]) {
+							$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
+
+							#workaround Date Issue of 2021.1 Update that does not allow blank Date values
+							if($Prop["GEN-TITLE-CHKD"].Value -eq "")
+							{
+								$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+							}
+						}
+
+						if($Prop["GEN-TITLE-ISSM"]) {
+							$Prop["GEN-TITLE-ISSM"].CustomValidation = { $true }
+						}
+
+						if($Prop["GEN-TITLE-ISSD"]) {
+							$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
+
+							#workaround Date Issue of 2021.1 Update that does not allow blank Date values
+							if($Prop["GEN-TITLE-ISSD"].Value -eq "")
+							{
+								$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+							}
+						}
+						
+						if($Prop["Change Descr"]){
+							$Prop["Change Descr"].CustomValidation = { $true }
 						}
 					}
 					
-					if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) #replace by UIString
+					if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) #For Review
 					{
+						if($Prop["GEN-TITLE-CHKM"]) {
+							$Prop["GEN-TITLE-CHKM"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-CHKM"] }
+						}
 						if($Prop["GEN-TITLE-CHKD"]) {
-							$Prop["GEN-TITLE-CHKD"].CustomValidation = { ValidateRevisionFields $Prop["GEN-TITLE-CHKD"] }
+							$Prop["GEN-TITLE-CHKD"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-CHKD"] }
 						}
 						if($Prop["GEN-TITLE-ISSM"]) {
-							$Prop["GEN-TITLE-ISSM"].CustomValidation = { ValidateRevisionFields $Prop["GEN-TITLE-ISSM"] }
+							$Prop["GEN-TITLE-ISSM"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-ISSM"] }
 						}
 						if($Prop["GEN-TITLE-ISSD"]) {
-							$Prop["GEN-TITLE-ISSD"].CustomValidation = { ValidateRevisionFields $Prop["GEN-TITLE-ISSD"] }
+							$Prop["GEN-TITLE-ISSD"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-ISSD"] }
 						}
 						if($Prop["Change Descr"]){
-							$Prop["Change Descr"].CustomValidation = { ValidateRevisionFields $Prop["Change Descr"]} #revision table property in PDMC-Sample
+							$Prop["Change Descr"].CustomValidation = { ValidateRevisionField $Prop["Change Descr"]} #revision table property in PDMC-Sample
 						}
 					}
 		
 				}
 				else #AutoCAD Template
-				{
+				{		
 					$mFileState = mGetState
+
 					if($mFileState -eq $null) 
 					{
 						if($Prop["Checked By"]) {
 							$Prop["Checked By"].CustomValidation = { $true }
 						}
-						if($Prop["Date Checked"]){
-							$Prop["Date Checked"].CustomValidation = { $true }
+						if($Prop["Checked Date"]) {
+							$Prop["Checked Date"].CustomValidation = { $true }
+							#workaround Date Issue of 2021.1 Update that does not allow blank Date values
+							if($Prop["Checked Date"].Value -eq "")
+							{
+								$Prop["Checked Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+							}
 						}
-						if($Prop["Engr Approved By"]){
-							$Prop["Engr Approved By"].CustomValidation = { $true }
+
+						if($Prop["Eng Approved By"]) {
+							$Prop["Eng Approved By"].CustomValidation = { $true }
 						}
-						if($Prop["Engr Date Approved"]){
-							$Prop["Engr Date Approved"].CustomValidation = { $true }
+
+						if($Prop["Eng Approval Date"]) {
+							$Prop["Eng Approval Date"].CustomValidation = { $true }
+
+							#workaround Date Issue of 2021.1 Update that does not allow blank Date values
+							if($Prop["Eng Approval Date"].Value -eq "")
+							{
+								$Prop["Eng Approval Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+							}
 						}
+
 						if($Prop["Change Descr"]){
 							$Prop["Change Descr"].CustomValidation = { $true }
 						}
@@ -143,25 +206,57 @@ function InitializeRevisionValidation
 					if($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"]) # Work in Progress or 'Quick-Change'
 					{
 						if($Prop["Checked By"]) {
-							$Prop["Checked By"].CustomValidation = { ValidateRevisionFields $Prop["Checked By"] }
+							$Prop["Checked By"].CustomValidation = { ValidateRevisionField $Prop["Checked By"] }
+						}
+
+						if($Prop["Checked Date"]) {
+							$Prop["Checked Date"].CustomValidation = { $true }
+
+							#workaround Date Issue of 2021.1 Update that does not allow blank Date values
+							if($Prop["Checked Date"].Value -eq "")
+							{
+								$Prop["Checked Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+							}
+						}
+
+						if($Prop["Eng Approved By"]) {
+							$Prop["Eng Approved By"].CustomValidation = { $true }
+						}
+
+						if($Prop["Eng Approval Date"]) {
+							$Prop["Eng Approval Date"].CustomValidation = { $true }
+
+							#workaround Date Issue of 2021.1 Update that does not allow blank Date values
+							if($Prop["Eng Approval Date"].Value -eq "")
+							{
+								$Prop["Eng Approval Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+							}
+						}
+						
+						if($Prop["Change Descr"]){
+							$Prop["Change Descr"].CustomValidation = { $true }
 						}
 					}
-
-					if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) #replace by UIString
+					
+					if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) #For Review
 					{
-						if($Prop["Date Checked"]){
-							$Prop["Date Checked"].CustomValidation = { ValidateRevisionFields $Prop["Date Checked"] }
+						if($Prop["Checked By"]) {
+							$Prop["Checked By"].CustomValidation = { ValidateRevisionField $Prop["Checked By"] }
 						}
-						if($Prop["Engr Approved By"]){
-							$Prop["Engr Approved By"].CustomValidation = { ValidateRevisionFields $Prop["Engr Approved By"] }
+						if($Prop["Checked Date"]) {
+							$Prop["Checked Date"].CustomValidation = { ValidateRevisionField $Prop["Checked Date"] }
 						}
-						if($Prop["Engr Date Approved"]){
-							$Prop["Engr Date Approved"].CustomValidation = { ValidateRevisionFields $Prop["Engr Date Approved"]}
+						if($Prop["Eng Approved By"]) {
+							$Prop["Eng Approved By"].CustomValidation = { ValidateRevisionField $Prop["Eng Approved By"] }
+						}
+						if($Prop["Eng Approval Date"]) {
+							$Prop["Eng Approval Date"].CustomValidation = { ValidateRevisionField $Prop["Eng Approval Date"] }
 						}
 						if($Prop["Change Descr"]){
-							$Prop["Change Descr"].CustomValidation = { ValidateRevisionFields $Prop["Change Descr"]}
+							$Prop["Change Descr"].CustomValidation = { ValidateRevisionField $Prop["Change Descr"]} #revision table property in PDMC-Sample
 						}
 					}
+		
 				}
 			}#AutoCADWindow
 		}#switch WindowName
@@ -199,15 +294,9 @@ function InitializeRevisionValidation
 		#>
 }
 
-function ValidateRevisionFields($mProp)
+function ValidateRevisionField($mProp)
 {
 	$dsDiag.Trace(">>Validation runs for '$($mProp.Name)', $($mProp.Typ)")
-
-	If ($Prop["_CreateMode"].Value -eq $true) #-or $RevPropValReset -eq $true
-    {
-		$dsDiag.Trace("..._CreateMode -> return validation true.")
-        return $true
-    }
 
 	If ($Prop["_EditMode"].Value -eq $true)
 	{		
@@ -216,10 +305,19 @@ function ValidateRevisionFields($mProp)
 		if ($mProp.Value -eq "" -OR $mProp.Value -eq $null)
 		{
 			$dsDiag.Trace("...no Value: returning false<<")
+			$mProp.CustomValidationErrorMessage = "Empty value are not allowed for the current life cylce state!"
 			return $false
 		}
 		else
 		{
+			#workaround VDS AutoCAD Date Issue (2021.1)
+			$tempDateTime = Get-Date -Year "2021" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
+			if($mProp.Value -eq $tempDateTime.ToString()) 
+			{ 
+				$mProp.CustomValidationErrorMessage = "Date 2021-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
+				return $false
+			}
+
 			$dsDiag.Trace("...has Value: returning true<<")
 			return $true
 		}
@@ -230,10 +328,10 @@ function ValidateRevisionFields($mProp)
 function mGetState
 {
 	#we need the current file object
-	$_pos = $Prop["_FilePath"].Value.IndexOf($Prop["_WorkspacePath"].Value)
-	$_1 = ($Prop["_FilePath"].Value).Substring($_pos + 1)
-	$_2 = ($_1.Replace("\", "/")) #.Replace(".", "")
-	$mVaultFilePath = $Prop["_VaultVirtualPath"].Value + "/" + $_2 + "/" + $Prop["_FileName"].Value
+	$_wf = $vaultconnection.WorkingFoldersManager.GetWorkingFolder("$/").FullPath
+	$_1 = $Prop["_FilePath"].Value.Replace($_wf, "$/")
+	$_2 = $_1.Replace("\", "/")
+	$mVaultFilePath = $_2 + "/" + $Prop["_FileName"].Value
 
 	$mFile = $vault.DocumentService.FindLatestFilesByPaths(@($mVaultFilePath))[0]	
 

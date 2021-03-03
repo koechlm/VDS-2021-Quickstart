@@ -27,25 +27,78 @@ function InvertReadOnly
 
 function InitializeRevisionValidation
 {
-	if($Prop["_XLTN_CHECKEDBY"]) {
-		$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_CHECKEDBY"]) }
-	}
-	if($Prop["_XLTN_CHECKEDDATE"]){
-		$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_CHECKEDDATE"]) }
-	}
-	if($Prop["_XLTN_ENGAPPRVDBY"]){
-		$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_ENGAPPRVDBY"]) }
-	}
-	if($Prop["_XLTN_ENGAPPRVDDATE"]){
-		$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_ENGAPPRVDDATE"]) }
-	}
-	if($Prop["_XLTN_CHANGEDESCR"]){
-		$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { ValidateRevisionFields($Prop["_XLTN_CHANGEDESCR"]) }
-	}
-	
+	#Inventor and AutoCAD Drawings initialize custom property validation only
+	if(@($UIString["MSDCE_CAT00"], $UIString["MSDCE_CAT01"]) -contains $Prop["_Category"].Value)
+	{
+		#don't enforce anything for new files
+		if($Prop["_CreateMode"].Value -eq $true)
+		{
+				if($Prop["_XLTN_CHECKEDBY"]) {
+					$Prop["_XLTN_CHECKEDBY"].CustomValidation = { $true }
+				}
+				if($Prop["_XLTN_CHECKEDDATE"]){
+					$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { $true }
+				}
+				if($Prop["_XLTN_ENGAPPRVDBY"]){
+					$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { $true }
+				}
+				if($Prop["_XLTN_ENGAPPRVDDATE"]){
+					$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { $true }
+				}
+				if($Prop["_XLTN_CHANGEDESCR"]){
+					$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { $true }
+				}
+		}
+
+		#enforce revision properties dependent on current state
+		if($Prop["_EditMode"].Value -eq $true)
+		{
+			#Work in Progress or Quick-Change
+			if(@($UIString["Adsk.QS.RevTab_05"], $UIString["Adsk.QS.RevTab_04"]) -contains $Prop["_XLTN_STATE"].Value)
+			{
+				if($Prop["_XLTN_CHECKEDBY"]) {
+					$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
+				}
+				if($Prop["_XLTN_CHECKEDDATE"]){
+					$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { $true }
+				}
+				if($Prop["_XLTN_ENGAPPRVDBY"]){
+					$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { $true }
+				}
+				if($Prop["_XLTN_ENGAPPRVDDATE"]){
+					$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { $true }
+				}
+				if($Prop["_XLTN_CHANGEDESCR"]){
+					$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { $true }
+				}
+			} #Work in Progress or Quick-Change
+
+			#For Review
+			if(@($UIString["Adsk.QS.RevTab_03"]) -contains $Prop["_XLTN_STATE"].Value)
+			{
+					if($Prop["_XLTN_CHECKEDBY"]) {
+						$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
+					}
+					if($Prop["_XLTN_CHECKEDDATE"]){
+						$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDDATE"]) }
+					}
+					if($Prop["_XLTN_ENGAPPRVDBY"]){
+						$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDBY"]) }
+					}
+					if($Prop["_XLTN_ENGAPPRVDDATE"]){
+						$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDDATE"]) }
+					}
+					if($Prop["_XLTN_CHANGEDESCR"]){
+						$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHANGEDESCR"]) }
+					}
+			}# For Review
+		}
+
+	}#drawing categories
+
 }
 
-function ValidateRevisionFields($mProp)
+function ValidateRevisionField($mProp)
 {
 	If ($Prop["_CreateMode"].Value -eq $true)
     {
@@ -53,78 +106,30 @@ function ValidateRevisionFields($mProp)
     }
 
 	If ($Prop["_EditMode"].Value -eq $true)
-	{
-		$DrawingCats = @("Drawing AutoCAD", "Drawing Inventor")
-		If($DrawingCats -contains $Prop["_Category"].Value)
-		{
-				If ($Prop["_CreateMode"].Value -eq $true) #-or $RevPropValReset -eq $true
-    {
-		$dsDiag.Trace("..._CreateMode -> return validation true.")
-        return $true
-    }
-
-	If ($Prop["_EditMode"].Value -eq $true)
 	{		
 		$dsDiag.Trace("...EditMode...")
-
+		
 		if ($mProp.Value -eq "" -OR $mProp.Value -eq $null)
 		{
-			$dsDiag.Trace("...no Value: returning false<<")
+			$dsDiag.Trace(" '$($mProp)'...no Value: returning false<<")
 			return $false
 		}
 		else
 		{
-			$dsDiag.Trace("...has Value: returning true<<")
-			return $true
-		}
-	}
+			#workaround VDS AutoCAD Date Issue (2021.1)
+			$tempDateTime = Get-Date -Year "2021" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
+			if($mProp.Value -eq $tempDateTime.ToString()) 
+			{ 
+				$mProp.CustomValidationErrorMessage = "Date 2021-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
+				return $false
+			}
 
-			#switch($Prop["_XLTN_STATE"].Value)
-			#{
-			#	"Work in Progress"
-			#	{
-			#		If ($mProp.Value -eq "")
-			#		{
-			#			return $false
-			#		}
-			#		else
-			#		{
-			#			return $true
-			#		}
-			#	}
-			#	$UIString["Adsk.QS.RevTab_03"] #For Review
-			#	{
-			#		If ($mProp.Value -eq "")
-			#		{
-			#			return $false
-			#		}
-			#		else
-			#		{
-			#			return $true
-			#		}
-			#	}
-			#	"Quick-Change" #$UIString["Adsk.QS.RevTab_04"]
-			#	{
-			#		If ($mProp.Value -eq "")
-			#		{
-			#			return $false
-			#		}
-			#		else
-			#		{
-			#			return $true
-			#		}
-			#	}
-			#	default{
-			#		return $true
-			#	}
-			#}
-		}
-		else
-		{ 
+			$dsDiag.Trace(" '$($mProp)'...has Value: returning true<<")
 			return $true
 		}
-	}
-}
+	}#edit mode
+
+}#function
 
 function mInitializeRevTab
 {
