@@ -9,23 +9,27 @@
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Drawing AutoCAD">
     <DynamicProperty>Title</DynamicProperty>
+    <DynamicProperty>Title DE</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
     <DynamicProperty>Part Number</DynamicProperty>
     <DynamicProperty>Material</DynamicProperty>
-    <DynamicProperty>Material/Dimensions</DynamicProperty>
+    <DynamicProperty>Dimensions</DynamicProperty>
     <DynamicProperty>Mass</DynamicProperty>
-    <DynamicProperty>Size/Format</DynamicProperty>
-    <DynamicProperty>Sheet</DynamicProperty>
+    <DynamicProperty>Format</DynamicProperty>
     <DynamicProperty>Scale</DynamicProperty>
-    <DynamicProperty>Source File</DynamicProperty>
-    <DynamicProperty>Project</DynamicProperty>
+    <DynamicProperty>Sheet</DynamicProperty>
     <DynamicProperty>Document Type</DynamicProperty>
+    <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
-    <DynamicProperty>Change Descr</DynamicProperty>
-    <DynamicProperty>Checked By</DynamicProperty>
-    <DynamicProperty>Checked Date</DynamicProperty>
-    <DynamicProperty>Eng Approved By</DynamicProperty>
-    <DynamicProperty>Eng Approved Date</DynamicProperty>
+    <DynamicProperty Hidden="True">Checked By</DynamicProperty>
+    <DynamicProperty Hidden="True">Checked Date</DynamicProperty>
+    <DynamicProperty Hidden="True">Eng Approved By</DynamicProperty>
+    <DynamicProperty Hidden="True">Eng Approved Date</DynamicProperty>
+    <DynamicProperty Hidden="True">Change Descr</DynamicProperty>
+    <DynamicProperty Hidden="True">Document Check Required</DynamicProperty>
+    <DynamicProperty Hidden="True">Customer Approval Required</DynamicProperty>
+    <DynamicProperty>Size/Format</DynamicProperty>
+    <DynamicProperty>Material/Dimensions</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Factory Layout">
     <DynamicProperty>Title</DynamicProperty>
@@ -33,18 +37,5 @@
     <DynamicProperty>Part Number</DynamicProperty>
     <DynamicProperty>Project</DynamicProperty>
     <DynamicProperty>Project Type</DynamicProperty>
-  </DynamicPropertiesCategory>
-  <DynamicPropertiesCategory Category="Zeichnung AutoCAD">
-    <DynamicProperty>Size/Format</DynamicProperty>
-    <DynamicProperty>Sheet</DynamicProperty>
-    <DynamicProperty>Mass</DynamicProperty>
-    <DynamicProperty>Replacement</DynamicProperty>
-    <DynamicProperty>Original</DynamicProperty>
-    <DynamicProperty>Scale</DynamicProperty>
-    <DynamicProperty>Description</DynamicProperty>
-    <DynamicProperty>Title</DynamicProperty>
-    <DynamicProperty>Material</DynamicProperty>
-    <DynamicProperty>Part Number</DynamicProperty>
-    <DynamicProperty>Material/Dimensions</DynamicProperty>
   </DynamicPropertiesCategory>
 </DynamicsProperties>

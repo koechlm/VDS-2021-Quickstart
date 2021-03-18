@@ -108,9 +108,7 @@
     <None Include="CAD.Custom\addins\ADSK.QS.FileNameValidation.ps1" />
     <None Include="CAD.Custom\addins\ADSK.QS.ItemLookup.ps1" />
     <None Include="CAD.Custom\addins\ADSK.QS.RevisionMgmt.ps1" />
-    <None Include="CAD.Custom\Configuration\AutoCAD-Vanilla\ADSK.QS.Default.ps1" />
-    <None Include="CAD.Custom\Configuration\AutoCAD-Vanilla\ADSK.QS.RevisionMgmt.ps1" />
-    <None Include="CAD.Custom\Configuration\AutoCAD-Vanilla\AutoCAD.cfg" />
+    <None Include="CAD.Custom\Configuration\AutoCAD-Vanilla.zip" />
     <None Include="CAD.Custom\Configuration\AutoCAD.cfg" />
     <None Include="CAD.Custom\Configuration\Inventor.cfg" />
     <None Include="CAD\addins\breadCrumb.ps1" />
@@ -175,10 +173,6 @@
     <None Include="Vault\CustomEntityDefinitions.json" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="CAD.Custom\Configuration\AutoCAD-Vanilla\AutoCAD.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="CAD.Custom\Configuration\AutoCAD.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -425,7 +419,6 @@
     <Resource Include="de-DE\UIStrings.xml" />
     <Resource Include="en-US\PropertyTranslations.xml" />
     <Resource Include="en-US\UIStrings.xml" />
-    <Resource Include="CAD.Custom\Configuration\AutoCAD-Vanilla\AutoCadDynamicProperties.xml" />
     <Content Include="HelpFiles\C.1GeneralInformation.html" />
     <Content Include="HelpFiles\C.2.10Legacydata.html" />
     <Content Include="HelpFiles\C.2.11FrameGenerator.html" />

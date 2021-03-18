@@ -139,8 +139,8 @@
   <UIString ID="GEN-TITLE-DES2">Description</UIString>
   <UIString ID="GEN-TITLE-NR">Part Number</UIString>
   <UIString ID="GEN-TITLE-MAT1">Material</UIString>
-  <UIString ID="GEN-TITLE-MAT2">Material/Dimensions</UIString>
-  <UIString ID="GEN-TITLE-SIZ">Size/Format</UIString>
+  <UIString ID="GEN-TITLE-MAT2">Dimensions</UIString>
+  <UIString ID="GEN-TITLE-SIZ">Format</UIString>
   <UIString ID="GEN-TITLE-SHEET">Sheet</UIString>
   <UIString ID="GEN-TITLE-SCA">Scale</UIString>
   <UIString ID="GEN-TITLE-WT">Mass</UIString>
