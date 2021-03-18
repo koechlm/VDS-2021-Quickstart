@@ -825,7 +825,6 @@
                   Height="{Binding ActualHeight, ElementName=grdMain, Mode=OneWay}" Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
@@ -842,6 +841,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="5"/>
                         <RowDefinition Height="28"/>
+                        <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -856,10 +856,8 @@
                     <TextBox x:Name="txtStatus1" Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" />
                     <Label Content="Latest Released Rev." Grid.Column="3" 
                         Visibility="{Binding Visibility, ElementName=LatestRev}" Height="Auto"/>
-                    <Border Grid.Column="4" BorderThickness="0,1,1,0" BorderBrush="#FFABADB3" Visibility="{Binding Visibility, ElementName=LatestRev}" >
-                        <CheckBox x:Name="LatestRev"
-                            IsChecked="{Binding Prop[Latest Released Revision].Value}" IsEnabled="False"
-                            Visibility="{Binding Prop[_EditMode].Value, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Margin="5,0,0,0" />
+                    <Border Grid.Column="4" BorderThickness="0,1,1,0" BorderBrush="#FFABADB3" >
+                        <CheckBox x:Name="LatestRev" IsChecked="{Binding Prop[Latest Released Revision].Value}" IsEnabled="False" VerticalAlignment="Center" Margin="5,0,0,0" />
                     </Border>
                     <Label x:Name="lbLfcDef1" Content="{Binding UIString[Adsk.QS.RevTab_02], FallbackValue=Lifecycle Definition}" Grid.Column="3" Grid.Row="1" Height="Auto"/>
                     <TextBox x:Name="txtLfcDef1" Text="{Binding Prop[_XLTN_LIFECLCDEF].Value}" Grid.Column="4" Grid.Row="1" IsReadOnly="True" Height="Auto" />
@@ -888,7 +886,25 @@
                               IsEditable="True" IsEnabled="{Binding PsVal[InvertReadOnly]}"
                               Grid.Column="1" Height="Auto" Grid.Row="7" Grid.ColumnSpan="4" BorderThickness="0,1,1,1" />
                 </Grid>
-                <Grid x:Name="ButtonGridTabRevision" Style="{StaticResource ButtonGridStyle}" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,5,2,5">
+                <Grid x:Name="grdCustomerApproval" Grid.Row="1" Visibility="{Binding PsVal[]}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="28"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="{Binding UIString[], FallbackValue=Customer Approved By}" Grid.Column="0" Height="Auto" BorderThickness="1"/>
+                    <TextBox x:Name="txtApprovedBy" Text="{WPF:ValidatedBinding Prop[_XLTN_CUSTAPPRVDBY].Value}" Height="Auto" Grid.Column="1" BorderThickness="0,1,1,1"/>
+                    <Label Content="{Binding UIString[], FallbackValue=Cust. Approved Date}" Height="Auto" Grid.Column="3" BorderThickness="1"/>
+                    <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,1" Grid.Column="4">
+                        <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_CUSTAPPRVDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}, UpdateSourceTrigger=PropertyChanged}"  Height="Auto"  />
+                    </Border>
+                </Grid>
+                <Grid x:Name="ButtonGridTabRevision" Style="{StaticResource ButtonGridStyle}" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,5,2,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition />

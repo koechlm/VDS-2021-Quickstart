@@ -75,6 +75,12 @@ function mGetProjectFolderPropToCADFile ([String] $mFolderSourcePropertyName, [S
 	try {
 		#$dsDiag.Trace("mWF: $mWF")
 		$mWFCAD = $mWF + $mCAxRoot
+		#avoid for temporary files
+		if($Prop["_FilePath"].Value -notcontains $mWFCAD)
+		{
+			$Prop[$mCadFileTargetPropertyName].Value = ""
+			return
+		}
 		#merge the local path and relative target path of new file in vault
 		$mPath = $Prop["_FilePath"].Value.Replace($mWFCAD, "")
 		$mPath = $mWfVault + $mPath

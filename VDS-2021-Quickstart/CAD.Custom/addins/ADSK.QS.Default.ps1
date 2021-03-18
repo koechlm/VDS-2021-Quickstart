@@ -51,7 +51,7 @@ function InitializeWindow
 			InitializeBreadCrumb
 
 			#set the active user as Inventor Designer
-			if($Prop["Designer"])
+			if($Prop["Designer"].Value)
 			{				
 				$mUserId = $vault.AdminService.SecurityHeader.UserId
 				$mUser = $vault.AdminService.GetAllUsers() | Where-Object { $_.id -eq $mUserId}
@@ -282,11 +282,11 @@ function InitializeWindow
 			#set the active user as Designer for file property mapping or mechanical title attribute mapping
 			$mUserId = $vault.AdminService.SecurityHeader.UserId
 			$mUser = $vault.AdminService.GetAllUsers() | Where-Object { $_.id -eq $mUserId}
-			if($Prop["Designer"])
-			{				
-				$Prop["Designer"].Value = $mUser.Name
-			}
-			if($Prop["GEN-TITLE-NAME"])
+			#if($Prop["Designer"].Value)
+			#{				
+			#	$Prop["Designer"].Value = $mUser.Name
+			#}
+			if($Prop["GEN-TITLE-NAME"].Value)
 			{
 				$Prop["GEN-TITLE-NAME"].Value = $mUser.Name
 			}
@@ -428,6 +428,7 @@ function SetWindowTitle
    			}
 			if ($Prop["_EditMode"].Value -and (Get-Item $document.FullFileName).IsReadOnly){
 				$windowTitle = "$($UIString["LBL25"]) - $($Prop["_FileName"].Value) - $($UIString["LBL26"])"
+				$dsWindow.FindName("btnOK").ToolTip = $UIString["LBL26"]
 			}
 		}
 		"AutoCADWindow"
@@ -688,15 +689,16 @@ function OnPostCloseDialog
 		"AutoCADWindow"
 		{
 			mWriteLastUsedFolder
+
 			#use document number for part number if not filled yet; cover ACM and Vanilla property configuration
-			If ($Prop["GEN-TITLE-DWG"] -and $Prop["GEN-TITLE-NR"].Value -eq "")
+			If ($Prop["GEN-TITLE-DWG"].Value -and $Prop["GEN-TITLE-NR"].Value -eq "")
 				{
 					$Prop["GEN-TITLE-NR"].Value = $dsWindow.DataContext.PathAndFileNameHandler.FileNameNoExtension #$Prop["GEN-TITLE-DWG"].Value
 				}
-			If ($Prop["DocNumber"] -and $Prop["Part Number"].Value -eq "")
-				{
-					$Prop["Part Number"].Value = $dsWindow.DataContext.PathAndFileNameHandler.FileNameNoExtension
-				}
+			#If ($Prop["DocNumber"].Value -and $Prop["Part Number"].Value -eq "")
+			#	{
+			#		$Prop["Part Number"].Value = $dsWindow.DataContext.PathAndFileNameHandler.FileNameNoExtension
+			#	}
 		}
 		default
 		{

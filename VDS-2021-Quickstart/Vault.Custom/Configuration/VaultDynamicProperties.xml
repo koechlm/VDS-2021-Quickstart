@@ -346,10 +346,14 @@
     <DynamicProperty>Document Type</DynamicProperty>
     <DynamicProperty Hidden="True">Change Description</DynamicProperty>
     <DynamicProperty Hidden="True">Make or Buy</DynamicProperty>
+    <DynamicProperty Hidden="True">Document Check Required</DynamicProperty>
     <DynamicProperty Hidden="True">Checked By</DynamicProperty>
     <DynamicProperty Hidden="True">Checked Date</DynamicProperty>
     <DynamicProperty Hidden="True">Engr Approved By</DynamicProperty>
     <DynamicProperty Hidden="True">Engr Approved Date</DynamicProperty>
+    <DynamicProperty Hidden="True">Customer Approval Required</DynamicProperty>
+    <DynamicProperty Hidden="True">Customer Approved By</DynamicProperty>
+    <DynamicProperty Hidden="True">Customer Approved Date</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Folder" Type="Folder">
     <DynamicProperty>Title</DynamicProperty>
@@ -374,11 +378,15 @@
     <DynamicProperty>Scale</DynamicProperty>
     <DynamicProperty>Sheet</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
+    <DynamicProperty Hidden="True">Document Check Required</DynamicProperty>    
     <DynamicProperty Hidden="True">Checked By</DynamicProperty>
     <DynamicProperty Hidden="True">Checked Date</DynamicProperty>
     <DynamicProperty Hidden="True">Engr Approved By</DynamicProperty>
     <DynamicProperty Hidden="True">Engr Approved Date</DynamicProperty>
     <DynamicProperty Hidden="True">Change Description</DynamicProperty>
+    <DynamicProperty Hidden="True">Customer Approval Required</DynamicProperty>
+    <DynamicProperty Hidden="True">Customer Approved By</DynamicProperty>
+    <DynamicProperty Hidden="True">Customer Approved Date</DynamicProperty>    
     <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty Hidden="True">DWG Type</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>

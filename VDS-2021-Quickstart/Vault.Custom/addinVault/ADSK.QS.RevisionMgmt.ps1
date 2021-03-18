@@ -30,6 +30,19 @@ function InitializeRevisionValidation
 	#Inventor and AutoCAD Drawings initialize custom property validation only
 	if(@($UIString["MSDCE_CAT00"], $UIString["MSDCE_CAT01"]) -contains $Prop["_Category"].Value)
 	{
+		#set the display state of XAML controls
+		if($Prop["_XLTN_CUSTAPPRVLREQ"])
+		{
+			if($Prop["_XLTN_CUSTAPPRVLREQ"].Value -eq "True")
+			{
+				$dsWindow.FindName("grdCustomerApproval").Visibility = "Visible"
+			}
+			else
+			{
+				$dsWindow.FindName("grdCustomerApproval").Visibility = "Collapsed"
+			}
+		}
+
 		#don't enforce anything for new files
 		if($Prop["_CreateMode"].Value -eq $true)
 		{
@@ -56,9 +69,17 @@ function InitializeRevisionValidation
 			#Work in Progress or Quick-Change
 			if(@($UIString["Adsk.QS.RevTab_05"], $UIString["Adsk.QS.RevTab_04"]) -contains $Prop["_XLTN_STATE"].Value)
 			{
-				if($Prop["_XLTN_CHECKEDBY"]) {
-					$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
+				if($Prop["_XLTN_DOCCHCKREQ"])
+				{
+					if($Prop["_XLTN_DOCCHCKREQ"].Value -eq "True")
+					{
+						if($Prop["_XLTN_CHECKEDBY"]) 
+						{
+							$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
+						}
+					}
 				}
+				
 				if($Prop["_XLTN_CHECKEDDATE"]){
 					$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { $true }
 				}
@@ -76,21 +97,28 @@ function InitializeRevisionValidation
 			#For Review
 			if(@($UIString["Adsk.QS.RevTab_03"]) -contains $Prop["_XLTN_STATE"].Value)
 			{
-					if($Prop["_XLTN_CHECKEDBY"]) {
-						$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
+				if($Prop["_XLTN_DOCCHCKREQ"])
+				{
+					if($Prop["_XLTN_DOCCHCKREQ"].Value -eq "True")
+					{
+						if($Prop["_XLTN_CHECKEDBY"]) {
+							$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
+						}
+						if($Prop["_XLTN_CHECKEDDATE"])
+						{
+							$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDDATE"]) }
+						}
 					}
-					if($Prop["_XLTN_CHECKEDDATE"]){
-						$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDDATE"]) }
-					}
-					if($Prop["_XLTN_ENGAPPRVDBY"]){
-						$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDBY"]) }
-					}
-					if($Prop["_XLTN_ENGAPPRVDDATE"]){
-						$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDDATE"]) }
-					}
-					if($Prop["_XLTN_CHANGEDESCR"]){
-						$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHANGEDESCR"]) }
-					}
+				}
+				if($Prop["_XLTN_ENGAPPRVDBY"]){
+					$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDBY"]) }
+				}
+				if($Prop["_XLTN_ENGAPPRVDDATE"]){
+					$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDDATE"]) }
+				}
+				if($Prop["_XLTN_CHANGEDESCR"]){
+					$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHANGEDESCR"]) }
+				}
 			}# For Review
 		}
 

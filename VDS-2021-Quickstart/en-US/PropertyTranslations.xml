@@ -84,6 +84,10 @@
   <PropertyTranslation Name="ENGAPPRVDBY">Engr Approved By</PropertyTranslation>
   <PropertyTranslation Name="ENGAPPRVDDATE">Engr Approved Date</PropertyTranslation>
   <PropertyTranslation Name="CHANGEDESCR">Change Description</PropertyTranslation>
+  <PropertyTranslation Name="CUSTAPPRVLREQ">Customer Approval Required</PropertyTranslation>
+  <PropertyTranslation Name="CUSTAPPRVDBY">Customer Approved By</PropertyTranslation>
+  <PropertyTranslation Name="CUSTAPPRVDDATE">Cust Approved Date</PropertyTranslation>
+  <PropertyTranslation Name="DOCCHCKREQ">Document Check Required</PropertyTranslation>
   <!--Revision Property Tab end-->
   
 </PropertyTranslations>

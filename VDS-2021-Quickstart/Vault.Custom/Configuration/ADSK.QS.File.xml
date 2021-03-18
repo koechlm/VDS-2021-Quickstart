@@ -5,12 +5,12 @@
     <Path>$/Templates/Inventor</Path>
   </DocTypeInfo>
   <DocTypeInfo>
-    <DocName>iLogic Rule</DocName>
-    <Path>$/Templates/Inventor iLogic</Path>
+    <DocName>AutoCAD</DocName>
+    <Path>$/Templates/AutoCAD</Path>
   </DocTypeInfo>
   <DocTypeInfo>
-    <DocName>AutoCAD Mechanical</DocName>
-    <Path>$/Templates/Mechanical</Path>
+    <DocName>iLogic Rule</DocName>
+    <Path>$/Templates/Inventor iLogic</Path>
   </DocTypeInfo>
   <DocTypeInfo>
     <DocName>Office</DocName>
@@ -23,21 +23,5 @@
   <DocTypeInfo>
     <DocName>Electrical Project</DocName>
     <Path>$/Templates/Electrical/WDP</Path>
-  </DocTypeInfo>
-  <DocTypeInfo>
-    <DocName>AutoCAD</DocName>
-    <Path>$/Templates/AutoCAD</Path>
-  </DocTypeInfo>
-  <DocTypeInfo>
-    <DocName>AutoCAD Sheet Set</DocName>
-    <Path>$/Templates/AutoCAD/Sheet Set</Path>
-  </DocTypeInfo>
-  <DocTypeInfo>
-    <DocName>Mechanical Sheet Set Drawing</DocName>
-    <Path>$/Templates/Mechanical/Sheet Set Drawing</Path>
-  </DocTypeInfo>
-  <DocTypeInfo>
-    <DocName>SolidWorks</DocName>
-    <Path>$/Templates/Solidworks/VDS Templates</Path>
   </DocTypeInfo>
 </DocTypeData>

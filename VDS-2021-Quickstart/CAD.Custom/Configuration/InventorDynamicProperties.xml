@@ -167,11 +167,13 @@
     <DynamicProperty>Type</DynamicProperty>
     <DynamicProperty>Drawing Type</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
-    <DynamicProperty>Checked by</DynamicProperty>
-    <DynamicProperty>Date Checked</DynamicProperty>
-    <DynamicProperty>Engr Approved by</DynamicProperty>
-    <DynamicProperty>Date Eng Approved</DynamicProperty>
-    <DynamicProperty>Change Descr</DynamicProperty>
+    <DynamicProperty Hidden="True">Checked by</DynamicProperty>
+    <DynamicProperty Hidden="True">Date Checked</DynamicProperty>
+    <DynamicProperty Hidden="True">Engr Approved by</DynamicProperty>
+    <DynamicProperty Hidden="True">Date Eng Approved</DynamicProperty>
+    <DynamicProperty Hidden="True">Change Descr</DynamicProperty>
+    <DynamicProperty Hidden="True">Document Check Required</DynamicProperty>
+    <DynamicProperty Hidden="True">Customer Approval Required</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Bauteil">
     <DynamicProperty>Titel</DynamicProperty>
