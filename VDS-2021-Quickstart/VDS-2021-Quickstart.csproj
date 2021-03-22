@@ -677,5 +677,8 @@
     <Resource Include="Vault\NewStandardFile.ico" />
     <Resource Include="Vault\NewStandardFolder.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Vault.Custom\Configuration\Item\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

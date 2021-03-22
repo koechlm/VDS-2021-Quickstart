@@ -145,9 +145,49 @@
   <UIString ID="GEN-TITLE-SCA">Maßstab</UIString>
   <UIString ID="GEN-TITLE-WT">Gewicht</UIString>
   <UIString ID="GEN-TITLE-DACT">Zeichnungsart</UIString>
+  <UIString ID="GEN-TITLE-NAME">Konstrukteur</UIString>
+  <UIString ID="GEN-TITLE-DAT">Erstellt am</UIString>
+  <UIString ID="GEN-TITLE-CHKD">Geprüft am</UIString>
+  <UIString ID="GEN-TITLE-CHKM">Geprüft von</UIString>
+  <UIString ID="GEN-TITLE-ISSD">Freigegeben am</UIString>
+  <UIString ID="GEN-TITLE-ISSM">Freigegeben von</UIString>
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <!--use to change display name for localization or user friendly naming-->
   <!--<UIString ID="aim_description1">Description</UIString>-->
+
+  <!--Vault user Defined Properties Displaynames for dynamic properties-->
+  <!--use to change display name for localization or user friendly naming-->
+  <UIString ID="Comments">Kommentare</UIString>
+  <UIString ID="Manager">Manager</UIString>
+  <UIString ID="Subject">Thema</UIString>
+  <UIString ID="CreateUserName">Erstellt von</UIString>
+  <UIString ID="CreateDate">Erstellt am</UIString>
+  <UIString ID="CheckedBy">Geprüft von</UIString>
+  <UIString ID="DWGCreatorVersion">DWG Ersteller Version</UIString>
+  <UIString ID="EngrApprovedBy">Freigegeben von</UIString>
+  <UIString ID="Keywords">Schlüsselwörter</UIString>
+  <UIString ID="Author">Autor</UIString>
+  <UIString ID="Engineer">Ingenieur</UIString>
+  <UIString ID="GeoRss">GeoRss</UIString>
+  <UIString ID="Material">Material</UIString>
+  <UIString ID="Designer">Konstrukteur</UIString>
+  <UIString ID="StockNumber">Bestandsnummer</UIString>
+  <UIString ID="Title">Titel</UIString>
+  <UIString ID="SharePath">Share Path</UIString>
+  <UIString ID="TypeTag">Type Tag</UIString>
+  <UIString ID="Description">Beschreibung</UIString>
+  <UIString ID="PartNumber">Teilenummer</UIString>
+  <UIString ID="CostCenter">Kostenstelle</UIString>
+  <UIString ID="DWGCreatorName">DWG Ersteller Name</UIString>
+  <UIString ID="ApplicationVersion">Anwendungsversion</UIString>
+  <UIString ID="CreationDate">Datei erstellt am</UIString>
+  <UIString ID="RevNumber">Rev Nummer</UIString>
+  <UIString ID="Project">Projekt</UIString>
+  <UIString ID="MfgApprovedBy">Freigabe Fertigung von</UIString>
+  <UIString ID="Company">Firma</UIString>
+  <UIString ID="Cost">Kosten</UIString>
+  <UIString ID="UserStatus">Benutzer Status</UIString>
+  <UIString ID="DwgType">DWG Typ</UIString>
 
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <UIString ID="Part Type name">Sub-Type</UIString>
@@ -339,6 +379,8 @@
   <UIString ID="Adsk.Org.Pers.Link_03">Verknüpfung erstellen</UIString>
   <UIString ID="Adsk.Org.Pers.Link_04">Aktivieren um Verknüpfungen auf gewählte Elemente zu erstellen.</UIString>
   <UIString ID="Adsk.Org.Pers.Link_05">Wählen Sie einen Kundennamen aus dem Arbeitsbereich "Organisationen". Optional wählen Sie zusätzlich eine Kontaktperson. Nur Personen, die mit Organisationen verknüpft sind werden als Kontaktperson angezeigt.</UIString>
+  <UIString ID="Adsk.Org.Pers.Link_06">Auswahl Kunde aus Arbeitsbereich "Organisationen"</UIString>
+  <UIString ID="Adsk.Org.Pers.Link_07">Ordnen Sie die Person einer Organisation zu.</UIString>
   <!--Cascading Organisation/Person selection & link creation END-->
   
 </UIStrings>

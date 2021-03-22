@@ -145,10 +145,50 @@
   <UIString ID="GEN-TITLE-SCA">Scale</UIString>
   <UIString ID="GEN-TITLE-WT">Mass</UIString>
   <UIString ID="GEN-TITLE-DACT">Document Type</UIString>
+  <UIString ID="GEN-TITLE-NAME">Designer</UIString>
+  <UIString ID="GEN-TITLE-DAT">Create Date</UIString>
+  <UIString ID="GEN-TITLE-CHKD">Checked Date</UIString>
+  <UIString ID="GEN-TITLE-CHKM">Checked By</UIString>
+  <UIString ID="GEN-TITLE-ISSD">Eng Approved Date</UIString>
+  <UIString ID="GEN-TITLE-ISSM">Eng Approved By</UIString>
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <!--use to change display name for localization or user friendly naming-->
   <!--<UIString ID="aim_description1">Description</UIString>-->
 
+  <!--Vault user Defined Properties Displaynames for dynamic properties-->
+  <!--use to change display name for localization or user friendly naming-->
+  <UIString ID="Comments">Comments</UIString>
+  <UIString ID="Manager">Manager</UIString>
+  <UIString ID="Subject">Subject</UIString>
+  <UIString ID="CreateUserName">Created By</UIString>
+  <UIString ID="CreateDate">Create Date</UIString>
+  <UIString ID="CheckedBy">Checked By</UIString>
+  <UIString ID="DWGCreatorVersion">DWG Creator Version</UIString>
+  <UIString ID="EngrApprovedBy">Engr Approved By</UIString>
+  <UIString ID="Keywords">Keywords</UIString>
+  <UIString ID="Author">Author</UIString>
+  <UIString ID="Engineer">Engineer</UIString>
+  <UIString ID="GeoRss">GeoRss</UIString>
+  <UIString ID="Material">Material</UIString>
+  <UIString ID="Designer">Designer</UIString>
+  <UIString ID="StockNumber">Stock Number</UIString>
+  <UIString ID="Title">Title</UIString>
+  <UIString ID="SharePath">Share Path</UIString>
+  <UIString ID="TypeTag">Type Tag</UIString>
+  <UIString ID="Description">Description</UIString>
+  <UIString ID="PartNumber">Part Number</UIString>
+  <UIString ID="CostCenter">Cost Center</UIString>
+  <UIString ID="DWGCreatorName">DWG Creator Name</UIString>
+  <UIString ID="ApplicationVersion">Application Version</UIString>
+  <UIString ID="CreationDate">Date File Created</UIString>
+  <UIString ID="RevNumber">Rev Number</UIString>
+  <UIString ID="Project">Project</UIString>
+  <UIString ID="MfgApprovedBy">Mfg Approved By</UIString>
+  <UIString ID="Company">Company</UIString>
+  <UIString ID="Cost">Cost</UIString>
+  <UIString ID="UserStatus">User Status</UIString>
+  <UIString ID="DwgType">DWG Type</UIString>
+  
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
   <UIString ID="Part Type name">Sub-Type</UIString>
   
@@ -339,6 +379,8 @@
   <UIString ID="Adsk.Org.Pers.Link_03">Create Link</UIString>
   <UIString ID="Adsk.Org.Pers.Link_04">Enable to create links to any selected item on project creation.</UIString>
   <UIString ID="Adsk.Org.Pers.Link_05">Select customer name from "Organisation" Workspace. Optionally select contact name also. Only persona linked to organisations are listed as contact name.</UIString>
+  <UIString ID="Adsk.Org.Pers.Link_06">Select Customer and Contact from "Organisations" Workspace</UIString>
+  <UIString ID="Adsk.Org.Pers.Link_07">Assign Person to existing Organisation</UIString>
   <!--Cascading Organisation/Person selection & link creation END-->
   
 </UIStrings>

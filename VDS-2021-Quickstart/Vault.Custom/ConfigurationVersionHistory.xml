@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
   <ConfigInfo>
+    <ConfigHistoryInfo Branch="Master" Version="2021.1">
+      <Changes>
+        <!--Updated all XAML files to match Vault 2021 Update 1 improvements and changes
+        For Details review the slide Deck "Vault Data Standard 2021 - Updates and Migration", available on AKN and ChannelTech -->
+      </Changes>
+    </ConfigHistoryInfo>
     <ConfigHistoryInfo Branch="Master" Version="2021.26.0.1">
       <Changes>
         <!--added workaround for VDS AutoCAD 2021 Listvalues issue
