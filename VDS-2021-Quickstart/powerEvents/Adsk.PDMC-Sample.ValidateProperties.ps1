@@ -33,7 +33,7 @@ function RegisterFiles($files)
 function ResetRevisionData($files)
 {
     $FileProps = @{}
-    $FileProps.Add('Change Description', "")
+    $FileProps.Add('Change Descr', "")
     foreach($file in $files)
     {
         if($Global:RegisteredFiles.Keys -contains $file.MasterId)
