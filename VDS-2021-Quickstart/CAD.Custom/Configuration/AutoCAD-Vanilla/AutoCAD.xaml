@@ -411,30 +411,27 @@
                 <Grid x:Name="grdRevision" Height="{Binding ActualHeight, ElementName=DSDynCatPropGrid, Mode=OneWay}" MinWidth="694" Background="#FFF0F0F0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
+                        <RowDefinition Height="5"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Grid x:Name="grdRevSysProps" Grid.ColumnSpan="2">
+                    <Grid x:Name="grdRevSysProps">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="26"/>
                             <RowDefinition Height="26"/>
                             <RowDefinition Height="26"/>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition Height="28"/>
-                            <RowDefinition Height="10"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="229*"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="231*"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Label x:Name="lblRevision" Content="{Binding UIString[LBL12], FallbackValue=Revision}" Grid.Row="0" Height="Auto"/>
                         <TextBox x:Name="txtRevision" Text="" IsEnabled="False" Grid.Column="1" IsReadOnly="True" Grid.Row="0" Height="Auto"/>
@@ -451,33 +448,49 @@
                         <Label Content="{Binding UIString[LBL33], FallbackValue=Create Date}" Grid.Row="2" Grid.Column="3" Height="Auto" BorderThickness="1"/>
                         <TextBox x:Name="txtCreateDate" Text="" IsEnabled="False" Grid.Column="4" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1"/>
                         <!--Editable Revision Properties-->
-                        <Label Content="{Binding UIString[], FallbackValue=Checked By}" Grid.Row="4" Grid.Column="0"  Height="Auto"/>
-                        <TextBox x:Name="txtCheckedBy" Text="{WPF:ValidatedBinding Prop[Checked By].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Grid.Column="1" Grid.Row="4" Height="Auto"/>
-                        <Label Content="{Binding UIString[], FallbackValue=Checked Date}" Grid.Row="4" Grid.Column="3"  Height="Auto"/>
-                        <Border Grid.Column="4" Grid.Row="4"  Height="Auto" BorderBrush="#FFABADB3" BorderThickness="0,1,1,0">
+                    </Grid>
+                    <Grid x:Name="grdApproval" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="26"/>
+                            <RowDefinition Height="26"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="26"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="{Binding UIString[], FallbackValue=Checked By}" Grid.Column="0"  Height="Auto"/>
+                        <TextBox x:Name="txtCheckedBy" Text="{WPF:ValidatedBinding Prop[Checked By].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" Grid.Column="1"/>
+                        <Label Content="{Binding UIString[], FallbackValue=Checked Date}"  Height="Auto" Grid.Column="3"/>
+                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,0" Grid.Column="4">
                             <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Checked Date].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto"  />
                         </Border>
-                        <Label Content="{Binding UIString[], FallbackValue=Engr Approved By}" Grid.Row="5" Grid.Column="0"  Height="Auto" BorderThickness="1"/>
-                        <TextBox x:Name="txtEngApprvdBy" Text="{WPF:ValidatedBinding Prop[Eng Approved By].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Grid.Column="1" Grid.Row="5" Height="Auto" BorderThickness="0,1,1,1"/>
-                        <Label Content="{Binding UIString[], FallbackValue=Engr Approved Date}" Grid.Row="5" Grid.Column="3" Height="Auto" BorderThickness="1"/>
-                        <Border Grid.Column="4" Grid.Row="5" Height="Auto" BorderBrush="#FFABADB3" BorderThickness="0,1,1,1">
+                        <Label Content="{Binding UIString[], FallbackValue=Engr Approved By}" Grid.Column="0"  Height="Auto" BorderThickness="1" Grid.Row="1"/>
+                        <TextBox x:Name="txtEngApprvdBy" Text="{WPF:ValidatedBinding Prop[Eng Approved By].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" BorderThickness="0,1,1,1" Grid.Row="1" Grid.Column="1"/>
+                        <Label Content="{Binding UIString[], FallbackValue=Engr Approved Date}" Height="Auto" BorderThickness="1" Grid.Row="1" Grid.Column="3"/>
+                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,1" Grid.Row="1" Grid.Column="4">
                             <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Eng Approval Date].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" />
                         </Border>
-                        <Label Content="{Binding UIString[], FallbackValue=Change Description}" Grid.Row="7" Height="Auto" BorderThickness="1"/>
+                        <Label Content="{Binding UIString[], FallbackValue=Change Description}" Height="Auto" BorderThickness="1" Grid.Row="3"/>
                         <ComboBox x:Name="cmbChangeDescr"
                               ItemsSource="{Binding Prop[Change Descr].ListValues}" 
                               Text="{WPF:ValidatedBinding Prop[Change Descr].Value}" 
                               SelectedValue="{Binding Prop[Change Descr].Value}"
                               IsEditable="True" IsEnabled="{Binding PsVal[InvertReadOnly]}"
-                              Grid.Column="1" Height="Auto" Grid.Row="7" Grid.ColumnSpan="4" BorderThickness="0,1,1,1" />
+                              Height="Auto" BorderThickness="0,1,1,1" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" />
                     </Grid>
-                    <Grid x:Name="grdCustomerApproval" Grid.Row="1" Visibility="{Binding Prop[Customer Approval Required].Value, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid x:Name="grdCustomerApproval" Grid.Row="4" Visibility="{Binding Prop[Customer Approval Required].Value, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="223*"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="222*"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -491,7 +504,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabItemProperties" Header="{Binding UIString[Adsk.QS.ItemSearch_28],FallbackValue='Assigned Item'}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TabItem x:Name="tabItemProperties" Header="{Binding UIString[Adsk.QS.ItemSearch_28], FallbackValue=Assigned Item}" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Grid x:Name="grdAssignedItemMain" Background="#FFF0F0F0" Height="{Binding ActualHeight, ElementName=DSDynCatPropGrid, Mode=OneWay}" MinWidth="694">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -550,14 +563,14 @@
                             <DataGridTextColumn x:Name="ItemPropName" Binding="{Binding Key}" Width="Auto">
                                 <DataGridTextColumn.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding UIString[Adsk.QS.ItemSearch_26], FallbackValue='Property Name'}"/>
+                                        <TextBlock Text="{Binding UIString[Adsk.QS.ItemSearch_26], FallbackValue=Property Name}"/>
                                     </DataTemplate>
                                 </DataGridTextColumn.HeaderTemplate>
                             </DataGridTextColumn>
                             <DataGridTextColumn x:Name="ItemPropValue" Binding="{Binding Value}" Width="*">
                                 <DataGridTextColumn.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding UIString[Adsk.QS.ItemSearch_27], FallbackValue='Property Value'}"/>
+                                        <TextBlock Text="{Binding UIString[Adsk.QS.ItemSearch_27], FallbackValue=Property Value}"/>
                                     </DataTemplate>
                                 </DataGridTextColumn.HeaderTemplate>
                             </DataGridTextColumn>

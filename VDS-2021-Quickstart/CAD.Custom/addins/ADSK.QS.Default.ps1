@@ -39,11 +39,15 @@ function InitializeWindow
 	{
 		ResetRevisionProperties
 	}
-	InitializeRevisionValidation
-	
-	#endregion rules applying commonly
 
 	$mWindowName = $dsWindow.Name
+
+	if($mWindowName -eq "InventorWindow" -or $mWindowName -eq "AutoCADWindow") 
+	{ 
+		InitializeRevisionValidation
+	}
+	#endregion rules applying commonly
+
 	switch($mWindowName)
 	{
 		"InventorWindow"
@@ -753,7 +757,7 @@ function mReadShortCuts {
 		$m_Path = $env:APPDATA + '\Autodesk\VaultCommon\Servers\Services_Security_1_7_2020\'
 		$m_AllFiles += Get-ChildItem -Path $m_Path -Filter 'Shortcuts.xml' -Recurse
 		$m_AllFiles | ForEach-Object {
-			if ($_.FullName -like "*"+$m_Server + "*" -and $_.FullName -like "*"+$m_Vault + "*") 
+			if ($_.FullName -like "*" + $m_Server.Replace(":", "_").Replace("/", "_") + "*" -and $_.FullName -like "*"+$m_Vault + "*") 
 			{
 				$m_FiltFiles += $_
 			} 

@@ -101,7 +101,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="CAD.Custom\addins\ADSK.QS.breadCrumb.ps1" />
     <None Include="CAD.Custom\addins\ADSK.QS.CAD.Library.ps1" />
     <None Include="CAD.Custom\addins\ADSK.QS.Default.ps1" />

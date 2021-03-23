@@ -47,6 +47,15 @@ function InitializeRevisionValidation
 {
 
 	#set the display state of XAML controls
+	if (@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value)
+	{
+		$dsWindow.FindName("grdApproval").Visibility = "Visible"
+	}
+	else
+	{
+		$dsWindow.FindName("grdApproval").Visibility = "Collapsed"
+	}
+
 	if($Prop["Customer Approval Required"])
 	{
 		if($Prop["Customer Approval Required"].Value -eq "True")
