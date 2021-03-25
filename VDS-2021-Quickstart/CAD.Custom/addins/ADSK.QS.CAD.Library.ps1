@@ -11,6 +11,9 @@
 #endregion
 
 #region - version history
+#Version Info - VDS Quickstart CAD Library 2021.0.1
+	# fixed issue for files in temp folders in function mGetProjectFolderPropToCadFile
+
 #Version Info - VDS Quickstart CAD Library 2021
 	# migrated paths to 2021
 
