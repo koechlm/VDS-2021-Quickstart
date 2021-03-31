@@ -378,6 +378,7 @@ function SetWindowTitle
    			}
 			if ($Prop["_EditMode"].Value -and (Get-Item $document.FullFileName).IsReadOnly){
 				$windowTitle = "$($UIString["LBL25"]) - $($Prop["_FileName"].Value) - $($UIString["LBL26"])"
+				$dsWindow.FindName("btnOK").ToolTip = $UIString["LBL26"]
 			}
 		}
 		"AutoCADWindow"
@@ -402,6 +403,7 @@ function SetWindowTitle
    			}
 			if ($Prop["_EditMode"].Value -and $Document.IsReadOnly){
 				$windowTitle = "$($UIString["LBL25"]) - $($Prop["_FileName"].Value) - $($UIString["LBL26"])"
+				$dsWindow.FindName("btnOK").ToolTip = $UIString["LBL26"]
 			}
 		}
   		default #applies to InventorWindow and AutoCADWindow

@@ -386,7 +386,7 @@
                     </Grid.ColumnDefinitions>
                     <Button x:Name="btnOK" Content="{Binding UIString[BTN1], FallbackValue=OK}"
                     Command="{Binding CloseWindowCommand, ElementName=FileWindow}" IsEnabled="{Binding Properties.IsValid}"
-                    Grid.Column="2" Width="80" Height="24" IsDefault="True" />
+                    Grid.Column="2" Width="80" Height="24" IsDefault="True" ToolTipService.ShowOnDisabled="True" />
                     <Button x:Name="btnEsc" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
                     Command="{Binding CancelWindowCommand, ElementName=FileWindow}" Grid.Column="4" Width="80"
                     HorizontalAlignment="Right" Height="24" IsCancel="True" />
