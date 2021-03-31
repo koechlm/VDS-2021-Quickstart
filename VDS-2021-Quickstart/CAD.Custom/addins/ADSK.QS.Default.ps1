@@ -65,9 +65,14 @@ function InitializeWindow
 			{
 				$true 
 				{
-					$Prop["Part Number"].Value = "" #reset the part number for new files as Inventor writes the file name (no extension) as a default.
-					#$dsDiag.Trace(">> CreateMode Section executes...")
-					# set the category: VDS Quickstart 2021 supports extended category differentiation for 3D components
+					#reset the part number for new files as Inventor writes the file name (no extension) as a default.
+					If($Prop["Part Number"]) #Inventor returns null if the Part Number has no custom value
+					{
+						if($Prop["Part Number"].Value -ne "")
+						{
+							$Prop["Part Number"].Value = ""
+						}
+					}
 					InitializeInventorCategory
 					InitializeInventorNumSchm
 					If($dsWindow.FindName("lstBoxShortCuts"))
@@ -159,7 +164,11 @@ function InitializeWindow
 							$_ModelFullFileName = $_mInvHelpers.m_GetMainViewModelPath($Application)#NEW 2019 hand over the parent inventor application, to ensure the correct instance
 							$Prop["Title"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Title")
 							$Prop["Description"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Description")
-							$Prop["Part Number"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Part Number")
+							$_ModelPartNumber = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Part Number")
+							if ($_ModelPartNumber -ne "")
+							{​​​​​
+								$Prop["Part Number"].Value = $_ModelPartNumber # must not write empty part numbers
+							}​​​​​
 						}
 
 						if ($Prop["_FileExt"].Value -eq ".IPN") 
