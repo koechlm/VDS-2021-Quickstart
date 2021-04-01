@@ -49,6 +49,12 @@ function mGetFolderPropValue ([Int64] $mFldID, [STRING] $mDispName)
 
 function mGetProjectFolderPropToCADFile ([String] $mFolderSourcePropertyName, [String] $mCadFileTargetPropertyName)
 {
+	#does the target property to write to exist?
+	if(-not $Prop[$mCadFileTargetPropertyName])
+	{
+		return 
+	}
+
 	#get the Vault path of Inventors working folder
 	$mappedRootPath = $Prop["_VaultVirtualPath"].Value + $Prop["_WorkspacePath"].Value
     $mappedRootPath = $mappedRootPath -replace "\\", "/" -replace "//", "/"
