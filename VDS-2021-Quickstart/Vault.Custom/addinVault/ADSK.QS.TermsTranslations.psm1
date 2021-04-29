@@ -112,55 +112,55 @@ function mSearchTerms
 		$_i = 0
 
 		#the default search condition object type is custom object "term"
-		$srchConds[$_i]= mCreateClsSearchCond $UIString["ClassTerms_08"] $UIString["ClassTerms_00"] "AND" #Search in "Category Name" = "Term"
+		$srchConds[$_i]= mCreateClsSearchCond "Category Name" "Term" "AND" #Search in "Category Name" $UIString["ClassTerms_08"] = "Term" $UIString["ClassTerms_00"]
 		$_i += 1
 		if($_NumConds -gt 2){
-			$srchConds[$_i]= mCreateClsSearchCond $UIString["LBL19"] $mSearchText1 "OR" #Search in Names = main language
+			$srchConds[$_i]= mCreateClsSearchCond "Name" $mSearchText1 "OR" #Search in Names = main language $UIString["LBL19"]
 			$_i += 1
 		}
 		Else
 		{
-			$srchConds[$_i]= mCreateClsSearchCond $UIString["LBL19"] $mSearchText1 "AND" #Search in Names = main language
+			$srchConds[$_i]= mCreateClsSearchCond "Name" $mSearchText1 "AND" #Search in Names = main language $UIString["LBL19"]
 			$_i += 1
 		}
 		
 		#add other conditions by settings read from dialog
 		If ($dsWindow.FindName("chkDE").IsChecked -eq $true) {
-			$srchConds[$_i ]= mCreateClsSearchCond $UIString["ClassTerms_09"] $mSearchText1 "OR"
+			$srchConds[$_i ]= mCreateClsSearchCond "Term DE" $mSearchText1 "OR" #$UIString["ClassTerms_09"]
 			$_i += 1
 		}
 		If ($dsWindow.FindName("chkEN").IsChecked -eq $true) {
-			$srchConds[$_i]= mCreateClsSearchCond $UIString["ClassTerms_10"] $mSearchText1 "OR" 
+			$srchConds[$_i]= mCreateClsSearchCond "Term EN" $mSearchText1 "OR"  #$UIString["ClassTerms_10"]
 			$_i += 1
 		}
 		If ($dsWindow.FindName("chkFR").IsChecked -eq $true) {
-			$srchConds[$_i]= mCreateClsSearchCond $UIString["ClassTerms_11"] $mSearchText1 "OR" 
+			$srchConds[$_i]= mCreateClsSearchCond "Term FR" $mSearchText1 "OR"  #$UIString["ClassTerms_11"]
 			$_i += 1
 		}
 		If ($dsWindow.FindName("chkIT").IsChecked -eq $true) {
-			$srchConds[$_i]= mCreateClsSearchCond $UIString["ClassTerms_12"] $mSearchText1 "OR" 
+			$srchConds[$_i]= mCreateClsSearchCond "Term IT" $mSearchText1 "OR"  #$UIString["ClassTerms_12"]
 			$_i += 1
 		}
 
 		# If filters are used limit the search to the classification groups. Apply AND conditions
 		If ($mBreadCrumb.Children[1].SelectedIndex -ge 0) {
 			$mSearchGroupName = $mBreadCrumb.Children[1].Text
-			$srchConds[$_i]= mCreateClsSearchCond $UIString["Adsk.QS.ClassLevel_00"] $mSearchGroupName "AND" #search in Segment class
+			$srchConds[$_i]= mCreateClsSearchCond "Segment" $mSearchGroupName "AND" #search in Segment class $UIString["Adsk.QS.ClassLevel_00"]
 			$_i += 1
 		}
 				If ($mBreadCrumb.Children[2].SelectedIndex -ge 0) {
 			$mSearchGroupName = $mBreadCrumb.Children[2].Text
-			$srchConds[$_i]= mCreateClsSearchCond $UIString["Adsk.QS.ClassLevel_01"] $mSearchGroupName "AND" 
+			$srchConds[$_i]= mCreateClsSearchCond "Main Group" $mSearchGroupName "AND" #$UIString["Adsk.QS.ClassLevel_01"]
 			$_i += 1
 		}
 		If ($mBreadCrumb.Children[3].SelectedIndex -ge 0) {
 			$mSearchGroupName = $mBreadCrumb.Children[3].Text
-			$srchConds[$_i]= mCreateClsSearchCond $UIString["Adsk.QS.ClassLevel_02"] $mSearchGroupName "AND" 
+			$srchConds[$_i]= mCreateClsSearchCond "Group" $mSearchGroupName "AND" #$UIString["Adsk.QS.ClassLevel_02"]
 			$_i += 1
 		}
 		If ($mBreadCrumb.Children[4].SelectedIndex -ge 0) {
 			$mSearchGroupName = $mBreadCrumb.Children[4].Text
-			$srchConds[$_i]= mCreateClsSearchCond $UIString["Adsk.QS.ClassLevel_03"] $mSearchGroupName "AND" 
+			$srchConds[$_i]= mCreateClsSearchCond "Sub Group" $mSearchGroupName "AND" #$UIString["Adsk.QS.ClassLevel_03"]
 			$_i += 1
 		}
 		$dsDiag.Trace(" search conditions build")
@@ -225,10 +225,10 @@ function mSearchTerms
 			$dsDiag.Trace(" ---iterates search result for properties finished") 
 			#create a row for the element and it's properties
 			$row = New-Object CatalogData
-			$row.Term_DE = $props[$UIString["ClassTerms_09"]]
-			$row.Term_EN = $props[$UIString["ClassTerms_10"]]
-			$row.Term_FR = $props[$UIString["ClassTerms_11"]]
-			$row.Term_IT = $props[$UIString["ClassTerms_12"]]
+			$row.Term_DE = $props["Term DE"]  #$UIString["ClassTerms_09"]
+			$row.Term_EN = $props["Term EN"]  #$UIString["ClassTerms_10"]
+			$row.Term_FR = $props["Term FR"]  #$UIString["ClassTerms_11"]
+			$row.Term_IT = $props["Term IT"]  #$UIString["ClassTerms_12"]
 		
 			$_data += $row
 			$dsDiag.Trace("...iterates search result for properties finished.") 
@@ -282,25 +282,30 @@ function m_SelectTerm {
 			If ($mLCode["UI"] -eq "de-DE")
 			{
 				If ($Prop["GEN-TITLE-DES1"]){ $Prop["GEN-TITLE-DES1"].Value = $mSelectedItem.Term_DE} #AutoCAD Mechanical Title Attribute Name
-				If ($Prop["Title"]){ $Prop["Title"].Value = $mSelectedItem.Term_DE} #Vanilla AutoCAD Title Attribute Name
+				If ($Prop["Title"]){ $Prop["Title"].Value = $mSelectedItem.Term_EN} #Vanilla AutoCAD Title Attribute Name
 				Try{
-					$Prop["Title_EN"].Value = $mSelectedItem.Term_EN
+					$Prop["Title DE"].Value = $mSelectedItem.Term_DE
 				}
-				catch{ $dsDiag.Trace("Title_EN does not exist")}
+				catch{ $dsDiag.Trace("Titel DE does not exist")}
 			}
 			Else{
 				If ($Prop["GEN-TITLE-DES1"]){ $Prop["GEN-TITLE-DES1"].Value = $mSelectedItem.Term_EN} #AutoCAD Mechanical Title Attribute Name
 				If ($Prop["Title"]){ $Prop["Title"].Value = $mSelectedItem.Term_EN} #Vanilla AutoCAD Title Attribute Name
 				Try{
-					$Prop["Title_EN"].Value = $mSelectedItem.Term_EN
-				}
-				catch{ $dsDiag.Trace("Title_EN does not exist")}
-			
-				Try{
 					$Prop["Title DE"].Value = $mSelectedItem.Term_DE
 				}
-				catch{ $dsDiag.Trace("Title_EN does not exist")}
+				catch{ $dsDiag.Trace("Title DE does not exist")}
 			}
+				Try{
+					$Prop["Title FR"].Value = $mSelectedItem.Term_FR
+				}
+				catch{ $dsDiag.Trace("Title FR does not exist")}
+				
+				Try{
+					$Prop["Title IT"].Value = $mSelectedItem.Term_IT
+				}
+				catch{ $dsDiag.Trace("Title IT does not exist")}
+				
 		}
 		If ($dsWindow.Name -eq "InventorWindow")
 		{
@@ -316,11 +321,11 @@ function m_SelectTerm {
 			#If override exists, apply it, else continue with $PSUICulture
 			If ($mLCode["UI"] -eq "de-DE")
 			{
-				$Prop["Title"].Value = $mSelectedItem.Term_DE
+				$Prop["Title"].Value = $mSelectedItem.Term_EN
 				Try{
-					$Prop["Title EN"].Value = $mSelectedItem.Term_EN
+					$Prop["Title DE"].Value = $mSelectedItem.Term_DE
 				}
-				catch{ $dsDiag.Trace("Title EN does not exist")}
+				catch{ $dsDiag.Trace("Title DE does not exist")}
 			} 
 			Else
 			{
@@ -329,7 +334,16 @@ function m_SelectTerm {
 					$Prop["Title DE"].Value = $mSelectedItem.Term_DE
 				}
 				catch{ $dsDiag.Trace("Title DE does not exist")}
-			}		
+			}	
+			Try{
+				$Prop["Title FR"].Value = $mSelectedItem.Term_FR
+			}
+			catch{ $dsDiag.Trace("Title FR does not exist")}
+		
+			Try{
+				$Prop["Title IT"].Value = $mSelectedItem.Term_IT
+			}
+			catch{ $dsDiag.Trace("Title IT does not exist")}
 			
 		}
 		If ($dsWindow.Name -eq "FileWindow") {
