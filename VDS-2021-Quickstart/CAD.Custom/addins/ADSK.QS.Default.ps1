@@ -37,14 +37,17 @@ function InitializeWindow
 				$dsWindow.FindName("GFN4Special").IsChecked = $true # this checkbox is used by the XAML dialog styles, to enable / disable or show / hide controls
 			}
 
-			#enable option to remove orphaned sheets in drawings (new VDS Quickstart 2021)
-			if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value)
+			#enable option to remove orphaned sheets in drawings
+			if (-not $Prop["_SaveCopyAsMode"].Value -eq $true) #the SaveCopyAs.xaml does not have the option to remove orhaned sheets
 			{
-				$dsWindow.FindName("RmOrphShts").Visibility = "Visible"
-			}
-			else
-			{
-				$dsWindow.FindName("RmOrphShts").Visibility = "Collapsed"
+				if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value)
+				{
+					$dsWindow.FindName("RmOrphShts").Visibility = "Visible"
+				}
+				else
+				{
+					$dsWindow.FindName("RmOrphShts").Visibility = "Collapsed"
+				}
 			}
 
 			$mInvDocuFileTypes = (".IDW", ".DWG", ".IPN") #to compare that the current new file is one of the special files the option applies to
@@ -165,10 +168,10 @@ function InitializeWindow
 							$Prop["Title"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Title")
 							$Prop["Description"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Description")
 							$_ModelPartNumber = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Part Number")
-							if ($_ModelPartNumber -ne "")
-							{​​​​​
-								$Prop["Part Number"].Value = $_ModelPartNumber # must not write empty part numbers
-							}​​​​​
+							if (-not $_ModelPartNumber -eq $null) #must not writ empty part numbers
+							{​​​​
+								$Prop["Part Number"].Value = $_ModelPartNumber
+							}
 						}
 
 						if ($Prop["_FileExt"].Value -eq ".IPN") 
@@ -192,13 +195,6 @@ function InitializeWindow
 							}
 						}
 
-						#if (($_ModelFullFileName -eq "") -and ($global:mGFN4Special -eq $false)) 
-						#{ 
-						#	[System.Windows.MessageBox]::Show($UIString["MSDCE_MSG00"],"Vault MFG Quickstart")
-						#	$dsWindow.add_Loaded({
-						#				# Will skip VDS Dialog for Drawings without model view; 
-						#				$dsWindow.CancelWindowCommand.Execute($this)})
-						#}
 					} # end of copy mode = false check
 
 					if ($Prop["_CopyMode"].Value -and @(".DWG",".IDW",".IPN") -contains $Prop["_FileExt"].Value)
@@ -620,14 +616,17 @@ function OnPostCloseDialog
 				$Prop["Part Number"].Value = $Prop["DocNumber"].Value
 			}
 			
-			#remove orphaned sheets in drawing documents (new VDS Quickstart 2021)
-			if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value -and $dsWindow.FindName("RmOrphShts").IsChecked -eq $true)
+			#remove orphaned sheets in drawing documents (new VDS-PDMC-Sample 2022)
+			if (-not $Prop["_SaveCopyAsMode"].Value -eq $true -or (Get-Item $document.FullFileName).IsReadOnly -eq $true)
 			{
-				if (-not $_mInvHelpers)
+				if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value -and $dsWindow.FindName("RmOrphShts").IsChecked -eq $true)
 				{
-					$_mInvHelpers = New-Object QuickstartUtilityLibrary.InvHelpers
+					if (-not $_mInvHelpers)
+					{
+						$_mInvHelpers = New-Object QuickstartUtilityLibrary.InvHelpers
+					}
+					$result = $_mInvHelpers.m_RemoveOrphanedSheets($Application)
 				}
-				$result = $_mInvHelpers.m_RemoveOrphanedSheets($Application)
 			}
 		}
 
@@ -635,11 +634,11 @@ function OnPostCloseDialog
 		{
 			mWriteLastUsedFolder
 			#use document number for part number if not filled yet; cover ACM and Vanilla property configuration
-			If ($Prop["GEN-TITLE-DWG"] -and $Prop["GEN-TITLE-NR"].Value -eq "")
+			If ($Prop["GEN-TITLE-DWG"] -and $Prop["GEN-TITLE-NR"].Value -eq "" -or $Prop["GEN-TITLE-NR"].Value -eq "-")
 				{
-					$Prop["GEN-TITLE-NR"].Value = $dsWindow.DataContext.PathAndFileNameHandler.FileNameNoExtension #$Prop["GEN-TITLE-DWG"].Value
+					$Prop["GEN-TITLE-NR"].Value = $dsWindow.DataContext.PathAndFileNameHandler.FileNameNoExtension
 				}
-			If ($Prop["DocNumber"] -and $Prop["Part Number"].Value -eq "")
+			else
 				{
 					$Prop["Part Number"].Value = $dsWindow.DataContext.PathAndFileNameHandler.FileNameNoExtension
 				}
