@@ -28,11 +28,10 @@ function InitializeWindow
 			InitializeBreadCrumb
 			#	there are some custom functions to enhance functionality:
 			[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2021\Extensions\DataStandard" + '\Vault.Custom\addinVault\QuickstartUtilityLibrary.dll')
+			$_mInvHelpers = New-Object QuickstartUtilityLibrary.InvHelpers
 
 			#	initialize the context for Drawings or presentation files as these have Vault Option settings
-			$global:mGFN4Special = $Prop["_GenerateFileNumber4SpecialFiles"].Value
-					
-			if ($global:mGFN4Special -eq $true)
+			if ($Prop["_GenerateFileNumber4SpecialFiles"].Value -eq $true)
 			{
 				$dsWindow.FindName("GFN4Special").IsChecked = $true # this checkbox is used by the XAML dialog styles, to enable / disable or show / hide controls
 			}
@@ -50,18 +49,30 @@ function InitializeWindow
 				}
 			}
 
+			#enable/disable UI elements for documentation files
 			$mInvDocuFileTypes = (".IDW", ".DWG", ".IPN") #to compare that the current new file is one of the special files the option applies to
-			if ($mInvDocuFileTypes -contains $Prop["_FileExt"].Value) {
-				$global:mIsInvDocumentationFile = $true
-				$dsWindow.FindName("chkBxIsInvDocuFileType").IsChecked = $true
-				If ($global:mIsInvDocumentationFile-eq $true -and $global:mGFN4Special -eq $false) #IDW/DWG, IPN - Don't generate new document number
-				{ 
-					$dsWindow.FindName("BreadCrumb").IsEnabled = $false
-					$dsWindow.FindName("GroupFolder").Visibility = "Collapsed"
-					$dsWindow.FindName("expShortCutPane").Visibility = "Collapsed"
-				}
-				Else {$dsWindow.FindName("BreadCrumb").IsEnabled = $true} #IDW/DWG, IPN - Generate new document number
-			}
+            if ($mInvDocuFileTypes -contains $Prop["_FileExt"].Value)
+            {
+                $global:mIsInvDocumentationFile = $true
+                $dsWindow.FindName("chkBxIsInvDocuFileType").IsChecked = $true
+
+                #support empty (no model view) documentation (DWG, IDW, IPN),  or a sketched 2D drawing (DWG, IDW)
+                $_ModelFullFileName = $_mInvHelpers.m_GetMainViewModelPath($Application)
+                #model documentation; note - during model copy/replace incl. drawing $_ModelFullFileName is null => check number of referenced files instead to differentiate from sketch only drawings.                          
+                If ($global:mIsInvDocumentationFile -eq $true -and $Prop["_GenerateFileNumber4SpecialFiles"].Value -eq $false -and $Document.ReferencedFiles.Count -gt 0)
+                {
+                    $dsWindow.FindName("BreadCrumb").IsEnabled = $false
+                    $dsWindow.FindName("GroupFolder").Visibility = "Collapsed"
+                    $dsWindow.FindName("expShortCutPane").Visibility = "Collapsed"
+                }
+                #sketched or empty drawing
+                Else
+                {
+                    $Prop["_GenerateFileNumber4SpecialFiles"].Value = $true #override the application settings for
+                    $dsWindow.FindName("BreadCrumb").IsEnabled = $true
+                    $dsWindow.FindName("chkBxIsInvDocuFileType").IsChecked = $false
+                }
+            }
 
 			$global:_ModelPath = $null
 			switch ($Prop["_CreateMode"].Value) 
@@ -88,7 +99,6 @@ function InitializeWindow
 					#region FDU Support --------------------------------------------------------------------------
 					
 					# Read FDS related internal meta data; required to manage particular workflows
-					$_mInvHelpers = New-Object QuickstartUtilityLibrary.InvHelpers
 					If ($_mInvHelpers.m_FDUActive($Application))
 					{
 						#[System.Windows.MessageBox]::Show("Active FDU-AddIn detected","Vault MFG Quickstart")
@@ -533,7 +543,7 @@ function GetNumSchms
 		if (-Not $Prop["_EditMode"].Value)
         {
             #quickstart - there is the use case that we don't need a number: IDW/DWG, IPN and Option Generate new file number = off
-			If ($global:mIsInvDocumentationFile-eq $true -and $global:mGFN4Special -eq $false) 
+			If ($global:mIsInvDocumentationFile -eq $true -and $Prop["_GenerateFileNumber4SpecialFiles"].Value -eq $false -and $Document.ReferencedFiles.Count -gt 0) 
 			{ 
 				return
 			}
@@ -612,11 +622,16 @@ function OnPostCloseDialog
 			}
 
 			if ($Prop["_CreateMode"].Value -and !$Prop["Part Number"].Value) #we empty the part number on initialize: if there is no other function to provide part numbers we should apply the Inventor default
-			{
-				$Prop["Part Number"].Value = $Prop["DocNumber"].Value
+            {
+				$Prop["Part Number"].Value = $dsWindow.DataContext.PathAndFileNameHandler.FileNameNoExtension
 			}
-			
-			#remove orphaned sheets in drawing documents (new VDS-PDMC-Sample 2022)
+            #sketched drawings (no model view) don't get a Part Number from the model, but the part number is not empty and equals the displayname of the new drawing, e.g. "Drawing1"
+            if ($Prop["_CreateMode"].Value -and $Document.ReferencedFiles.Count -eq 0 -and @(".DWG",".IDW",".IPN") -contains $Prop["_FileExt"].Value)
+            {
+				$Prop["Part Number"].Value = $Prop["DocNumber"].Value
+            }
+
+			#remove orphaned sheets in drawing documents
 			if (-not $Prop["_SaveCopyAsMode"].Value -eq $true -or (Get-Item $document.FullFileName).IsReadOnly -eq $true)
 			{
 				if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value -and $dsWindow.FindName("RmOrphShts").IsChecked -eq $true)
